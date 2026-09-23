@@ -1,0 +1,751 @@
+{
+  "_note": "Sample data. Sinhala text needs native-speaker review before release.",
+  "topics": [
+    {
+      "id": "v-grammar-basics",
+      "type": "vocabulary",
+      "en": "Grammar Basics",
+      "si": "ව්‍යාකරණ මූලික",
+      "icon": "text",
+      "order": 0
+    },
+    {
+      "id": "v-people-life",
+      "type": "vocabulary",
+      "en": "People & Life",
+      "si": "මිනිසුන් සහ ජීවිතය",
+      "icon": "user",
+      "order": 1
+    },
+    {
+      "id": "v-nature",
+      "type": "vocabulary",
+      "en": "Nature",
+      "si": "සොබාදහම",
+      "icon": "leaf",
+      "order": 2
+    },
+    {
+      "id": "v-daily-life",
+      "type": "vocabulary",
+      "en": "Daily Life",
+      "si": "එදිනෙදා ජීවිතය",
+      "icon": "coffee",
+      "order": 3
+    },
+    {
+      "id": "v-work-study",
+      "type": "vocabulary",
+      "en": "Work & Study",
+      "si": "රැකියාව සහ අධ්‍යාපනය",
+      "icon": "briefcase",
+      "order": 4
+    },
+    {
+      "id": "s-everyday-basics",
+      "type": "sentences",
+      "en": "Everyday Basics",
+      "si": "මූලික කතාබහ",
+      "icon": "message-circle",
+      "order": 0
+    },
+    {
+      "id": "s-asking-responding",
+      "type": "sentences",
+      "en": "Asking & Responding",
+      "si": "ඇසීම සහ පිළිතුරු දීම",
+      "icon": "help-circle",
+      "order": 1
+    },
+    {
+      "id": "s-home-social",
+      "type": "sentences",
+      "en": "Home & Social",
+      "si": "නිවස සහ සමාජය",
+      "icon": "home",
+      "order": 2
+    },
+    {
+      "id": "s-work-study",
+      "type": "sentences",
+      "en": "Work & Study",
+      "si": "රැකියාව සහ අධ්‍යාපනය",
+      "icon": "briefcase",
+      "order": 3
+    },
+    {
+      "id": "s-out-about",
+      "type": "sentences",
+      "en": "Out & About",
+      "si": "එළියට ගිය විට",
+      "icon": "map-pin",
+      "order": 4
+    },
+    {
+      "id": "s-services-help",
+      "type": "sentences",
+      "en": "Services & Help",
+      "si": "සේවා සහ උදව්",
+      "icon": "phone",
+      "order": 5
+    },
+    {
+      "id": "s-idioms-proverbs",
+      "type": "sentences",
+      "en": "Idioms & Proverbs",
+      "si": "පිරුළු සහ යෙදුම්",
+      "icon": "quote",
+      "order": 6
+    }
+  ],
+  "categories": [
+    {
+      "id": "v-everyday-english",
+      "topicId": "v-grammar-basics",
+      "en": "Everyday English",
+      "si": "එදිනෙදා ඉංග්‍රීසි",
+      "order": 0
+    },
+    {
+      "id": "v-verbs",
+      "topicId": "v-grammar-basics",
+      "en": "Verbs",
+      "si": "ක්‍රියා පද",
+      "order": 1
+    },
+    {
+      "id": "v-irregular-verbs",
+      "topicId": "v-grammar-basics",
+      "en": "Irregular Verbs",
+      "si": "අක්‍රමවත් ක්‍රියා පද",
+      "order": 2
+    },
+    {
+      "id": "v-nouns",
+      "topicId": "v-grammar-basics",
+      "en": "Nouns",
+      "si": "නාම පද",
+      "order": 3
+    },
+    {
+      "id": "v-adjectives",
+      "topicId": "v-grammar-basics",
+      "en": "Adjectives",
+      "si": "විශේෂණ පද",
+      "order": 4
+    },
+    {
+      "id": "v-phrasal-verbs",
+      "topicId": "v-grammar-basics",
+      "en": "Phrasal Verbs",
+      "si": "වාක්‍යාංශ ක්‍රියා පද",
+      "order": 5
+    },
+    {
+      "id": "v-proverbs",
+      "topicId": "v-grammar-basics",
+      "en": "Proverbs",
+      "si": "පිරුළු",
+      "order": 6
+    },
+    {
+      "id": "v-family-relationships",
+      "topicId": "v-people-life",
+      "en": "Family & Relationships",
+      "si": "පවුල සහ ඥාතීන්",
+      "order": 0
+    },
+    {
+      "id": "v-people-body",
+      "topicId": "v-people-life",
+      "en": "People & Body",
+      "si": "මිනිසුන් සහ ශරීරය",
+      "order": 1
+    },
+    {
+      "id": "v-health-diseases",
+      "topicId": "v-people-life",
+      "en": "Health & Diseases",
+      "si": "සෞඛ්‍යය සහ රෝග",
+      "order": 2
+    },
+    {
+      "id": "v-professions",
+      "topicId": "v-people-life",
+      "en": "Professions",
+      "si": "වෘත්තීන්",
+      "order": 3
+    },
+    {
+      "id": "v-clothes-accessories",
+      "topicId": "v-people-life",
+      "en": "Clothes & Accessories",
+      "si": "ඇඳුම් සහ උපාංග",
+      "order": 4
+    },
+    {
+      "id": "v-home-household",
+      "topicId": "v-people-life",
+      "en": "Home & Household",
+      "si": "නිවස සහ ගෘහ භාණ්ඩ",
+      "order": 5
+    },
+    {
+      "id": "v-religion",
+      "topicId": "v-people-life",
+      "en": "Religion",
+      "si": "ආගම",
+      "order": 6
+    },
+    {
+      "id": "v-animals",
+      "topicId": "v-nature",
+      "en": "Animals",
+      "si": "සතුන්",
+      "order": 0
+    },
+    {
+      "id": "v-birds",
+      "topicId": "v-nature",
+      "en": "Birds",
+      "si": "පක්ෂීන්",
+      "order": 1
+    },
+    {
+      "id": "v-fish-insects",
+      "topicId": "v-nature",
+      "en": "Fish & Insects",
+      "si": "මාළු සහ කෘමීන්",
+      "order": 2
+    },
+    {
+      "id": "v-plants-trees",
+      "topicId": "v-nature",
+      "en": "Plants & Trees",
+      "si": "ශාක සහ ගස්",
+      "order": 3
+    },
+    {
+      "id": "v-fruits-vegetables",
+      "topicId": "v-nature",
+      "en": "Fruits & Vegetables",
+      "si": "පළතුරු සහ එළවළු",
+      "order": 4
+    },
+    {
+      "id": "v-agriculture",
+      "topicId": "v-nature",
+      "en": "Agriculture",
+      "si": "කෘෂිකර්මය",
+      "order": 5
+    },
+    {
+      "id": "v-geography",
+      "topicId": "v-nature",
+      "en": "Geography",
+      "si": "භූගෝල විද්‍යාව",
+      "order": 6
+    },
+    {
+      "id": "v-food-drinks",
+      "topicId": "v-daily-life",
+      "en": "Food & Drinks",
+      "si": "ආහාර සහ පාන",
+      "order": 0
+    },
+    {
+      "id": "v-tools-equipment",
+      "topicId": "v-daily-life",
+      "en": "Tools & Equipment",
+      "si": "මෙවලම් සහ උපකරණ",
+      "order": 1
+    },
+    {
+      "id": "v-vehicles-transportation",
+      "topicId": "v-daily-life",
+      "en": "Vehicles & Transportation",
+      "si": "වාහන සහ ප්‍රවාහනය",
+      "order": 2
+    },
+    {
+      "id": "v-sports",
+      "topicId": "v-daily-life",
+      "en": "Sports",
+      "si": "ක්‍රීඩා",
+      "order": 3
+    },
+    {
+      "id": "v-buildings-construction",
+      "topicId": "v-daily-life",
+      "en": "Buildings & Construction",
+      "si": "ගොඩනැගිලි සහ ඉදිකිරීම්",
+      "order": 4
+    },
+    {
+      "id": "v-countries-nationalities",
+      "topicId": "v-daily-life",
+      "en": "Countries & Nationalities",
+      "si": "රටවල් සහ ජාතීන්",
+      "order": 5
+    },
+    {
+      "id": "v-money-finance",
+      "topicId": "v-work-study",
+      "en": "Money & Finance",
+      "si": "මුදල් සහ මූල්‍ය",
+      "order": 0
+    },
+    {
+      "id": "v-business-commerce",
+      "topicId": "v-work-study",
+      "en": "Business & Commerce",
+      "si": "ව්‍යාපාර සහ වාණිජ්‍යය",
+      "order": 1
+    },
+    {
+      "id": "v-business-english",
+      "topicId": "v-work-study",
+      "en": "Business English",
+      "si": "ව්‍යාපාරික ඉංග්‍රීසි",
+      "order": 2
+    },
+    {
+      "id": "v-legal-english",
+      "topicId": "v-work-study",
+      "en": "Legal English",
+      "si": "නීතිමය ඉංග්‍රීසි",
+      "order": 3
+    },
+    {
+      "id": "v-language-literature",
+      "topicId": "v-work-study",
+      "en": "Language & Literature",
+      "si": "භාෂාව සහ සාහිත්‍යය",
+      "order": 4
+    },
+    {
+      "id": "v-mathematics",
+      "topicId": "v-work-study",
+      "en": "Mathematics",
+      "si": "ගණිතය",
+      "order": 5
+    },
+    {
+      "id": "v-science",
+      "topicId": "v-work-study",
+      "en": "Science",
+      "si": "විද්‍යාව",
+      "order": 6
+    },
+    {
+      "id": "v-technology-ict",
+      "topicId": "v-work-study",
+      "en": "Technology & ICT",
+      "si": "තාක්ෂණය සහ තොරතුරු තාක්ෂණය",
+      "order": 7
+    },
+    {
+      "id": "s-greetings-introductions",
+      "topicId": "s-everyday-basics",
+      "en": "Greetings & Introductions",
+      "si": "ආචාර කිරීම සහ හඳුන්වා දීම",
+      "order": 0
+    },
+    {
+      "id": "s-everyday-conversations",
+      "topicId": "s-everyday-basics",
+      "en": "Everyday Conversations",
+      "si": "එදිනෙදා සංවාද",
+      "order": 1
+    },
+    {
+      "id": "s-asking-questions",
+      "topicId": "s-everyday-basics",
+      "en": "Asking Questions",
+      "si": "ප්‍රශ්න ඇසීම",
+      "order": 2
+    },
+    {
+      "id": "s-giving-answers",
+      "topicId": "s-everyday-basics",
+      "en": "Giving Answers",
+      "si": "පිළිතුරු දීම",
+      "order": 3
+    },
+    {
+      "id": "s-common-expressions",
+      "topicId": "s-everyday-basics",
+      "en": "Common Expressions",
+      "si": "පොදු යෙදුම්",
+      "order": 4
+    },
+    {
+      "id": "s-thanking",
+      "topicId": "s-everyday-basics",
+      "en": "Thanking",
+      "si": "ස්තුති කිරීම",
+      "order": 5
+    },
+    {
+      "id": "s-apologizing",
+      "topicId": "s-everyday-basics",
+      "en": "Apologizing",
+      "si": "සමාව ඉල්ලීම",
+      "order": 6
+    },
+    {
+      "id": "s-asking-for-help",
+      "topicId": "s-asking-responding",
+      "en": "Asking for Help",
+      "si": "උදව් ඉල්ලීම",
+      "order": 0
+    },
+    {
+      "id": "s-making-requests",
+      "topicId": "s-asking-responding",
+      "en": "Making Requests",
+      "si": "ඉල්ලීම් කිරීම",
+      "order": 1
+    },
+    {
+      "id": "s-agreeing-disagreeing",
+      "topicId": "s-asking-responding",
+      "en": "Agreeing & Disagreeing",
+      "si": "එකඟ වීම සහ විරුද්ධ වීම",
+      "order": 2
+    },
+    {
+      "id": "s-giving-opinions",
+      "topicId": "s-asking-responding",
+      "en": "Giving Opinions",
+      "si": "අදහස් දැක්වීම",
+      "order": 3
+    },
+    {
+      "id": "s-feelings-emotions",
+      "topicId": "s-asking-responding",
+      "en": "Feelings & Emotions",
+      "si": "හැඟීම් සහ චිත්තවේග",
+      "order": 4
+    },
+    {
+      "id": "s-family-friends",
+      "topicId": "s-home-social",
+      "en": "Family & Friends",
+      "si": "පවුල සහ මිතුරන්",
+      "order": 0
+    },
+    {
+      "id": "s-home",
+      "topicId": "s-home-social",
+      "en": "Home",
+      "si": "නිවස",
+      "order": 1
+    },
+    {
+      "id": "s-social-situations",
+      "topicId": "s-home-social",
+      "en": "Social Situations",
+      "si": "සමාජ අවස්ථා",
+      "order": 2
+    },
+    {
+      "id": "s-making-plans",
+      "topicId": "s-home-social",
+      "en": "Making Plans",
+      "si": "සැලසුම් කිරීම",
+      "order": 3
+    },
+    {
+      "id": "s-invitations",
+      "topicId": "s-home-social",
+      "en": "Invitations",
+      "si": "ආරාධනා",
+      "order": 4
+    },
+    {
+      "id": "s-work-office",
+      "topicId": "s-work-study",
+      "en": "Work & Office",
+      "si": "රැකියාව සහ කාර්යාලය",
+      "order": 0
+    },
+    {
+      "id": "s-meetings",
+      "topicId": "s-work-study",
+      "en": "Meetings",
+      "si": "රැස්වීම්",
+      "order": 1
+    },
+    {
+      "id": "s-business",
+      "topicId": "s-work-study",
+      "en": "Business",
+      "si": "ව්‍යාපාර",
+      "order": 2
+    },
+    {
+      "id": "s-job-interviews",
+      "topicId": "s-work-study",
+      "en": "Job Interviews",
+      "si": "රැකියා සම්මුඛ පරීක්ෂණ",
+      "order": 3
+    },
+    {
+      "id": "s-school-education",
+      "topicId": "s-work-study",
+      "en": "School & Education",
+      "si": "පාසල සහ අධ්‍යාපනය",
+      "order": 4
+    },
+    {
+      "id": "s-technology",
+      "topicId": "s-work-study",
+      "en": "Technology",
+      "si": "තාක්ෂණය",
+      "order": 5
+    },
+    {
+      "id": "s-shopping",
+      "topicId": "s-out-about",
+      "en": "Shopping",
+      "si": "සාප්පු යාම",
+      "order": 0
+    },
+    {
+      "id": "s-restaurants-food",
+      "topicId": "s-out-about",
+      "en": "Restaurants & Food",
+      "si": "අවන්හල් සහ ආහාර",
+      "order": 1
+    },
+    {
+      "id": "s-travel",
+      "topicId": "s-out-about",
+      "en": "Travel",
+      "si": "සංචාරය",
+      "order": 2
+    },
+    {
+      "id": "s-airport",
+      "topicId": "s-out-about",
+      "en": "Airport",
+      "si": "ගුවන් තොටුපළ",
+      "order": 3
+    },
+    {
+      "id": "s-hotel",
+      "topicId": "s-out-about",
+      "en": "Hotel",
+      "si": "හෝටලය",
+      "order": 4
+    },
+    {
+      "id": "s-transportation",
+      "topicId": "s-out-about",
+      "en": "Transportation",
+      "si": "ප්‍රවාහනය",
+      "order": 5
+    },
+    {
+      "id": "s-giving-directions",
+      "topicId": "s-out-about",
+      "en": "Giving Directions",
+      "si": "මඟ පෙන්වීම",
+      "order": 6
+    },
+    {
+      "id": "s-phone-conversations",
+      "topicId": "s-services-help",
+      "en": "Phone Conversations",
+      "si": "දුරකථන සංවාද",
+      "order": 0
+    },
+    {
+      "id": "s-doctor-health",
+      "topicId": "s-services-help",
+      "en": "Doctor & Health",
+      "si": "වෛද්‍යවරයා සහ සෞඛ්‍යය",
+      "order": 1
+    },
+    {
+      "id": "s-banking-money",
+      "topicId": "s-services-help",
+      "en": "Banking & Money",
+      "si": "බැංකු සහ මුදල්",
+      "order": 2
+    },
+    {
+      "id": "s-problems-complaints",
+      "topicId": "s-services-help",
+      "en": "Problems & Complaints",
+      "si": "ගැටලු සහ පැමිණිලි",
+      "order": 3
+    },
+    {
+      "id": "s-emergencies",
+      "topicId": "s-services-help",
+      "en": "Emergencies",
+      "si": "හදිසි අවස්ථා",
+      "order": 4
+    },
+    {
+      "id": "s-phrasal-verbs",
+      "topicId": "s-idioms-proverbs",
+      "en": "Phrasal Verbs",
+      "si": "වාක්‍යාංශ ක්‍රියා පද",
+      "order": 0
+    },
+    {
+      "id": "s-proverbs",
+      "topicId": "s-idioms-proverbs",
+      "en": "Proverbs",
+      "si": "පිරුළු",
+      "order": 1
+    }
+  ],
+  "vocabulary": [
+    {
+      "id": "reach",
+      "categoryIds": [
+        "v-verbs"
+      ],
+      "en": "Reach",
+      "pronunciationSi": "රීච්",
+      "meaningSi": "ළඟා වෙනවා",
+      "partOfSpeech": "verb",
+      "forms": [
+        "reach",
+        "reached",
+        "reached",
+        "reaching"
+      ],
+      "example": {
+        "en": "I reached home at 8 PM.",
+        "pronunciationSi": "අයි රීච්ඩ් හෝම් ඇට් එයිට් පීඑම්.",
+        "meaningSi": "මම රාත්‍රී 8ට ගෙදරට ළඟා වුණා.",
+        "highlight": "reached"
+      },
+      "level": "beginner"
+    },
+    {
+      "id": "borrow",
+      "categoryIds": [
+        "v-verbs"
+      ],
+      "en": "Borrow",
+      "pronunciationSi": "බොරෝ",
+      "meaningSi": "ණයට ගන්නවා",
+      "partOfSpeech": "verb",
+      "forms": [
+        "borrow",
+        "borrowed",
+        "borrowed",
+        "borrowing"
+      ],
+      "example": {
+        "en": "Can I borrow your pen?",
+        "pronunciationSi": "කෑන් අයි බොරෝ යෝ පෙන්?",
+        "meaningSi": "මට ඔයාගේ පෑන ණයට ගන්න පුළුවන්ද?",
+        "highlight": "borrow"
+      },
+      "level": "beginner"
+    },
+    {
+      "id": "explain",
+      "categoryIds": [
+        "v-verbs"
+      ],
+      "en": "Explain",
+      "pronunciationSi": "එක්ස්ප්ලේන්",
+      "meaningSi": "පැහැදිලි කරනවා",
+      "partOfSpeech": "verb",
+      "forms": [
+        "explain",
+        "explained",
+        "explained",
+        "explaining"
+      ],
+      "example": {
+        "en": "Could you explain it again?",
+        "pronunciationSi": "කුඩ් යූ එක්ස්ප්ලේන් ඉට් අගේන්?",
+        "meaningSi": "ඔයාට ඒක ආයෙත් පැහැදිලි කරන්න පුළුවන්ද?",
+        "highlight": "explain"
+      },
+      "level": "beginner"
+    },
+    {
+      "id": "improve",
+      "categoryIds": [
+        "v-verbs"
+      ],
+      "en": "Improve",
+      "pronunciationSi": "ඉම්ප්‍රූව්",
+      "meaningSi": "වැඩිදියුණු කරනවා",
+      "partOfSpeech": "verb",
+      "forms": [
+        "improve",
+        "improved",
+        "improved",
+        "improving"
+      ],
+      "example": {
+        "en": "I want to improve my English.",
+        "pronunciationSi": "අයි වොන්ට් ටු ඉම්ප්‍රූව් මයි ඉංග්ලිෂ්.",
+        "meaningSi": "මට මගේ ඉංග්‍රීසි දැනුම වැඩිදියුණු කරගන්න ඕනේ.",
+        "highlight": "improve"
+      },
+      "level": "beginner"
+    }
+  ],
+  "sentences": [
+    {
+      "id": "give-me-a-minute",
+      "categoryId": "s-work-office",
+      "en": "Could you give me a minute?",
+      "pronunciationSi": "කුඩ් යූ ගිව් මී අ මිනිට්?",
+      "meaningSi": "මට විනාඩියක් දෙන්න පුළුවන්ද?",
+      "level": "beginner"
+    },
+    {
+      "id": "running-late",
+      "categoryId": "s-work-office",
+      "en": "I’m running a little late.",
+      "pronunciationSi": "අයිම් රනිං අ ලිට්ල් ලේට්.",
+      "meaningSi": "මම ටිකක් පරක්කු වෙනවා.",
+      "level": "beginner"
+    },
+    {
+      "id": "look-into-it",
+      "categoryId": "s-work-office",
+      "en": "Let me look into it.",
+      "pronunciationSi": "ලෙට් මී ලුක් ඉන්ටු ඉට්.",
+      "meaningSi": "මම ඒ ගැන සොයා බලන්නම්.",
+      "level": "beginner"
+    },
+    {
+      "id": "reschedule-meeting",
+      "categoryId": "s-work-office",
+      "en": "Can we reschedule the meeting?",
+      "pronunciationSi": "කෑන් වී රීෂෙඩියුල් ද මීටිං?",
+      "meaningSi": "අපිට රැස්වීම වෙන වෙලාවකට දාන්න පුළුවන්ද?",
+      "level": "intermediate"
+    },
+    {
+      "id": "get-back-shortly",
+      "categoryId": "s-work-office",
+      "en": "I’ll get back to you shortly.",
+      "pronunciationSi": "අයිල් ගෙට් බැක් ටු යූ ෂෝට්ලි.",
+      "meaningSi": "මම ඉක්මනින් ඔබට පිළිතුරු දෙන්නම්.",
+      "level": "intermediate"
+    },
+    {
+      "id": "appreciate-feedback",
+      "categoryId": "s-work-office",
+      "en": "I’d appreciate your feedback.",
+      "pronunciationSi": "අයිඩ් අප්‍රීෂියේට් යෝ ෆීඩ්බැක්.",
+      "meaningSi": "ඔබේ අදහස් ලැබුණොත් මම ගොඩක් කෘතඥ වෙනවා.",
+      "level": "advanced"
+    }
+  ]
+}

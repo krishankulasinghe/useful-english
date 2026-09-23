@@ -1,0 +1,23 @@
+{
+  "version": 2,
+  "upsert": {
+    "vocabulary": [
+      {
+        "id": "arrive",
+        "categoryIds": ["v-verbs"],
+        "en": "Arrive",
+        "pronunciationSi": "අරයිව්",
+        "meaningSi": "පැමිණෙනවා",
+        "partOfSpeech": "verb",
+        "forms": ["arrive", "arrived", "arrived", "arriving"],
+        "example": {
+          "en": "The bus arrived late.",
+          "pronunciationSi": "ද බස් අරයිව්ඩ් ලේට්.",
+          "meaningSi": "බස් එක පරක්කු වෙලා පැමිණියා.",
+          "highlight": "arrived"
+        },
+        "level": "beginner"
+      }
+    ]
+  }
+}

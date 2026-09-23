@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Choose your level</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&amp;family=Noto+Sans+Sinhala:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;font-family:'Plus Jakarta Sans','Noto Sans Sinhala',sans-serif;background:#F7F4EE;color:#16181D;line-height:1.45;-webkit-font-smoothing:antialiased}
+a{color:#0E5A52;text-decoration:none}a:hover{color:#0A443E}
+button{font-family:inherit}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; display: flex; flex-direction: column; background: #F7F4EE; padding: 12px 24px 40px; overflow: hidden;">
+<div style="display: flex; align-items: center; justify-content: space-between;">
+<a href="Onboarding1.dc.html" aria-label="Back" style="width: 44px; height: 44px; border-radius: 22px; background: #FFFFFF; border: 1px solid #E7E1D6; box-sizing: border-box; color: #16181D; display: flex; align-items: center; justify-content: center;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"></path></svg></a>
+<div aria-label="Step 2 of 3" style="display: flex; gap: 6px;">
+<span style="width: 8px; height: 8px; border-radius: 4px; background: #CFC7B8;"></span>
+<span style="width: 24px; height: 8px; border-radius: 4px; background: #0E5A52;"></span>
+<span style="width: 8px; height: 8px; border-radius: 4px; background: #CFC7B8;"></span>
+</div>
+<a href="Main.dc.html" style="min-height: 44px; padding: 0 8px; display: flex; align-items: center; font-size: 15px; font-weight: 600; color: #5B606B;">Skip</a>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 6px; margin-top: 28px;">
+<h1 style="margin: 0; font-family: 'Fraunces', Georgia, serif; font-size: 30px; font-weight: 600; line-height: 1.15;">How is your English?</h1>
+<p style="margin: 0; font-size: 17px; color: #3B3F48;">ඔබේ ඉංග්‍රීසි දැනුම කොහොමද?</p>
+</div>
+
+<div role="radiogroup" aria-label="English level" style="display: flex; flex-direction: column; gap: 12px; margin-top: 24px;">
+<sc-for list="{{levels}}" as="l" hint-placeholder-count="3">
+<sc-if value="{{l.selected}}" hint-placeholder-val="{{ false }}">
+<button role="radio" aria-checked="true" onClick="{{l.pick}}" style="text-align: left; border: 2px solid #0E5A52; background: #F1F8F6; border-radius: 20px; padding: 16px 18px; display: flex; align-items: center; gap: 14px; cursor: pointer; color: #16181D;">
+<span style="width: 24px; height: 24px; flex-shrink: 0; border-radius: 12px; border: 2px solid #0E5A52; box-sizing: border-box; display: flex; align-items: center; justify-content: center;"><span style="width: 12px; height: 12px; border-radius: 6px; background: #0E5A52;"></span></span>
+<span style="display: flex; flex-direction: column;"><span style="font-size: 17px; font-weight: 700;">{{l.en}} · {{l.si}}</span><span style="font-size: 14px; color: #3B3F48;">{{l.desc}}</span></span>
+</button>
+</sc-if>
+<sc-if value="{{l.unselected}}" hint-placeholder-val="{{ true }}">
+<button role="radio" aria-checked="false" onClick="{{l.pick}}" style="text-align: left; border: 2px solid #EEE8DD; background: #FFFFFF; border-radius: 20px; padding: 16px 18px; display: flex; align-items: center; gap: 14px; cursor: pointer; color: #16181D;">
+<span style="width: 24px; height: 24px; flex-shrink: 0; border-radius: 12px; border: 2px solid #CFC7B8; box-sizing: border-box;"></span>
+<span style="display: flex; flex-direction: column;"><span style="font-size: 17px; font-weight: 700;">{{l.en}} · {{l.si}}</span><span style="font-size: 14px; color: #3B3F48;">{{l.desc}}</span></span>
+</button>
+</sc-if>
+</sc-for>
+</div>
+
+<p style="margin: 18px 0 0; font-size: 14px; color: #5B606B;">Not sure? Start with Beginner. You can change this anytime in Settings.</p>
+
+<a href="Onboarding3.dc.html" style="margin-top: auto; height: 56px; border-radius: 28px; background: #0E5A52; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 17px; font-weight: 700;">Continue · ඉදිරියට</a>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { level: 'beg' };
+  }
+  renderVals() {
+    const levels = [
+      { id: 'beg', en: 'Beginner', si: 'ආරම්භක', desc: 'මම ඉංග්‍රීසි වචන කිහිපයක් දන්නවා' },
+      { id: 'int', en: 'Intermediate', si: 'මධ්‍යම', desc: 'මට සරල වාක්‍ය හදන්න පුළුවන්' },
+      { id: 'adv', en: 'Advanced', si: 'උසස්', desc: 'මට ස්වාභාවිකව කතා කරන්න ඕනේ' }
+    ];
+    return {
+      levels: levels.map((l) => ({
+        ...l,
+        selected: this.state.level === l.id,
+        unselected: this.state.level !== l.id,
+        pick: () => this.setState({ level: l.id })
+      }))
+    };
+  }
+}
+</script>
+</body>
+</html>

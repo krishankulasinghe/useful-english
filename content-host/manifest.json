@@ -1,0 +1,5 @@
+{
+  "schemaVersion": 1,
+  "latestVersion": 2,
+  "updates": [{ "version": 2, "url": "updates/2.json" }]
+}

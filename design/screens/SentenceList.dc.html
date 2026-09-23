@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Work and Office sentences</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&amp;family=Noto+Sans+Sinhala:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;font-family:'Plus Jakarta Sans','Noto Sans Sinhala',sans-serif;background:#F7F4EE;color:#16181D;line-height:1.45;-webkit-font-smoothing:antialiased}
+a{color:#0E5A52;text-decoration:none}a:hover{color:#0A443E}
+button{font-family:inherit}
+</style>
+</helmet>
+<div style="width: 390px; height: 1400px; box-sizing: border-box; display: flex; flex-direction: column; background: #F7F4EE; overflow: hidden;">
+<header style="flex-shrink: 0; padding: 12px 16px 8px; display: flex; align-items: center; justify-content: space-between;">
+<a href="Sentences.dc.html" aria-label="Back to sentence categories" style="width: 44px; height: 44px; border-radius: 22px; background: #FFFFFF; border: 1px solid #E7E1D6; box-sizing: border-box; color: #16181D; display: flex; align-items: center; justify-content: center;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"></path></svg></a>
+<div style="display: flex; flex-direction: column; align-items: center;">
+<h1 style="margin: 0; font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 24px; line-height: 1.2;">Work &amp; Study</h1>
+<span style="font-size: 13px; color: #5B606B;">රැකියාව සහ අධ්‍යාපනය</span>
+</div>
+<button aria-label="Filter by level" style="width: 44px; height: 44px; border-radius: 22px; background: #FFFFFF; border: 1px solid #E7E1D6; color: #16181D; display: flex; align-items: center; justify-content: center; padding: 0; cursor: pointer;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M7 12h10M10 18h4"></path></svg></button>
+</header>
+
+<nav aria-label="Situations" style="flex-shrink: 0; display: flex; gap: 22px; overflow-x: hidden; padding: 0 20px; border-bottom: 1px solid #E7E1D6;">
+<a href="#" aria-current="page" style="flex-shrink: 0; min-height: 44px; display: flex; align-items: center; font-size: 15px; font-weight: 700; color: #0E5A52; border-bottom: 3px solid #0E5A52; box-sizing: border-box;">Work &amp; Office</a>
+<a href="#" style="flex-shrink: 0; min-height: 44px; display: flex; align-items: center; font-size: 15px; font-weight: 500; color: #5B606B;">Meetings</a>
+<a href="#" style="flex-shrink: 0; min-height: 44px; display: flex; align-items: center; font-size: 15px; font-weight: 500; color: #5B606B;">Business</a>
+<a href="#" style="flex-shrink: 0; min-height: 44px; display: flex; align-items: center; font-size: 15px; font-weight: 500; color: #5B606B;">Job Interviews</a>
+<a href="#" style="flex-shrink: 0; min-height: 44px; display: flex; align-items: center; font-size: 15px; font-weight: 500; color: #5B606B;">School</a>
+</nav>
+
+<main style="flex-grow: 1; padding: 16px 20px 24px; display: flex; flex-direction: column; gap: 12px;">
+<p style="margin: 0; font-size: 14px; color: #5B606B;">රැකියාව සහ කාර්යාලය · 6 sentences</p>
+
+<sc-for list="{{items}}" as="s" hint-placeholder-count="4">
+<article style="background: #FFFFFF; border-radius: 20px; padding: 16px 18px; display: flex; flex-direction: column; gap: 8px; border: 1px solid #EEE8DD;">
+<div style="display: flex; justify-content: space-between; align-items: center;">
+<sc-if value="{{s.beg}}" hint-placeholder-val="{{ true }}"><span style="height: 26px; padding: 0 10px; border-radius: 13px; background: #E3F0EC; color: #0A443E; font-size: 12px; font-weight: 700; display: flex; align-items: center;">Beginner · ආරම්භක</span></sc-if>
+<sc-if value="{{s.int}}" hint-placeholder-val="{{ false }}"><span style="height: 26px; padding: 0 10px; border-radius: 13px; background: #FBEEDC; color: #7A4307; font-size: 12px; font-weight: 700; display: flex; align-items: center;">Intermediate · මධ්‍යම</span></sc-if>
+<sc-if value="{{s.adv}}" hint-placeholder-val="{{ false }}"><span style="height: 26px; padding: 0 10px; border-radius: 13px; background: #16181D; color: #FFFFFF; font-size: 12px; font-weight: 700; display: flex; align-items: center;">Advanced · උසස්</span></sc-if>
+<div style="display: flex; gap: 2px;">
+<button aria-label="Save sentence" style="width: 44px; height: 44px; border: none; border-radius: 22px; background: transparent; color: #5B606B; display: flex; align-items: center; justify-content: center; padding: 0; cursor: pointer;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-6-4-6 4z"></path></svg></button>
+<button aria-label="Copy sentence" style="width: 44px; height: 44px; border: none; border-radius: 22px; background: transparent; color: #5B606B; display: flex; align-items: center; justify-content: center; padding: 0; cursor: pointer;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"></rect><path d="M5 15V5a2 2 0 0 1 2-2h10"></path></svg></button>
+</div>
+</div>
+<p style="margin: 0; font-size: 20px; font-weight: 700; line-height: 1.35;">{{s.en}}</p>
+<div style="display: flex; flex-direction: column; gap: 2px;">
+<p style="margin: 0; font-size: 16px; color: #9A5409;">{{s.pr}}</p>
+<p style="margin: 0; font-size: 17px; color: #0E5A52;">{{s.si}}</p>
+</div>
+</article>
+</sc-for>
+</main>
+
+<nav aria-label="Main" style="flex-shrink: 0; height: 84px; box-sizing: border-box; padding: 8px 8px 20px; background: #FFFFFF; border-top: 1px solid #E7E1D6; display: flex;">
+<a href="Main.dc.html" style="flex-grow: 1; flex-basis: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #5B606B; font-size: 12px; font-weight: 500;"><span style="width: 56px; height: 30px; display: flex; align-items: center; justify-content: center;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"></path></svg></span>Home</a>
+<a href="Vocabulary.dc.html" style="flex-grow: 1; flex-basis: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #5B606B; font-size: 12px; font-weight: 500;"><span style="width: 56px; height: 30px; display: flex; align-items: center; justify-content: center;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"></path><path d="M4 21V5"></path><path d="M8 7h7"></path></svg></span>Words</a>
+<a href="Sentences.dc.html" aria-current="page" style="flex-grow: 1; flex-basis: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #0E5A52; font-size: 12px; font-weight: 700;"><span style="width: 56px; height: 30px; border-radius: 15px; background: #E3F0EC; display: flex; align-items: center; justify-content: center;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.4A8 8 0 1 1 21 12z"></path></svg></span>Sentences</a>
+<a href="Practice.dc.html" style="flex-grow: 1; flex-basis: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #5B606B; font-size: 12px; font-weight: 500;"><span style="width: 56px; height: 30px; display: flex; align-items: center; justify-content: center;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="14" height="14" rx="2"></rect><path d="M7 3h12a2 2 0 0 1 2 2v12"></path></svg></span>Practice</a>
+<a href="Settings.dc.html" style="flex-grow: 1; flex-basis: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #5B606B; font-size: 12px; font-weight: 500;"><span style="width: 56px; height: 30px; display: flex; align-items: center; justify-content: center;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 12a3 3 0 1 1-6 0a3 3 0 1 1 6 0z"></path><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg></span>Settings</a>
+</nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1400}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const items = [
+      { en: 'Could you give me a minute?', pr: 'කුඩ් යූ ගිව් මී අ මිනිට්?', si: 'මට විනාඩියක් දෙන්න පුළුවන්ද?', lvl: 'beg' },
+      { en: 'I’m running a little late.', pr: 'අයිම් රනිං අ ලිට්ල් ලේට්.', si: 'මම ටිකක් පරක්කු වෙනවා.', lvl: 'beg' },
+      { en: 'Let me look into it.', pr: 'ලෙට් මී ලුක් ඉන්ටු ඉට්.', si: 'මම ඒ ගැන සොයා බලන්නම්.', lvl: 'beg' },
+      { en: 'Can we reschedule the meeting?', pr: 'කෑන් වී රීෂෙඩියුල් ද මීටිං?', si: 'අපිට රැස්වීම වෙන වෙලාවකට දාන්න පුළුවන්ද?', lvl: 'int' },
+      { en: 'I’ll get back to you shortly.', pr: 'අයිල් ගෙට් බැක් ටු යූ ෂෝට්ලි.', si: 'මම ඉක්මනින් ඔබට පිළිතුරු දෙන්නම්.', lvl: 'int' },
+      { en: 'I’d appreciate your feedback.', pr: 'අයිඩ් අප්‍රීෂියේට් යෝ ෆීඩ්බැක්.', si: 'ඔබේ අදහස් ලැබුණොත් මම ගොඩක් කෘතඥ වෙනවා.', lvl: 'adv' }
+    ];
+    return {
+      items: items.map((s) => ({ ...s, beg: s.lvl === 'beg', int: s.lvl === 'int', adv: s.lvl === 'adv' }))
+    };
+  }
+}
+</script>
+</body>
+</html>
