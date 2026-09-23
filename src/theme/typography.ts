@@ -53,6 +53,10 @@ export const textStyles = {
   caption12: { family: fontFamily.jakarta500, size: 12, weight: 500, lineHeight: 16, letterSpacing: u },
   sectionLabel: { family: fontFamily.jakarta700, size: 12, weight: 700, lineHeight: 16, letterSpacing: 0.06 },
   tab: { family: fontFamily.jakarta600, size: 12, weight: 600, lineHeight: 16, letterSpacing: u },
+  // Practice flashcard reveal (the non-front side shows the word at 40px).
+  flashcardReveal: { family: fontFamily.frauncesSemiBold, size: 40, weight: 600, lineHeight: 44, letterSpacing: u },
+  // Bold English sentence in example/sentence cards (Detail, Home hero, SentenceCard).
+  example20: { family: fontFamily.jakarta700, size: 20, weight: 700, lineHeight: 27, letterSpacing: u },
 } satisfies Record<string, TextStyleToken>;
 
 export type TextStyleName = keyof typeof textStyles;
@@ -70,6 +74,15 @@ export function scale(size: number, textSize: TextSize, isSinhala = false): numb
   return isSinhala ? Math.max(scaled, MIN_SINHALA_PX) : scaled;
 }
 
+// Sinhala has no serif companion to Fraunces, so Sinhala text always renders
+// in Noto Sans Sinhala, at the weight closest to the base style's weight.
+function sinhalaFamilyFor(weight: number): string {
+  if (weight >= 700) return fontFamily.notoSinhala700;
+  if (weight >= 600) return fontFamily.notoSinhala600;
+  if (weight >= 500) return fontFamily.notoSinhala500;
+  return fontFamily.notoSinhala400;
+}
+
 export function resolveTextStyle(
   name: TextStyleName,
   textSize: TextSize = 'm',
@@ -79,7 +92,7 @@ export function resolveTextStyle(
   const scaleFactor = TEXT_SIZE_SCALE[textSize];
   const size = scale(base.size, textSize, isSinhala);
   return {
-    fontFamily: base.family,
+    fontFamily: isSinhala ? sinhalaFamilyFor(base.weight) : base.family,
     fontSize: size,
     lineHeight: base.lineHeight * scaleFactor,
     letterSpacing: base.letterSpacing ? base.letterSpacing * base.size : undefined,
