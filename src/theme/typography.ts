@@ -7,10 +7,14 @@ export const fontFamily = {
   jakarta500: 'PlusJakartaSans_500Medium',
   jakarta600: 'PlusJakartaSans_600SemiBold',
   jakarta700: 'PlusJakartaSans_700Bold',
-  notoSinhala400: 'NotoSansSinhala_400Regular',
-  notoSinhala500: 'NotoSansSinhala_500Medium',
-  notoSinhala600: 'NotoSansSinhala_600SemiBold',
-  notoSinhala700: 'NotoSansSinhala_700Bold',
+  notoSinhala400: 'NotoSerifSinhala_400Regular',
+  notoSinhala500: 'NotoSerifSinhala_500Medium',
+  notoSinhala600: 'NotoSerifSinhala_600SemiBold',
+  notoSinhala700: 'NotoSerifSinhala_700Bold',
+  notoSerifSinhala400: 'NotoSerifSinhala_400Regular',
+  notoSerifSinhala500: 'NotoSerifSinhala_500Medium',
+  notoSerifSinhala600: 'NotoSerifSinhala_600SemiBold',
+  notoSerifSinhala700: 'NotoSerifSinhala_700Bold',
 };
 
 export const fontsToLoad = {
@@ -21,10 +25,10 @@ export const fontsToLoad = {
   PlusJakartaSans_500Medium: require('@expo-google-fonts/plus-jakarta-sans').PlusJakartaSans_500Medium,
   PlusJakartaSans_600SemiBold: require('@expo-google-fonts/plus-jakarta-sans').PlusJakartaSans_600SemiBold,
   PlusJakartaSans_700Bold: require('@expo-google-fonts/plus-jakarta-sans').PlusJakartaSans_700Bold,
-  NotoSansSinhala_400Regular: require('@expo-google-fonts/noto-sans-sinhala').NotoSansSinhala_400Regular,
-  NotoSansSinhala_500Medium: require('@expo-google-fonts/noto-sans-sinhala').NotoSansSinhala_500Medium,
-  NotoSansSinhala_600SemiBold: require('@expo-google-fonts/noto-sans-sinhala').NotoSansSinhala_600SemiBold,
-  NotoSansSinhala_700Bold: require('@expo-google-fonts/noto-sans-sinhala').NotoSansSinhala_700Bold,
+  NotoSerifSinhala_400Regular: require('@expo-google-fonts/noto-serif-sinhala').NotoSerifSinhala_400Regular,
+  NotoSerifSinhala_500Medium: require('@expo-google-fonts/noto-serif-sinhala').NotoSerifSinhala_500Medium,
+  NotoSerifSinhala_600SemiBold: require('@expo-google-fonts/noto-serif-sinhala').NotoSerifSinhala_600SemiBold,
+  NotoSerifSinhala_700Bold: require('@expo-google-fonts/noto-serif-sinhala').NotoSerifSinhala_700Bold,
 };
 
 export interface TextStyleToken {
@@ -74,8 +78,7 @@ export function scale(size: number, textSize: TextSize, isSinhala = false): numb
   return isSinhala ? Math.max(scaled, MIN_SINHALA_PX) : scaled;
 }
 
-// Sinhala has no serif companion to Fraunces, so Sinhala text always renders
-// in Noto Sans Sinhala, at the weight closest to the base style's weight.
+// Sinhala text renders in Noto Serif Sinhala, at the weight closest to the base style's weight.
 function sinhalaFamilyFor(weight: number): string {
   if (weight >= 700) return fontFamily.notoSinhala700;
   if (weight >= 600) return fontFamily.notoSinhala600;
