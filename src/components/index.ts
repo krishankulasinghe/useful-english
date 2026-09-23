@@ -28,6 +28,7 @@ export * from './StatusChip';
 export * from './StepDots';
 export * from './Switch';
 export * from './TabBar';
+export * from './Toast';
 export * from './TopicRow';
 export * from './TrioBlock';
 export * from './WordRow';
