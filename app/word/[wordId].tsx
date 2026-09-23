@@ -4,6 +4,7 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { FormChip, HeroCard, IconButton, ListenSlot, OutlineButton, PosChip, PrimaryButton, PronText, MeaningText, TrioBlock } from '../../src/components';
+import { AdBanner } from '../../src/ads/AdBanner';
 import { useCategory, useWord, useWords } from '../../src/content/hooks';
 import { partOfSpeechLabel } from '../../src/i18n/partsOfSpeech';
 import { useProgressRepo, useSaved } from '../../src/state/hooks';
@@ -146,6 +147,8 @@ export default function WordDetail() {
           </View>
         ) : null}
       </ScrollView>
+
+      <AdBanner placement="word_detail" />
 
       <View
         style={{

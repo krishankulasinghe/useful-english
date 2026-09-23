@@ -13,6 +13,7 @@ import {
   Switch,
 } from '../../../src/components';
 import { Icon } from '../../../src/icons/Icon';
+import { useAds } from '../../../src/ads/AdsProvider';
 import { useSettingsStore } from '../../../src/state/settingsStore';
 import { fontFamily } from '../../../src/theme/typography';
 import { useTheme } from '../../../src/theme/useTheme';
@@ -28,6 +29,7 @@ const SUPPORT_LINKS = {
 export default function Settings() {
   const router = useRouter();
   const { colors, space, level: levelMap } = useTheme();
+  const { isPrivacyOptionsRequired, showPrivacyOptions } = useAds();
 
   const level = useSettingsStore((s) => s.level);
   const dailyGoal = useSettingsStore((s) => s.dailyGoal);
@@ -179,6 +181,9 @@ export default function Settings() {
           <ListRow label="Rate the app" minHeight={54} onPress={() => Linking.openURL(SUPPORT_LINKS.rateUrl)} />
           <ListRow label="Send feedback" minHeight={54} onPress={() => Linking.openURL(SUPPORT_LINKS.feedbackEmail)} />
           <ListRow label="Privacy policy" minHeight={54} onPress={() => Linking.openURL(SUPPORT_LINKS.privacyPolicyUrl)} />
+          {isPrivacyOptionsRequired ? (
+            <ListRow label="Privacy & ad choices" minHeight={54} onPress={showPrivacyOptions} />
+          ) : null}
         </GroupedList>
       </View>
 

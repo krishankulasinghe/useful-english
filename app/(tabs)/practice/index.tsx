@@ -3,6 +3,7 @@ import { Text, View } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 
 import { DarkButton, OutlineButton, PrimaryButton, ProgressBar, Screen, SegmentedControl } from '../../../src/components';
+import { preloadPracticeInterstitial, showPracticeInterstitial } from '../../../src/ads/interstitial';
 import { useContentContext } from '../../../src/content/ContentProvider';
 import type { VocabItem } from '../../../src/content/types';
 import { useProgressRepo } from '../../../src/state/hooks';
@@ -31,11 +32,17 @@ export default function Practice() {
   const lastCategoryId = useSettingsStore((s) => s.lastCategoryId);
   const direction = useSettingsStore((s) => s.practiceDirection);
   const setDirection = useSettingsStore((s) => s.setPracticeDirection);
+  const lastInterstitialAt = useSettingsStore((s) => s.lastInterstitialAt);
+  const setLastInterstitialAt = useSettingsStore((s) => s.setLastInterstitialAt);
 
   const [deck, setDeck] = useState<ResolvedDeck | undefined>(undefined);
   const [index, setIndex] = useState(0);
   const [revealed, setRevealed] = useState(false);
   const [finished, setFinished] = useState(false);
+
+  useEffect(() => {
+    preloadPracticeInterstitial();
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -103,9 +110,13 @@ export default function Practice() {
       setIndex((i) => i + 1);
       setRevealed(false);
     } else {
-      setFinished(true);
+      showPracticeInterstitial({
+        lastInterstitialAt,
+        recordInterstitialShown: setLastInterstitialAt,
+        onDismiss: () => setFinished(true),
+      });
     }
-  }, [deck, index, progressRepo]);
+  }, [deck, index, progressRepo, lastInterstitialAt, setLastInterstitialAt]);
 
   const handleKnowThis = useCallback(() => {
     const word = deck?.words[index];

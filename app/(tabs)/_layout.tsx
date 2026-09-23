@@ -1,5 +1,7 @@
+import { View } from 'react-native';
 import { Tabs } from 'expo-router';
 
+import { AdBanner } from '../../src/ads/AdBanner';
 import { TabBar, type TabBarItem } from '../../src/components/TabBar';
 import type { IconName } from '../../src/icons/Icon';
 import { useT } from '../../src/i18n/useT';
@@ -39,7 +41,12 @@ export default function TabsLayout() {
             }
           },
         }));
-        return <TabBar items={items} />;
+        return (
+          <View>
+            <AdBanner placement="tabs" />
+            <TabBar items={items} />
+          </View>
+        );
       }}
     >
       <Tabs.Screen name="home/index" options={{ title: 'Home' }} />

@@ -4,6 +4,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
+import { AdsProvider } from '../src/ads/AdsProvider';
 import { ContentProvider } from '../src/content/ContentProvider';
 import { ThemeProvider } from '../src/theme/ThemeProvider';
 import { fontsToLoad } from '../src/theme/typography';
@@ -27,7 +28,9 @@ export default function RootLayout() {
     <SafeAreaProvider>
       <ContentProvider>
         <ThemeProvider>
-          <Stack screenOptions={{ headerShown: false }} />
+          <AdsProvider>
+            <Stack screenOptions={{ headerShown: false }} />
+          </AdsProvider>
         </ThemeProvider>
       </ContentProvider>
     </SafeAreaProvider>

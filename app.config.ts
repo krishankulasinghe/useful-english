@@ -37,12 +37,26 @@ const config: ExpoConfig = {
         imageWidth: 108,
       },
     ],
+    [
+      'react-native-google-mobile-ads',
+      {
+        androidAppId: process.env.ADMOB_ANDROID_APP_ID || 'ca-app-pub-3940256099942544~3347511713',
+        iosAppId: process.env.ADMOB_IOS_APP_ID || 'ca-app-pub-3940256099942544~1458002511',
+        userTrackingUsageDescription: 'This identifier will be used to deliver personalized ads to you.',
+      },
+    ],
+    [
+      'expo-tracking-transparency',
+      {
+        userTrackingPermission: 'This identifier will be used to deliver personalized ads to you.',
+      },
+    ],
   ],
   extra: {
     // Empty string = no remote content updates; UpdateService no-ops.
     CONTENT_BASE_URL: process.env.CONTENT_BASE_URL ?? '',
-    ADMOB_ANDROID_APP_ID: process.env.ADMOB_ANDROID_APP_ID ?? '',
-    ADMOB_IOS_APP_ID: process.env.ADMOB_IOS_APP_ID ?? '',
+    ADMOB_ANDROID_APP_ID: process.env.ADMOB_ANDROID_APP_ID || 'ca-app-pub-3940256099942544~3347511713',
+    ADMOB_IOS_APP_ID: process.env.ADMOB_IOS_APP_ID || 'ca-app-pub-3940256099942544~1458002511',
     ADMOB_BANNER_ANDROID: process.env.ADMOB_BANNER_ANDROID ?? '',
     ADMOB_BANNER_IOS: process.env.ADMOB_BANNER_IOS ?? '',
     ADMOB_INTERSTITIAL_ANDROID: process.env.ADMOB_INTERSTITIAL_ANDROID ?? '',
