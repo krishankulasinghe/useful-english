@@ -8,6 +8,7 @@ export * from './GroupedList';
 export * from './HeroCard';
 export * from './IconButton';
 export * from './LevelChip';
+export * from './ListenSlot';
 export * from './ListRow';
 export * from './MeaningText';
 export * from './NavHeader';
