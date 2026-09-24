@@ -37,8 +37,10 @@ export class ContentRepository {
   }
 
   async getSentences(categoryId: string, level?: Level): Promise<SentenceItem[]> {
-    const sentences = await this.store.getAllSentences();
-    return sentences.filter((s) => s.categoryId === categoryId && (!level || s.level === level));
+    const list = await this.store.getSentencesByCategory(categoryId, level);
+    if (list && list.length > 0) return list;
+    const all = await this.store.getAllSentences();
+    return all.filter((s) => s.categoryId === categoryId && (!level || s.level === level));
   }
 
   async getAllVocab(): Promise<VocabItem[]> {

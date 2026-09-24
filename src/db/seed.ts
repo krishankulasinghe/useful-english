@@ -4,11 +4,19 @@ import type { ContentStore } from './ContentStore';
 const CONTENT_VERSION_KEY = 'contentVersion';
 const SCHEMA_VERSION_KEY = 'schemaVersion';
 
-// Idempotent: only inserts the bundled seed content on first launch
-// (when `meta.contentVersion` is missing). Safe to call on every start.
-export async function seedIfNeeded(store: ContentStore, seed: SeedFile): Promise<void> {
+// Idempotent: inserts or updates bundled seed content when contentVersion
+// is missing, outdated (existingVersion < seed.version), or sentences are unpopulated.
+export async function seedIfNeeded(store: ContentStore, seed: SeedFile): Promise<boolean> {
   const existingVersion = await store.getMeta(CONTENT_VERSION_KEY);
-  if (existingVersion !== undefined) return;
+  const existingSentences = await store.getAllSentences();
+
+  if (
+    existingVersion !== undefined &&
+    Number(existingVersion) >= seed.version &&
+    (seed.sentences.length === 0 || existingSentences.length >= seed.sentences.length)
+  ) {
+    return false;
+  }
 
   await store.withTransaction(async () => {
     await store.upsertTopics(seed.topics);
@@ -18,6 +26,8 @@ export async function seedIfNeeded(store: ContentStore, seed: SeedFile): Promise
     await store.setMeta(CONTENT_VERSION_KEY, String(seed.version));
     await store.setMeta(SCHEMA_VERSION_KEY, String(seed.schemaVersion));
   });
+
+  return true;
 }
 
 export async function getContentVersion(store: ContentStore): Promise<number> {

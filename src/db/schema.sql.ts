@@ -55,6 +55,7 @@ CREATE TABLE IF NOT EXISTS sentences (
   search_text TEXT NOT NULL
 );
 CREATE INDEX IF NOT EXISTS idx_sentences_category_id ON sentences(category_id);
+CREATE INDEX IF NOT EXISTS idx_sentences_cat_level ON sentences(category_id, level);
 
 CREATE TABLE IF NOT EXISTS saved (
   item_type TEXT NOT NULL,

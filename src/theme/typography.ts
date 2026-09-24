@@ -99,5 +99,6 @@ export function resolveTextStyle(
     fontSize: size,
     lineHeight: base.lineHeight * scaleFactor,
     letterSpacing: base.letterSpacing ? base.letterSpacing * base.size : undefined,
+    fontWeight: 'normal' as const,
   };
 }

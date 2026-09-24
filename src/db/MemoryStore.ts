@@ -1,4 +1,4 @@
-import type { Category, SentenceItem, Topic, VocabItem } from '../content/types';
+import type { Category, Level, SentenceItem, Topic, VocabItem } from '../content/types';
 import { normalizeSearchText } from '../content/normalize';
 import type { ContentStore, SavedItem, SavedItemType } from './ContentStore';
 
@@ -62,6 +62,11 @@ export class MemoryStore implements ContentStore {
   }
   async getAllSentences() {
     return [...this.state.sentences.values()];
+  }
+  async getSentencesByCategory(categoryId: string, level?: Level) {
+    return [...this.state.sentences.values()].filter(
+      (s) => s.categoryId === categoryId && (!level || s.level === level),
+    );
   }
 
   async upsertTopics(topics: Topic[]) {
