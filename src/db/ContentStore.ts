@@ -1,4 +1,4 @@
-import type { Category, SentenceItem, Topic, VocabItem } from '../content/types';
+import type { Category, Level, SentenceItem, Topic, VocabItem } from '../content/types';
 
 export type SavedItemType = 'word' | 'sentence';
 
@@ -18,6 +18,7 @@ export interface ContentStore {
   getAllCategories(): Promise<Category[]>;
   getAllVocab(): Promise<VocabItem[]>;
   getAllSentences(): Promise<SentenceItem[]>;
+  getSentencesByCategory(categoryId: string, level?: Level): Promise<SentenceItem[]>;
 
   upsertTopics(topics: Topic[]): Promise<void>;
   upsertCategories(categories: Category[]): Promise<void>;

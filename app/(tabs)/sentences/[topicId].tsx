@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useState } from 'react';
-import { Modal, Pressable, ScrollView, Text, View } from 'react-native';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { FlatList, Modal, Pressable, ScrollView, Text, View } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import * as Clipboard from 'expo-clipboard';
 
@@ -9,6 +9,8 @@ import type { Level } from '../../../src/content/types';
 import { useProgressRepo, useSaved } from '../../../src/state/hooks';
 import { fontFamily } from '../../../src/theme/typography';
 import { useTheme } from '../../../src/theme/useTheme';
+
+const PAGE_SIZE = 20;
 
 const LEVEL_OPTIONS: { label: string; value: Level | undefined }[] = [
   { label: 'All levels', value: undefined },
@@ -27,10 +29,30 @@ export default function SentenceList() {
   const categories = useCategories(topicId);
   const [levelFilter, setLevelFilter] = useState<Level | undefined>(undefined);
   const [filterOpen, setFilterOpen] = useState(false);
+  const [selectedCategoryIdState, setSelectedCategoryIdState] = useState<string | undefined>(categoryIdParam);
 
-  const selectedCategoryId = categoryIdParam ?? categories[0]?.id;
+  const selectedCategoryId = selectedCategoryIdState ?? categoryIdParam ?? categories[0]?.id;
   const selectedCategory = categories.find((c) => c.id === selectedCategoryId);
   const sentences = useSentences(selectedCategoryId, levelFilter);
+
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
+
+  // Reset pagination whenever category or level filter changes
+  useEffect(() => {
+    setVisibleCount(PAGE_SIZE);
+  }, [selectedCategoryId, levelFilter]);
+
+  const visibleSentences = useMemo(
+    () => sentences.slice(0, visibleCount),
+    [sentences, visibleCount],
+  );
+
+  const handleEndReached = useCallback(() => {
+    setVisibleCount((prev) => {
+      if (prev >= sentences.length) return prev;
+      return Math.min(prev + PAGE_SIZE, sentences.length);
+    });
+  }, [sentences.length]);
 
   return (
     <View style={{ flex: 1 }}>
@@ -50,9 +72,7 @@ export default function SentenceList() {
               return (
                 <Pressable
                   key={category.id}
-                  onPress={() =>
-                    router.setParams({ categoryId: category.id })
-                  }
+                  onPress={() => setSelectedCategoryIdState(category.id)}
                   style={{
                     minHeight: 44,
                     justifyContent: 'center',
@@ -83,26 +103,43 @@ export default function SentenceList() {
             </Text>
           </View>
         ) : (
-          <ScrollView
+          <FlatList
             style={{ flex: 1 }}
-            contentContainerStyle={{ padding: space[20], gap: space[12] }}
+            contentContainerStyle={{ padding: space[20], paddingBottom: space[32] }}
+            data={visibleSentences}
+            keyExtractor={(item) => item.id}
+            initialNumToRender={15}
+            maxToRenderPerBatch={15}
+            windowSize={5}
+            onEndReached={handleEndReached}
+            onEndReachedThreshold={0.5}
             showsVerticalScrollIndicator={false}
-          >
-            <Text style={{ fontFamily: fontFamily.jakarta400, fontSize: 14, color: colors.muted }}>
-              {selectedCategory.si} · {sentences.length} sentences
-            </Text>
-            {sentences.map((sentence) => (
+            ListHeaderComponent={
+              <Text style={{ fontFamily: fontFamily.jakarta400, fontSize: 14, color: colors.muted, marginBottom: space[12] }}>
+                {selectedCategory.si} · {sentences.length} sentences
+              </Text>
+            }
+            ItemSeparatorComponent={() => <View style={{ height: space[12] }} />}
+            renderItem={({ item }) => (
               <SentenceListCard
-                key={sentence.id}
-                id={sentence.id}
-                en={sentence.en}
-                pron={sentence.pronunciationSi}
-                meaning={sentence.meaningSi}
-                level={sentence.level}
+                id={item.id}
+                en={item.en}
+                pron={item.pronunciationSi}
+                meaning={item.meaningSi}
+                level={item.level}
                 onCopied={() => toast.show('Copied')}
               />
-            ))}
-          </ScrollView>
+            )}
+            ListFooterComponent={
+              visibleCount < sentences.length ? (
+                <View style={{ paddingVertical: space[16], alignItems: 'center' }}>
+                  <Text style={{ fontFamily: fontFamily.jakarta400, fontSize: 13, color: colors.muted }}>
+                    Showing {visibleSentences.length} of {sentences.length} sentences · Scroll for more
+                  </Text>
+                </View>
+              ) : null
+            }
+          />
         )}
       </Screen>
 
@@ -146,7 +183,7 @@ export default function SentenceList() {
   );
 }
 
-function SentenceListCard({
+const SentenceListCard = React.memo(function SentenceListCard({
   id,
   en,
   pron,
@@ -185,4 +222,4 @@ function SentenceListCard({
       }}
     />
   );
-}
+});

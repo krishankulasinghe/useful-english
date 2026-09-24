@@ -1,6 +1,6 @@
 import * as SQLite from 'expo-sqlite';
 
-import type { Category, SentenceItem, Topic, VocabItem } from '../content/types';
+import type { Category, Level, SentenceItem, Topic, VocabItem } from '../content/types';
 import { normalizeSearchText } from '../content/normalize';
 import type { ContentStore, SavedItem, SavedItemType } from './ContentStore';
 import { MIGRATION_1 } from './schema.sql';
@@ -102,6 +102,17 @@ export class SqliteStore implements ContentStore {
     return rows.map(rowToSentence);
   }
 
+  async getSentencesByCategory(categoryId: string, level?: Level) {
+    let sql = 'SELECT * FROM sentences WHERE category_id = ?';
+    const params: any[] = [categoryId];
+    if (level) {
+      sql += ' AND level = ?';
+      params.push(level);
+    }
+    const rows = await this.db.getAllAsync<any>(sql, ...params);
+    return rows.map(rowToSentence);
+  }
+
   async upsertTopics(topics: Topic[]) {
     for (const t of topics) {
       await this.db.runAsync(
@@ -148,13 +159,47 @@ export class SqliteStore implements ContentStore {
     }
   }
   async upsertSentences(sentences: SentenceItem[]) {
-    for (const s of sentences) {
-      await this.db.runAsync(
+    if (sentences.length === 0) return;
+    try {
+      const stmt = await this.db.prepareAsync(
         `INSERT OR REPLACE INTO sentences
           (id, category_id, en, pron_si, meaning_si, level, audio_url, search_text)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-        [s.id, s.categoryId, s.en, s.pronunciationSi, s.meaningSi, s.level, s.audioUrl ?? null, sentenceSearchText(s)],
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
       );
+      try {
+        for (const s of sentences) {
+          await stmt.executeAsync([
+            s.id,
+            s.categoryId,
+            s.en,
+            s.pronunciationSi,
+            s.meaningSi,
+            s.level,
+            s.audioUrl ?? null,
+            sentenceSearchText(s),
+          ]);
+        }
+      } finally {
+        await stmt.finalizeAsync();
+      }
+    } catch {
+      for (const s of sentences) {
+        await this.db.runAsync(
+          `INSERT OR REPLACE INTO sentences
+            (id, category_id, en, pron_si, meaning_si, level, audio_url, search_text)
+           VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+          [
+            s.id,
+            s.categoryId,
+            s.en,
+            s.pronunciationSi,
+            s.meaningSi,
+            s.level,
+            s.audioUrl ?? null,
+            sentenceSearchText(s),
+          ],
+        );
+      }
     }
   }
 
@@ -171,7 +216,13 @@ export class SqliteStore implements ContentStore {
     }
   }
   async deleteSentences(ids: string[]) {
-    for (const id of ids) await this.db.runAsync('DELETE FROM sentences WHERE id = ?', [id]);
+    if (ids.length === 0) return;
+    const CHUNK_SIZE = 100;
+    for (let i = 0; i < ids.length; i += CHUNK_SIZE) {
+      const chunk = ids.slice(i, i + CHUNK_SIZE);
+      const placeholders = chunk.map(() => '?').join(', ');
+      await this.db.runAsync(`DELETE FROM sentences WHERE id IN (${placeholders})`, chunk);
+    }
   }
 
   async clearAll() {

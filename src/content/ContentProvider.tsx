@@ -29,17 +29,24 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     let cancelled = false;
     (async () => {
-      const s = await getContentStore();
-      const seed = seedFileSchema.parse(seedData);
-      await seedIfNeeded(s, seed);
-      if (cancelled) return;
-      setStore(s);
-      setRepository(new ContentRepository(s));
-      setReady(true);
+      try {
+        const s = await getContentStore();
+        const seed = seedFileSchema.parse(seedData);
+        const didSeed = await seedIfNeeded(s, seed);
+        if (cancelled) return;
+        setStore(s);
+        setRepository(new ContentRepository(s));
+        setReady(true);
+        if (didSeed) {
+          setContentRevision((r) => r + 1);
+        }
 
-      const result = await checkForUpdates(s);
-      if (!cancelled && !result.skipped && result.applied.length > 0) {
-        setContentRevision((r) => r + 1);
+        const result = await checkForUpdates(s);
+        if (!cancelled && !result.skipped && result.applied.length > 0) {
+          setContentRevision((r) => r + 1);
+        }
+      } catch (err) {
+        console.error('ContentProvider initialization error:', err);
       }
     })();
     return () => {
