@@ -23,8 +23,8 @@ export function LevelChip({ level }: LevelChipProps) {
         justifyContent: 'center',
       }}
     >
-      <Text style={{ fontFamily: fontFamily.notoSinhala700, fontSize: 12, color: colors[style.fg] }}>
-        {style.labelEn} · {style.labelSi}
+      <Text style={{ fontFamily: fontFamily.jakarta600, fontSize: 12, color: colors[style.fg] }}>
+        {style.labelEn}
       </Text>
     </View>
   );

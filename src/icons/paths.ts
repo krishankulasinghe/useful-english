@@ -51,6 +51,22 @@ export const iconPaths = {
   ],
   bell: [{ type: 'path', d: 'M6 16V11a6 6 0 0 1 12 0v5l2 2H4zM10 21h4' }],
   filter: [{ type: 'path', d: 'M4 6h16M7 12h10M10 18h4' }],
+  sort: [
+    { type: 'path', d: 'm3 16 4 4 4-4' },
+    { type: 'path', d: 'M7 20V4' },
+    { type: 'path', d: 'm21 8-4-4-4 4' },
+    { type: 'path', d: 'M17 4v16' },
+  ],
+  eye: [
+    { type: 'path', d: 'M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z' },
+    { type: 'circle', cx: 12, cy: 12, r: 3 },
+  ],
+  'eye-off': [
+    { type: 'path', d: 'M9.88 9.88a3 3 0 1 0 4.24 4.24' },
+    { type: 'path', d: 'M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68' },
+    { type: 'path', d: 'M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61' },
+    { type: 'path', d: 'm2 2 20 20' },
+  ],
   'arrow-right': [{ type: 'path', d: 'M5 12h14M13 6l6 6-6 6' }],
 
   // Topic icons (standard Lucide paths).

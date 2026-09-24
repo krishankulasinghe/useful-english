@@ -1,6 +1,4 @@
 {
-  "version": 4,
-  "schemaVersion": 1,
   "topics": [
     {
       "id": "v-grammar-basics",
@@ -603,6 +601,22 @@
       "en": "Proverbs",
       "si": "පිරුළු",
       "order": 1
+    },
+    {
+      "id": "v-human-dwellings",
+      "topicId": "v-people-life",
+      "en": "Human and their Dwelling",
+      "si": "වාසස්ථාන",
+      "order": 7,
+      "shortEn": "Dwellings"
+    },
+    {
+      "id": "v-animal-habitats",
+      "topicId": "v-nature",
+      "en": "Animals Habitats",
+      "si": "සත්ත්ව වාසස්ථාන",
+      "order": 7,
+      "shortEn": "Habitats"
     }
   ],
   "vocabulary": [
@@ -697,6 +711,897 @@
         "highlight": "improve"
       },
       "level": "beginner"
+    },
+    {
+      "id": "prison",
+      "categoryIds": [
+        "v-human-dwellings",
+        "v-buildings-construction"
+      ],
+      "en": "Prison",
+      "pronunciationSi": "ප්‍රිසන්",
+      "meaningSi": "බන්ධනාගාරය",
+      "partOfSpeech": "noun",
+      "example": {
+        "en": "The convict was taken to prison.",
+        "pronunciationSi": "ද කන්වික්ට් වොස් ටේකන් ටු ප්‍රිසන්.",
+        "meaningSi": "වරදකරු බන්ධනාගාරයට ගෙන යන ලදී.",
+        "highlight": "prison"
+      },
+      "level": "beginner"
+    },
+    {
+      "id": "igloo",
+      "categoryIds": [
+        "v-human-dwellings",
+        "v-buildings-construction"
+      ],
+      "en": "Igloo",
+      "pronunciationSi": "ඉග්ලූ",
+      "meaningSi": "ඉග්ලූ නිවාස (හිම නිවස)",
+      "partOfSpeech": "noun",
+      "example": {
+        "en": "An Eskimo builds an igloo from blocks of snow.",
+        "pronunciationSi": "ඇන් එක්ස්කිමෝ බිල්ඩ්ස් ඇන් ඉග්ලූ ෆ්‍රොම් බ්ලොක්ස් ඔෆ් ස්නෝ.",
+        "meaningSi": "එස්කිමෝවරයෙක් හිම කුට්ටි වලින් ඉග්ලූ නිවසක් සාදයි.",
+        "highlight": "igloo"
+      },
+      "level": "intermediate"
+    },
+    {
+      "id": "caravan",
+      "categoryIds": [
+        "v-human-dwellings",
+        "v-vehicles-transportation"
+      ],
+      "en": "Caravan",
+      "pronunciationSi": "කැරවෑන්",
+      "meaningSi": "තවලම (සංචාරක නිවස)",
+      "partOfSpeech": "noun",
+      "example": {
+        "en": "The gypsy family lived in a wooden caravan.",
+        "pronunciationSi": "ද ජිප්සි ෆැමිලි ලිව්ඩ් ඉන් අ වුඩන් කැරවෑන්.",
+        "meaningSi": "ජිප්සි පවුල ලී සංචාරක කරත්තයක ජීවත් විය.",
+        "highlight": "caravan"
+      },
+      "level": "intermediate"
+    },
+    {
+      "id": "palace",
+      "categoryIds": [
+        "v-human-dwellings",
+        "v-buildings-construction"
+      ],
+      "en": "Palace",
+      "pronunciationSi": "පැලස්",
+      "meaningSi": "රජ මාළිගය",
+      "partOfSpeech": "noun",
+      "example": {
+        "en": "The king and queen reside in the grand palace.",
+        "pronunciationSi": "ද කිං ඇන්ඩ් ක්වීන් රිසයිඩ් ඉන් ද ග්‍රෑන්ඩ් පැලස්.",
+        "meaningSi": "රජතුමා සහ රැජින මහා මාළිගාවේ වාසය කරති.",
+        "highlight": "palace"
+      },
+      "level": "beginner"
+    },
+    {
+      "id": "monastery",
+      "categoryIds": [
+        "v-human-dwellings",
+        "v-religion",
+        "v-buildings-construction"
+      ],
+      "en": "Monastery",
+      "pronunciationSi": "මොනස්ට්‍රි",
+      "meaningSi": "ආරාමය",
+      "partOfSpeech": "noun",
+      "example": {
+        "en": "The monks pray and study in the monastery.",
+        "pronunciationSi": "ද මන්ක්ස් ප්‍රේ ඇන්ඩ් ස්ටඩි ඉන් ද මොනස්ට්‍රි.",
+        "meaningSi": "පූජකවරු ආරාමයේ යාච්ඤා කරති සහ අධ්‍යයනය කරති.",
+        "highlight": "monastery"
+      },
+      "level": "intermediate"
+    },
+    {
+      "id": "castle",
+      "categoryIds": [
+        "v-human-dwellings",
+        "v-buildings-construction"
+      ],
+      "en": "Castle",
+      "pronunciationSi": "කාස්ල්",
+      "meaningSi": "වංශාධිපති මන්දිරය (බලකොටුව)",
+      "partOfSpeech": "noun",
+      "example": {
+        "en": "The noble lived in a stone castle on the hill.",
+        "pronunciationSi": "ද නෝබ්ල් ලිව්ඩ් ඉන් අ ස්ටෝන් කාස්ල් ඔන් ද හිල්.",
+        "meaningSi": "වංශාධිපතියා කන්ද උඩ ගල් බලකොටුවක ජීවත් විය.",
+        "highlight": "castle"
+      },
+      "level": "beginner"
+    },
+    {
+      "id": "convent",
+      "categoryIds": [
+        "v-human-dwellings",
+        "v-religion",
+        "v-buildings-construction"
+      ],
+      "en": "Convent",
+      "pronunciationSi": "කොන්වන්ට්",
+      "meaningSi": "කන්‍යාරාමය",
+      "partOfSpeech": "noun",
+      "example": {
+        "en": "The nuns teach children at the convent.",
+        "pronunciationSi": "ද නන්ස් ටීච් චිල්ඩ්‍රන් ඇට් ද කොන්වන්ට්.",
+        "meaningSi": "කන්‍යා සොහොයුරියෝ කන්‍යාරාමයේදී දරුවන්ට උගන්වති.",
+        "highlight": "convent"
+      },
+      "level": "intermediate"
+    },
+    {
+      "id": "hut",
+      "categoryIds": [
+        "v-human-dwellings",
+        "v-home-household"
+      ],
+      "en": "Hut",
+      "pronunciationSi": "හට්",
+      "meaningSi": "පැල්පත",
+      "partOfSpeech": "noun",
+      "example": {
+        "en": "The peasant returned to his humble hut at sunset.",
+        "pronunciationSi": "ද පෙසන්ට් රිටර්න්ඩ් ටු හිස් හම්බ්ල් හට් ඇට් සන්සෙට්.",
+        "meaningSi": "ඉර බසින විට ගැමියා තම සරල පැල්පතට පැමිණියේය.",
+        "highlight": "hut"
+      },
+      "level": "beginner"
+    },
+    {
+      "id": "manse",
+      "categoryIds": [
+        "v-human-dwellings",
+        "v-religion"
+      ],
+      "en": "Manse",
+      "pronunciationSi": "මෑන්ස්",
+      "meaningSi": "පූජක ලැගුම්ගෙය",
+      "partOfSpeech": "noun",
+      "example": {
+        "en": "The priest greeted the visitors outside the manse.",
+        "pronunciationSi": "ද ප්‍රීස්ට් ග්‍රීටඩ් ද විසිටර්ස් අවුට්සයිඩ් ද මෑන්ස්.",
+        "meaningSi": "පූජකතුමා පූජක නිවස ඉදිරිපිටදී අමුත්තන් පිළිගත්තේය.",
+        "highlight": "manse"
+      },
+      "level": "advanced"
+    },
+    {
+      "id": "temple",
+      "categoryIds": [
+        "v-human-dwellings",
+        "v-religion",
+        "v-buildings-construction"
+      ],
+      "en": "Temple",
+      "pronunciationSi": "ටෙම්පල්",
+      "meaningSi": "පන්සල (දේවාලය)",
+      "partOfSpeech": "noun",
+      "example": {
+        "en": "The Buddhist monk lives and teaches at the temple.",
+        "pronunciationSi": "ද බුද්ධිස්ට් මන්ක් ලිව්ස් ඇන්ඩ් ටීචස් ඇට් ද ටෙම්පල්.",
+        "meaningSi": "සංඝයා වහන්සේ පන්සලේ වැඩ වසමින් ධර්මය උගන්වති.",
+        "highlight": "temple"
+      },
+      "level": "beginner"
+    },
+    {
+      "id": "barrack",
+      "categoryIds": [
+        "v-human-dwellings",
+        "v-buildings-construction"
+      ],
+      "en": "Barrack",
+      "pronunciationSi": "බැරැක්",
+      "meaningSi": "කඳවුරක නේවාසිකාගාරය (බැරැක්කය)",
+      "partOfSpeech": "noun",
+      "example": {
+        "en": "The soldiers keep their gear tidy inside the barrack.",
+        "pronunciationSi": "ද සෝල්ජර්ස් කීප් දෙයාර් ගියර් ටයිඩි ඉන්සයිඩ් ද බැරැක්.",
+        "meaningSi": "සොල්දාදුවන් බැරැක්කය තුළ තම උපකරණ පිළිවෙලට තබා ගනී.",
+        "highlight": "barrack"
+      },
+      "level": "intermediate"
+    },
+    {
+      "id": "hospital",
+      "categoryIds": [
+        "v-human-dwellings",
+        "v-health-diseases",
+        "v-buildings-construction"
+      ],
+      "en": "Hospital",
+      "pronunciationSi": "හොස්පිටල්",
+      "meaningSi": "ආරෝග්‍යශාලාව (රෝහල)",
+      "partOfSpeech": "noun",
+      "example": {
+        "en": "The sick patient was cared for at the hospital.",
+        "pronunciationSi": "ද සික් පේෂන්ට් වොස් කෙයාර්ඩ් ෆෝ ඇට් ද හොස්පිටල්.",
+        "meaningSi": "අසනීප රෝගියා රෝහලේදී රැකබලා ගන්නා ලදී.",
+        "highlight": "hospital"
+      },
+      "level": "beginner"
+    },
+    {
+      "id": "infirmary",
+      "categoryIds": [
+        "v-human-dwellings",
+        "v-health-diseases"
+      ],
+      "en": "Infirmary",
+      "pronunciationSi": "ඉන්ෆර්මරි",
+      "meaningSi": "රෝගීන් නවතින ස්ථානය (ගිලන්හල)",
+      "partOfSpeech": "noun",
+      "example": {
+        "en": "A nurse attended to the patients in the infirmary.",
+        "pronunciationSi": "අ නර්ස් ඇටෙන්ඩඩ් ටු ද පේෂන්ට්ස් ඉන් දි ඉන්ෆර්මරි.",
+        "meaningSi": "හෙදියක් ගිලන්හලේ සිටි රෝගීන්ට ප්‍රතිකාර කළාය.",
+        "highlight": "infirmary"
+      },
+      "level": "advanced"
+    },
+    {
+      "id": "convict",
+      "categoryIds": [
+        "v-human-dwellings"
+      ],
+      "en": "Convict",
+      "pronunciationSi": "කන්වික්ට්",
+      "meaningSi": "වැරදිකරු",
+      "partOfSpeech": "noun",
+      "example": {
+        "en": "The convict was guarded closely by officers.",
+        "pronunciationSi": "ද කන්වික්ට් වොස් ගාඩඩ් ක්ලෝස්ලි බයි ඔෆිසර්ස්.",
+        "meaningSi": "නිලධාරීන් විසින් වැරදිකරු දැඩි ලෙස මුර කරන ලදී.",
+        "highlight": "convict"
+      },
+      "level": "intermediate"
+    },
+    {
+      "id": "eskimo",
+      "categoryIds": [
+        "v-human-dwellings",
+        "v-countries-nationalities"
+      ],
+      "en": "Eskimo",
+      "pronunciationSi": "එක්ස්කිමෝ",
+      "meaningSi": "එක්ස්කිමෝවරු (ආක්ටික් වැසියා)",
+      "partOfSpeech": "noun",
+      "example": {
+        "en": "The Eskimo wears thick furs to endure the cold.",
+        "pronunciationSi": "දි එක්ස්කිමෝ වෙයාර්ස් තික් ෆර්ස් ටු එන්ඩියෝ ද කෝල්ඩ්.",
+        "meaningSi": "එස්කිමෝවරයා සීතල දරා ගැනීමට ඝන ලොම් ඇඳුම් අඳියි.",
+        "highlight": "Eskimo"
+      },
+      "level": "intermediate"
+    },
+    {
+      "id": "gypsy",
+      "categoryIds": [
+        "v-human-dwellings"
+      ],
+      "en": "Gypsy",
+      "pronunciationSi": "ජිප්සි",
+      "meaningSi": "අහිකුණ්ඨික (සංචාරක වැසියා)",
+      "partOfSpeech": "noun",
+      "example": {
+        "en": "The gypsy sang traditional songs around the campfire.",
+        "pronunciationSi": "ද ජිප්සි සෑන්ග් ට්‍රැඩිෂනල් සොන්ග්ස් අරවුන්ඩ් ද කෑම්ප්ෆයර්.",
+        "meaningSi": "ජිප්සිවරයා කඳවුරු ගින්න වටා සම්ප්‍රදායික ගීත ගායනා කළේය.",
+        "highlight": "gypsy"
+      },
+      "level": "intermediate"
+    },
+    {
+      "id": "king",
+      "categoryIds": [
+        "v-human-dwellings"
+      ],
+      "en": "King",
+      "pronunciationSi": "කිං",
+      "meaningSi": "රජතුමා",
+      "partOfSpeech": "noun",
+      "example": {
+        "en": "The wise king wore a golden crown.",
+        "pronunciationSi": "ද වයිස් කිං වෝ අ ගෝල්ඩන් ක්‍රවුන්.",
+        "meaningSi": "නුවණැති රජතුමා රන් ඔටුන්නක් පැළඳ සිටියේය.",
+        "highlight": "king"
+      },
+      "level": "beginner"
+    },
+    {
+      "id": "monk",
+      "categoryIds": [
+        "v-human-dwellings",
+        "v-religion"
+      ],
+      "en": "Monk",
+      "pronunciationSi": "මන්ක්",
+      "meaningSi": "පූජකවරයා (දේවගැතියා / භික්ෂුව)",
+      "partOfSpeech": "noun",
+      "example": {
+        "en": "The monk woke before dawn to meditate.",
+        "pronunciationSi": "ද මන්ක් වෝක් බිෆෝ ඩෝන් ටු මෙඩිටේට්.",
+        "meaningSi": "පූජකවරයා භාවනා කිරීම සඳහා අලුයමට පෙර අවදි විය.",
+        "highlight": "monk"
+      },
+      "level": "beginner"
+    },
+    {
+      "id": "noble",
+      "categoryIds": [
+        "v-human-dwellings"
+      ],
+      "en": "Noble",
+      "pronunciationSi": "නෝබ්ල්",
+      "meaningSi": "වංශාධිපතියා (ප්‍රභූවරයා)",
+      "partOfSpeech": "noun",
+      "example": {
+        "en": "The noble owned vast lands across the province.",
+        "pronunciationSi": "ද නෝබ්ල් ඕන්ඩ් වාස්ට් ලෑන්ඩ්ස් අක්‍රොස් ද ප්‍රොවින්ස්.",
+        "meaningSi": "වංශාධිපතියාට පළාත පුරා විශාල ඉඩම් හිමි විය.",
+        "highlight": "noble"
+      },
+      "level": "intermediate"
+    },
+    {
+      "id": "nun",
+      "categoryIds": [
+        "v-human-dwellings",
+        "v-religion"
+      ],
+      "en": "Nun",
+      "pronunciationSi": "නන්",
+      "meaningSi": "කන්‍යාතුමිය (මෙහෙණිය)",
+      "partOfSpeech": "noun",
+      "example": {
+        "en": "The kind nun helped at the local clinic.",
+        "pronunciationSi": "ද කයින්ඩ් නන් හෙල්ප්ඩ් ඇට් ද ලෝකල් ක්ලිනික්.",
+        "meaningSi": "කාරුණික කන්‍යා සොහොයුරිය ප්‍රදේශයේ සායනයට උදව් කළාය.",
+        "highlight": "nun"
+      },
+      "level": "intermediate"
+    },
+    {
+      "id": "peasant",
+      "categoryIds": [
+        "v-human-dwellings"
+      ],
+      "en": "Peasant",
+      "pronunciationSi": "පෙසන්ට්",
+      "meaningSi": "ගැමියා (ගොවියා)",
+      "partOfSpeech": "noun",
+      "example": {
+        "en": "The peasant harvested wheat in the afternoon.",
+        "pronunciationSi": "ද පෙසන්ට් හාර්වෙස්ටඩ් වීට් ඉන් දි ආෆ්ටර්නූන්.",
+        "meaningSi": "ගැමියා සවස් වරුවේ තිරිඟු අස්වැන්න නෙළා ගත්තේය.",
+        "highlight": "peasant"
+      },
+      "level": "intermediate"
+    },
+    {
+      "id": "priest",
+      "categoryIds": [
+        "v-human-dwellings",
+        "v-religion",
+        "v-professions"
+      ],
+      "en": "Priest",
+      "pronunciationSi": "ප්‍රීස්ට්",
+      "meaningSi": "දේවගැතියා (පූජකවරයා)",
+      "partOfSpeech": "noun",
+      "example": {
+        "en": "The priest conducted the Sunday morning service.",
+        "pronunciationSi": "ද ප්‍රීස්ට් කන්ඩක්ටඩ් ද සන්ඩේ මෝනිං සර්විස්.",
+        "meaningSi": "පූජකතුමා ඉරිදා උදෑසන දේව මෙහෙය පැවැත්වීය.",
+        "highlight": "priest"
+      },
+      "level": "beginner"
+    },
+    {
+      "id": "buddhist-monk",
+      "categoryIds": [
+        "v-human-dwellings",
+        "v-religion"
+      ],
+      "en": "Buddhist monk",
+      "pronunciationSi": "බුද්ධිස්ට් මන්ක්",
+      "meaningSi": "සංඝයා වහන්සේ",
+      "partOfSpeech": "noun",
+      "example": {
+        "en": "The Buddhist monk preached the Dharma to the devotees.",
+        "pronunciationSi": "ද බුද්ධිස්ට් මන්ක් ප්‍රීච්ඩ් ද ධර්ම ටු ද ඩිවෝටීස්.",
+        "meaningSi": "සංඝයා වහන්සේ බැතිමතුන්ට ධර්මය දේශනා කළ සේක.",
+        "highlight": "Buddhist monk"
+      },
+      "level": "beginner"
+    },
+    {
+      "id": "prisoner",
+      "categoryIds": [
+        "v-human-dwellings"
+      ],
+      "en": "Prisoner",
+      "pronunciationSi": "ප්‍රිසනර්",
+      "meaningSi": "දඬුවම් නියම වැරදිකරු (සිරකරු)",
+      "partOfSpeech": "noun",
+      "example": {
+        "en": "The prisoner wrote letters to his family.",
+        "pronunciationSi": "ද ප්‍රිසනර් රෝට් ලෙටර්ස් ටු හිස් ෆැමිලි.",
+        "meaningSi": "සිරකරුවා තම පවුලට ලිපි ලිව්වේය.",
+        "highlight": "prisoner"
+      },
+      "level": "beginner"
+    },
+    {
+      "id": "soldier",
+      "categoryIds": [
+        "v-human-dwellings",
+        "v-professions"
+      ],
+      "en": "Soldier",
+      "pronunciationSi": "සෝල්ජර්",
+      "meaningSi": "සොල්දාදුවා",
+      "partOfSpeech": "noun",
+      "example": {
+        "en": "The soldier stood on guard duty throughout the night.",
+        "pronunciationSi": "ද සෝල්ජර් ස්ටුඩ් ඔන් ගාඩ් ඩියුටි ත්‍රූඅවුට් ද නයිට්.",
+        "meaningSi": "සොල්දාදුවා මුළු රාත්‍රිය පුරාම මුර සේවයේ යෙදී සිටියේය.",
+        "highlight": "soldier"
+      },
+      "level": "beginner"
+    },
+    {
+      "id": "patient",
+      "categoryIds": [
+        "v-human-dwellings",
+        "v-health-diseases"
+      ],
+      "en": "Patient",
+      "pronunciationSi": "පේෂන්ට්",
+      "meaningSi": "රෝගියා",
+      "partOfSpeech": "noun",
+      "example": {
+        "en": "The patient rested comfortably after taking medicine.",
+        "pronunciationSi": "ද පේෂන්ට් රෙස්ටඩ් කම්ෆටබිලි ආෆ්ටර් ටේකිං මෙඩිසින්.",
+        "meaningSi": "බෙහෙත් ගැනීමෙන් පසු රෝගියා සුවපහසුව විවේක ගත්තේය.",
+        "highlight": "patient"
+      },
+      "level": "beginner"
+    },
+    {
+      "id": "den",
+      "categoryIds": [
+        "v-animal-habitats",
+        "v-animals"
+      ],
+      "en": "Den",
+      "pronunciationSi": "ඩෙන්",
+      "meaningSi": "ගුහාව (ලෙන)",
+      "partOfSpeech": "noun",
+      "example": {
+        "en": "The lion cubs played safely outside their den.",
+        "pronunciationSi": "ද ලයන් කබ්ස් ප්ලේඩ් සේෆ්ලි අවුට්සයිඩ් දෙයාර් ඩෙන්.",
+        "meaningSi": "සිංහ පැටවුන් තම ගුහාවෙන් පිටත ආරක්ෂිතව සෙල්ලම් කළහ.",
+        "highlight": "den"
+      },
+      "level": "beginner"
+    },
+    {
+      "id": "hive",
+      "categoryIds": [
+        "v-animal-habitats",
+        "v-animals",
+        "v-fish-insects"
+      ],
+      "en": "Hive",
+      "pronunciationSi": "හයිව්",
+      "meaningSi": "මී වදය",
+      "partOfSpeech": "noun",
+      "example": {
+        "en": "Thousands of bees buzzed around the hive.",
+        "pronunciationSi": "තවුසන්ඩ්ස් ඔෆ් බීස් බස්ඩ් අරවුන්ඩ් ද හයිව්.",
+        "meaningSi": "මී මැස්සන් දහස් ගණනක් මී වදය වටා නාද කරමින් සැරිසැරූහ.",
+        "highlight": "hive"
+      },
+      "level": "beginner"
+    },
+    {
+      "id": "nest",
+      "categoryIds": [
+        "v-animal-habitats",
+        "v-animals",
+        "v-birds"
+      ],
+      "en": "Nest",
+      "pronunciationSi": "නෙස්ට්",
+      "meaningSi": "කුරුලු කූඩුව",
+      "partOfSpeech": "noun",
+      "example": {
+        "en": "The robin brought twigs to build its nest.",
+        "pronunciationSi": "ද රොබින් බ්‍රෝට් ට්විග්ස් ටු බිල්ඩ් ඉට්ස් නෙස්ට්.",
+        "meaningSi": "කුරුල්ලා තම කූඩුව සෑදීමට කුඩා අතු කැබලි ගෙන ආවේය.",
+        "highlight": "nest"
+      },
+      "level": "beginner"
+    },
+    {
+      "id": "cowshed",
+      "categoryIds": [
+        "v-animal-habitats",
+        "v-animals",
+        "v-agriculture"
+      ],
+      "en": "Cowshed",
+      "pronunciationSi": "කව්ෂෙඩ්",
+      "meaningSi": "ගවමඩුව",
+      "partOfSpeech": "noun",
+      "example": {
+        "en": "The farmer milked the cows inside the cowshed.",
+        "pronunciationSi": "ද ෆාමර් මිල්ක්ඩ් ද කව්ස් ඉන්සයිඩ් ද කව්ෂෙඩ්.",
+        "meaningSi": "ගොවියා ගවමඩුව තුළදී එළදෙනුන්ගෙන් කිරි දොවා ගත්තේය.",
+        "highlight": "cowshed"
+      },
+      "level": "beginner"
+    },
+    {
+      "id": "kennel",
+      "categoryIds": [
+        "v-animal-habitats",
+        "v-animals"
+      ],
+      "en": "Kennel",
+      "pronunciationSi": "කෙනෙල්",
+      "meaningSi": "බලු කූඩුව",
+      "partOfSpeech": "noun",
+      "example": {
+        "en": "The puppy curled up inside its warm kennel.",
+        "pronunciationSi": "ද පපි කර්ල්ඩ් අප් ඉන්සයිඩ් ඉට්ස් වෝම් කෙනෙල්.",
+        "meaningSi": "බලු පැටියා තම උණුසුම් කූඩුව තුළ ගුලි වී නිදාගත්තේය.",
+        "highlight": "kennel"
+      },
+      "level": "beginner"
+    },
+    {
+      "id": "burrow",
+      "categoryIds": [
+        "v-animal-habitats",
+        "v-animals"
+      ],
+      "en": "Burrow",
+      "pronunciationSi": "බරෝ",
+      "meaningSi": "බෙනය (බිම් ගුල)",
+      "partOfSpeech": "noun",
+      "example": {
+        "en": "The rabbit dug a deep burrow into the hillside.",
+        "pronunciationSi": "ද රැබිට් ඩග් අ ඩීප් බරෝ ඉන්ටු ද හිල්සයිඩ්.",
+        "meaningSi": "හාවා කඳු බෑවුමේ ගැඹුරු බෙනයක් හෑරුවේය.",
+        "highlight": "burrow"
+      },
+      "level": "intermediate"
+    },
+    {
+      "id": "stable",
+      "categoryIds": [
+        "v-animal-habitats",
+        "v-animals"
+      ],
+      "en": "Stable",
+      "pronunciationSi": "ස්ටේබ්ල්",
+      "meaningSi": "ස්තාලය (අශ්ව ගාල)",
+      "partOfSpeech": "noun",
+      "example": {
+        "en": "The rider led the horse gently into the stable.",
+        "pronunciationSi": "ද රයිඩර් ලෙඩ් ද හෝස් ජෙන්ට්ලි ඉන්ටු ද ස්ටේබ්ල්.",
+        "meaningSi": "අසරුවා අශ්වයා සෙමින් අශ්ව ගාල තුළට ගෙන ගියේය.",
+        "highlight": "stable"
+      },
+      "level": "beginner"
+    },
+    {
+      "id": "hole",
+      "categoryIds": [
+        "v-animal-habitats",
+        "v-animals"
+      ],
+      "en": "Hole",
+      "pronunciationSi": "හෝල්",
+      "meaningSi": "මී ගුල (ගුල)",
+      "partOfSpeech": "noun",
+      "example": {
+        "en": "The little mouse peeked out from its hole.",
+        "pronunciationSi": "ද ලිට්ල් මවුස් පීක්ඩ් අවුට් ෆ්‍රොම් ඉට්ස් හෝල්.",
+        "meaningSi": "පුංචි මීයා තම ගුලෙන් එබී බැලුවේය.",
+        "highlight": "hole"
+      },
+      "level": "beginner"
+    },
+    {
+      "id": "pig-sty",
+      "categoryIds": [
+        "v-animal-habitats",
+        "v-animals",
+        "v-agriculture"
+      ],
+      "en": "Pig Sty",
+      "pronunciationSi": "පිග් ස්ටයි",
+      "meaningSi": "ඌරු කොටුව",
+      "partOfSpeech": "noun",
+      "example": {
+        "en": "The piglets rolled in the mud inside the pig sty.",
+        "pronunciationSi": "ද පිග්ලට්ස් රෝල්ඩ් ඉන් ද මඩ් ඉන්සයිඩ් ද පිග් ස්ටයි.",
+        "meaningSi": "ඌරු පැටවුන් ඌරු කොටුව තුළ මඩේ පෙරළුණා.",
+        "highlight": "pig sty"
+      },
+      "level": "intermediate"
+    },
+    {
+      "id": "pen-enclosure",
+      "categoryIds": [
+        "v-animal-habitats",
+        "v-animals",
+        "v-agriculture"
+      ],
+      "en": "Pen",
+      "pronunciationSi": "පෙන්",
+      "meaningSi": "බැටළු කොටුව",
+      "partOfSpeech": "noun",
+      "example": {
+        "en": "The shepherd guided the sheep into the wooden pen.",
+        "pronunciationSi": "ද ෂෙපර්ඩ් ගයිඩඩ් ද ෂීප් ඉන්ටු ද වුඩන් පෙන්.",
+        "meaningSi": "එඬේරා බැටළුවන් ලී කොටුව තුළට ගෙන ගියේය.",
+        "highlight": "pen"
+      },
+      "level": "beginner"
+    },
+    {
+      "id": "drey",
+      "categoryIds": [
+        "v-animal-habitats",
+        "v-animals"
+      ],
+      "en": "Drey",
+      "pronunciationSi": "ඩ්‍රේ",
+      "meaningSi": "ලේන් කූඩුව",
+      "partOfSpeech": "noun",
+      "example": {
+        "en": "A squirrel stores nuts near its treetop drey.",
+        "pronunciationSi": "අ ස්ක්විරල් ස්ටෝර්ස් නට්ස් නියර් ඉට්ස් ට්‍රීටොප් ඩ්‍රේ.",
+        "meaningSi": "ලේනෙකු ගස මුදුනේ ඇති තම කූඩුව අසල ඇට වර්ග ගබඩා කරයි.",
+        "highlight": "drey"
+      },
+      "level": "advanced"
+    },
+    {
+      "id": "warren",
+      "categoryIds": [
+        "v-animal-habitats",
+        "v-animals"
+      ],
+      "en": "Warren",
+      "pronunciationSi": "වොරන්",
+      "meaningSi": "හා බෙනය (හාවුන්ගේ බෙනය)",
+      "partOfSpeech": "noun",
+      "example": {
+        "en": "Wild rabbits scurried back into the warren.",
+        "pronunciationSi": "වයිල්ඩ් රැබිට්ස් ස්කරිඩ් බෑක් ඉන්ටු ද වොරන්.",
+        "meaningSi": "වල් හාවෝ ඉක්මනින් නැවත හා බෙනය තුළට දිව ගියහ.",
+        "highlight": "warren"
+      },
+      "level": "advanced"
+    },
+    {
+      "id": "lion",
+      "categoryIds": [
+        "v-animals",
+        "v-animal-habitats"
+      ],
+      "en": "Lion",
+      "pronunciationSi": "ලයන්",
+      "meaningSi": "සිංහයා",
+      "partOfSpeech": "noun",
+      "example": {
+        "en": "The lion roared across the open savanna.",
+        "pronunciationSi": "ද ලයන් රෝර්ඩ් අක්‍රොස් දි ඕපන් සවානා.",
+        "meaningSi": "සිංහයා විවෘත සැවානා තණබිම පුරා ගර්ජනා කළේය.",
+        "highlight": "lion"
+      },
+      "level": "beginner"
+    },
+    {
+      "id": "bee",
+      "categoryIds": [
+        "v-animals",
+        "v-fish-insects",
+        "v-animal-habitats"
+      ],
+      "en": "Bee",
+      "pronunciationSi": "බී",
+      "meaningSi": "මී මැස්සා",
+      "partOfSpeech": "noun",
+      "example": {
+        "en": "A busy bee collected nectar from yellow flowers.",
+        "pronunciationSi": "අ බිසි බී කලෙක්ටඩ් නෙක්ටර් ෆ්‍රොම් යෙලෝ ෆ්ලවර්ස්.",
+        "meaningSi": "කාර්යබහුල මී මැස්සෙක් කහ මල් වලින් මල් පැණි එකතු කළේය.",
+        "highlight": "bee"
+      },
+      "level": "beginner"
+    },
+    {
+      "id": "bird",
+      "categoryIds": [
+        "v-animals",
+        "v-birds",
+        "v-animal-habitats"
+      ],
+      "en": "Bird",
+      "pronunciationSi": "බර්ඩ්",
+      "meaningSi": "කුරුල්ලා (පක්ෂියා)",
+      "partOfSpeech": "noun",
+      "example": {
+        "en": "The bird sang a sweet melody at sunrise.",
+        "pronunciationSi": "ද බර්ඩ් සෑන්ග් අ ස්වීට් මෙලඩි ඇට් සන්රයිස්.",
+        "meaningSi": "ඉර පායන විට කුරුල්ලා මිහිරි ගීතයක් ගැයුවේය.",
+        "highlight": "bird"
+      },
+      "level": "beginner"
+    },
+    {
+      "id": "cow",
+      "categoryIds": [
+        "v-animals",
+        "v-animal-habitats",
+        "v-agriculture"
+      ],
+      "en": "Cow",
+      "pronunciationSi": "කව්",
+      "meaningSi": "ගවයා (එළදෙන)",
+      "partOfSpeech": "noun",
+      "example": {
+        "en": "The cow grazed peacefully on green grass.",
+        "pronunciationSi": "ද කව් ග්‍රේස්ඩ් පීස්ෆුලි ඔන් ග්‍රීන් ග්‍රාස්.",
+        "meaningSi": "එළදෙන කොළ පැහැති තණකොළ නිදහසේ කෑවාය.",
+        "highlight": "cow"
+      },
+      "level": "beginner"
+    },
+    {
+      "id": "dog",
+      "categoryIds": [
+        "v-animals",
+        "v-animal-habitats"
+      ],
+      "en": "Dog",
+      "pronunciationSi": "ඩොග්",
+      "meaningSi": "බල්ලා",
+      "partOfSpeech": "noun",
+      "example": {
+        "en": "The faithful dog wagged its tail happily.",
+        "pronunciationSi": "ද ෆේත්ෆුල් ඩොග් වැග්ඩ් ඉට්ස් ටේල් හැපිලි.",
+        "meaningSi": "විශ්වාසවන්ත බල්ලා සතුටින් තම වලිගය වැනුවේය.",
+        "highlight": "dog"
+      },
+      "level": "beginner"
+    },
+    {
+      "id": "rabbit",
+      "categoryIds": [
+        "v-animals",
+        "v-animal-habitats"
+      ],
+      "en": "Rabbit",
+      "pronunciationSi": "රැබිට්",
+      "meaningSi": "හාවා",
+      "partOfSpeech": "noun",
+      "example": {
+        "en": "The white rabbit nibbled on a fresh carrot.",
+        "pronunciationSi": "ද වයිට් රැබිට් නිබ්ල්ඩ් ඔන් අ ෆ්‍රෙෂ් කැරට්.",
+        "meaningSi": "සුදු හාවා නැවුම් කැරට් ගෙඩියක් කෑවේය.",
+        "highlight": "rabbit"
+      },
+      "level": "beginner"
+    },
+    {
+      "id": "horse",
+      "categoryIds": [
+        "v-animals",
+        "v-animal-habitats"
+      ],
+      "en": "Horse",
+      "pronunciationSi": "හෝස්",
+      "meaningSi": "අශ්වයා",
+      "partOfSpeech": "noun",
+      "example": {
+        "en": "The black horse galloped swiftly across the field.",
+        "pronunciationSi": "ද බ්ලැක් හෝස් ගැලප්ඩ් ස්විෆ්ට්ලි අක්‍රොස් ද ෆීල්ඩ්.",
+        "meaningSi": "කළු අශ්වයා පිට්ටනිය හරහා වේගයෙන් දිව ගියේය.",
+        "highlight": "horse"
+      },
+      "level": "beginner"
+    },
+    {
+      "id": "pig",
+      "categoryIds": [
+        "v-animals",
+        "v-animal-habitats",
+        "v-agriculture"
+      ],
+      "en": "Pig",
+      "pronunciationSi": "පිග්",
+      "meaningSi": "ඌරා",
+      "partOfSpeech": "noun",
+      "example": {
+        "en": "The pink pig enjoyed splashing in the puddle.",
+        "pronunciationSi": "ද පින්ක් පිග් එන්ජෝයිඩ් ස්ප්ලෑෂිං ඉන් ද පඩ්ල්.",
+        "meaningSi": "රෝස පැහැති ඌරා වතුර වලේ සෙල්ලම් කිරීමට ප්‍රිය කළේය.",
+        "highlight": "pig"
+      },
+      "level": "beginner"
+    },
+    {
+      "id": "sheep",
+      "categoryIds": [
+        "v-animals",
+        "v-animal-habitats",
+        "v-agriculture"
+      ],
+      "en": "Sheep",
+      "pronunciationSi": "ෂීප්",
+      "meaningSi": "බැටළුවා",
+      "partOfSpeech": "noun",
+      "example": {
+        "en": "The farmer sheared wool from the sheep.",
+        "pronunciationSi": "ද ෆාමර් ෂියර්ඩ් වූල් ෆ්‍රොම් ද ෂීප්.",
+        "meaningSi": "ගොවියා බැටළුවාගෙන් ලොම් කපා ගත්තේය.",
+        "highlight": "sheep"
+      },
+      "level": "beginner"
+    },
+    {
+      "id": "squirrel",
+      "categoryIds": [
+        "v-animals",
+        "v-animal-habitats"
+      ],
+      "en": "Squirrel",
+      "pronunciationSi": "ස්ක්විරල්",
+      "meaningSi": "ලේනා",
+      "partOfSpeech": "noun",
+      "example": {
+        "en": "The agile squirrel scampered up the tree trunk.",
+        "pronunciationSi": "දි ඇජයිල් ස්ක්විරල් ස්කැම්පර්ඩ් අප් ද ට්‍රී ට්‍රන්ක්.",
+        "meaningSi": "වේගවත් ලේනා ගස් කඳ දිගේ ඉහළට දිව ගියේය.",
+        "highlight": "squirrel"
+      },
+      "level": "intermediate"
+    },
+    {
+      "id": "hare",
+      "categoryIds": [
+        "v-animals",
+        "v-animal-habitats"
+      ],
+      "en": "Hare",
+      "pronunciationSi": "හෙයාර්",
+      "meaningSi": "වල් හාවා (හාවා)",
+      "partOfSpeech": "noun",
+      "example": {
+        "en": "The fast hare bounded across the meadow.",
+        "pronunciationSi": "ද ෆාස්ට් හෙයාර් බවන්ඩඩ් අක්‍රොස් ද මෙඩෝ.",
+        "meaningSi": "වේගවත් හාවා තණබිම හරහා පැන පැන දිව ගියේය.",
+        "highlight": "hare"
+      },
+      "level": "intermediate"
     }
   ],
   "sentences": [
@@ -45924,5 +46829,7 @@
       "meaningSi": "හරි, දැන් තේරුණා. ගොඩක් ස්තුතියි!x",
       "level": "beginner"
     }
-  ]
+  ],
+  "version": 5,
+  "schemaVersion": 1
 }

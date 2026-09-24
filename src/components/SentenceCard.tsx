@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
 
 import type { Level } from '../content/types';
@@ -17,16 +18,41 @@ interface SentenceCardProps {
   saved: boolean;
   onSave?: () => void;
   onCopy?: () => void;
+  showPronunciation?: boolean;
 }
 
-// Level chip + save/copy (44px ghost icon buttons), EN 20/700, pron 16, meaning 17.
-export function SentenceCard({ en, pron, meaning, level, saved, onSave, onCopy }: SentenceCardProps) {
+// Level chip + eye/bookmark/copy (44px ghost icon buttons), EN 20/700, optional pron 16, meaning 17.
+export function SentenceCard({
+  en,
+  pron,
+  meaning,
+  level,
+  saved,
+  onSave,
+  onCopy,
+  showPronunciation = false,
+}: SentenceCardProps) {
   const { colors, space } = useTheme();
+  const [localShowPron, setLocalShowPron] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    setLocalShowPron(null);
+  }, [showPronunciation]);
+
+  const isPronVisible = localShowPron !== null ? localShowPron : showPronunciation;
+
   return (
     <Card padding={space[16]} style={{ borderRadius: 20, gap: space[8] }}>
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
         <LevelChip level={level} />
         <View style={{ flexDirection: 'row', gap: 2 }}>
+          <IconButton
+            name={isPronVisible ? 'eye' : 'eye-off'}
+            variant="ghost"
+            accessibilityLabel={isPronVisible ? 'Hide pronunciation' : 'Show pronunciation'}
+            color={isPronVisible ? colors.primary : colors.muted}
+            onPress={() => setLocalShowPron(!isPronVisible)}
+          />
           <IconButton
             name="bookmark"
             variant="ghost"
@@ -40,9 +66,11 @@ export function SentenceCard({ en, pron, meaning, level, saved, onSave, onCopy }
       </View>
       <EnglishText variant="example20">{en}</EnglishText>
       <View style={{ gap: 2 }}>
-        <PronText size={16} weight={400}>
-          {pron}
-        </PronText>
+        {isPronVisible ? (
+          <PronText size={16} weight={400}>
+            {pron}
+          </PronText>
+        ) : null}
         <MeaningText size={17} weight={400}>
           {meaning}
         </MeaningText>
