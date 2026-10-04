@@ -119,6 +119,30 @@ export const iconPaths = {
       d: 'M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z',
     },
   ],
+  'volume-2': [
+    { type: 'path', d: 'M11 5 6 9H2v6h4l5 4V5Z' },
+    { type: 'path', d: 'M15.54 8.46a5 5 0 0 1 0 7.07' },
+    { type: 'path', d: 'M19.07 4.93a10 10 0 0 1 0 14.14' },
+  ],
+  'volume-x': [
+    { type: 'path', d: 'M11 5 6 9H2v6h4l5 4V5Z' },
+    { type: 'path', d: 'm22 9-6 6' },
+    { type: 'path', d: 'm16 9 6 6' },
+  ],
+  'rotate-cw': [
+    { type: 'path', d: 'M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8' },
+    { type: 'path', d: 'M21 3v5h-5' },
+  ],
+  sparkles: [
+    {
+      type: 'path',
+      d: 'm12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z',
+    },
+  ],
+  compass: [
+    { type: 'circle', cx: 12, cy: 12, r: 10 },
+    { type: 'path', d: 'm16.24 7.76-2.12 6.36-6.36 2.12 2.12-6.36 6.36-2.12Z' },
+  ],
 } satisfies Record<string, IconShape[]>;
 
 export type IconName = keyof typeof iconPaths;

@@ -3,46 +3,89 @@ import { Pressable, Text, View } from 'react-native';
 import { fontFamily } from '../theme/typography';
 import { fontForText } from '../theme/scriptFont';
 import { useTheme } from '../theme/useTheme';
+import { Icon } from '../icons/Icon';
 
 interface CategoryCardProps {
   letter: string; // first char of `en`
   en: string;
   si: string;
   variant: 'teal' | 'saffron';
+  countText?: string;
   onPress?: () => void;
 }
 
-// Letter tile 38px/radius12, card min-height 124, radius 18.
-export function CategoryCard({ letter, en, si, variant, onPress }: CategoryCardProps) {
-  const { colors, space, radius } = useTheme();
-  const tileBg = variant === 'teal' ? colors.primaryTint : colors.saffronTint;
-  const tileFg = variant === 'teal' ? colors.primary : colors.saffron;
+export function CategoryCard({ letter, en, si, variant, countText, onPress }: CategoryCardProps) {
+  const { colors, space, radius, shadows } = useTheme();
+  const isTeal = variant === 'teal';
+  const tileBg = isTeal ? colors.primaryTint : colors.saffronTint;
+  const tileFg = isTeal ? colors.primaryDark : colors.saffronDark;
 
   return (
     <Pressable
       onPress={onPress}
+      accessibilityRole="button"
+      accessibilityLabel={`${en}, ${si}`}
       style={{
         flex: 1,
         backgroundColor: colors.surface,
-        borderRadius: radius[18],
-        borderWidth: 1,
+        borderRadius: radius[22],
+        borderWidth: 1.2,
         borderColor: colors.cardBorder,
-        padding: space[14],
-        minHeight: 124,
-        gap: space[12],
+        padding: space[16],
+        minHeight: 135,
         justifyContent: 'space-between',
+        ...shadows.hero,
       }}
     >
-      <View style={{ width: 38, height: 38, borderRadius: radius[12], backgroundColor: tileBg, alignItems: 'center', justifyContent: 'center' }}>
-        <Text style={{ fontFamily: fontFamily.frauncesSemiBold, fontSize: 19, color: tileFg }}>{letter}</Text>
+      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+        <View
+          style={{
+            width: 44,
+            height: 44,
+            borderRadius: radius[14],
+            backgroundColor: tileBg,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <Text style={{ fontFamily: fontFamily.frauncesSemiBold, fontSize: 20, color: tileFg }}>
+            {letter}
+          </Text>
+        </View>
+
+        <View
+          style={{
+            width: 28,
+            height: 28,
+            borderRadius: 14,
+            backgroundColor: colors.bg,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <Icon name="chevron-right" size={16} color={colors.muted} />
+        </View>
       </View>
-      <View style={{ gap: 2 }}>
-        <Text style={{ fontFamily: fontFamily.jakarta700, fontSize: 15, color: colors.ink }} numberOfLines={1}>
+
+      <View style={{ gap: 3 }}>
+        <Text style={{ fontFamily: fontFamily.frauncesSemiBold, fontSize: 16, color: colors.ink }} numberOfLines={1}>
           {en}
         </Text>
-        <Text style={{ fontFamily: fontForText(si, fontFamily.jakarta400, fontFamily.notoSinhala400), fontSize: 13, color: colors.muted }}>
+        <Text
+          style={{
+            fontFamily: fontForText(si, fontFamily.jakarta600, fontFamily.notoSinhala600),
+            fontSize: 13,
+            color: isTeal ? colors.primary : colors.saffron,
+          }}
+          numberOfLines={1}
+        >
           {si}
         </Text>
+        {countText ? (
+          <Text style={{ fontFamily: fontFamily.jakarta600, fontSize: 11, color: colors.muted2, marginTop: 2 }}>
+            {countText}
+          </Text>
+        ) : null}
       </View>
     </Pressable>
   );

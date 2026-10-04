@@ -64,12 +64,12 @@ export default function OnboardingWelcome() {
           />
           <View
             style={{
-              width: 280,
+              width: 290,
               borderRadius: 28,
               backgroundColor: colors.surface,
-              paddingVertical: 26,
-              paddingHorizontal: 24,
-              gap: 14,
+              paddingVertical: 22,
+              paddingHorizontal: 22,
+              gap: 12,
               shadowColor: '#16181D',
               shadowOffset: { width: 0, height: 18 },
               shadowOpacity: 0.1,
@@ -78,53 +78,57 @@ export default function OnboardingWelcome() {
             }}
           >
             <View>
-              <Text style={{ fontFamily: fontFamily.jakarta700, fontSize: 11, letterSpacing: 0.88, color: colors.muted }}>ENGLISH</Text>
-              <Text style={{ fontFamily: fontFamily.frauncesSemiBold, fontSize: 44, color: colors.ink, lineHeight: 48 }}>Reach</Text>
+              <Text style={{ fontFamily: fontFamily.jakarta700, fontSize: 11, letterSpacing: 0.88, color: colors.muted }}>SPOKEN ENGLISH</Text>
+              <Text style={{ fontFamily: fontFamily.frauncesSemiBold, fontSize: 24, color: colors.ink, lineHeight: 30 }}>Could you help me with this?</Text>
             </View>
             <View>
               <Text style={{ fontFamily: fontFamily.jakarta700, fontSize: 11, letterSpacing: 0.44, color: colors.saffronDark }}>
                 උච්චාරණය
               </Text>
-              <Text style={{ fontFamily: fontFamily.notoSinhala600, fontSize: 24, color: colors.saffron }}>රීච්</Text>
+              <Text style={{ fontFamily: fontFamily.notoSinhala600, fontSize: 17, color: colors.saffron }}>කුඩ් යූ හෙල්ප් මී විත් දිස්?</Text>
             </View>
             <View>
               <Text style={{ fontFamily: fontFamily.jakarta700, fontSize: 11, letterSpacing: 0.44, color: colors.primaryDark }}>
                 තේරුම
               </Text>
-              <Text style={{ fontFamily: fontFamily.notoSinhala600, fontSize: 24, color: colors.primary }}>ළඟා වෙනවා</Text>
+              <Text style={{ fontFamily: fontFamily.notoSinhala600, fontSize: 17, color: colors.primary }}>මට මේකට උදව් කරන්න පුළුවන්ද?</Text>
             </View>
           </View>
         </View>
       </View>
 
-      <View style={{ gap: 10, marginTop: 16 }}>
+      <View style={{ gap: 8, marginTop: 12 }}>
         <Text
           style={{
             fontFamily: fontFamily.frauncesSemiBold,
-            fontSize: 32,
+            fontSize: 28,
             fontWeight: '600',
-            lineHeight: 37,
+            lineHeight: 34,
             letterSpacing: -0.32,
             color: colors.ink,
           }}
         >
-          Learn English through Sinhala
+          Speak English with Confidence
         </Text>
-        <Text style={{ fontFamily: fontFamily.notoSinhala400, fontSize: 17, color: colors.ink2 }}>
-          හැම වචනයකටම සිංහල උච්චාරණය සහ තේරුම. එදිනෙදා භාවිතා වන ඉංග්‍රීසි පහසුවෙන් ඉගෙන ගන්න.
+        <Text style={{ fontFamily: fontFamily.notoSinhala400, fontSize: 15, lineHeight: 22, color: colors.ink2 }}>
+          ව්‍යාකරණ කටපාඩම් නොකර, එදිනෙදා ජීවිතයට සහ රැකියාවට අවශ්‍ය ප්‍රයෝජනවත් වාක්‍ය සිංහලෙන් පුරුදු වෙන්න.
         </Text>
       </View>
 
-      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 28 }}>
-        <StepDots total={3} activeIndex={0} />
+      <View style={{ gap: 10, marginTop: 24 }}>
         <PrimaryButton
-          label="Next"
-          icon="arrow-right"
-          iconPosition="right"
-          height={56}
-          fullWidth={false}
-          onPress={() => router.push('/onboarding/level')}
+          label="🎯 1-Minute Level Check"
+          height={54}
+          onPress={() => router.push('/onboarding/diagnostic')}
         />
+        <Pressable
+          onPress={() => router.push('/onboarding/level')}
+          style={{ height: 44, alignItems: 'center', justifyContent: 'center' }}
+        >
+          <Text style={{ fontFamily: fontFamily.jakarta600, fontSize: 14, color: colors.primary }}>
+            ⚡ I know my level (Select manually)
+          </Text>
+        </Pressable>
       </View>
     </View>
   );

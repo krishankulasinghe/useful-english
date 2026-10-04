@@ -93,3 +93,24 @@ export function useWordOfTheDay(date: string, level?: Level): VocabItem | undefi
     undefined,
   );
 }
+
+export function useDailySentences(options: {
+  date: string;
+  level: Level;
+  goalId: import('./goals').GoalId;
+  subTrackId?: string;
+  count?: number;
+}): SentenceItem[] {
+  const { repository, contentRevision } = useContentContext();
+  const { date, level, goalId, subTrackId, count = 10 } = options;
+  return useAsync(
+    async () => {
+      if (!repository) return [];
+      const allSentences = await repository.getAllSentences();
+      const { pickDailySentences } = await import('./dailySelector');
+      return pickDailySentences(allSentences, { date, level, goalId, subTrackId, count });
+    },
+    [repository, contentRevision, date, level, goalId, subTrackId, count],
+    [],
+  );
+}

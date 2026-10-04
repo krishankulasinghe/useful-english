@@ -1,5 +1,6 @@
 import { Pressable, View } from 'react-native';
 
+import { useSpeech } from '../audio/useSpeech';
 import { Icon } from '../icons/Icon';
 import { useTheme } from '../theme/useTheme';
 import { EnglishText } from './EnglishText';
@@ -14,12 +15,15 @@ interface WordRowProps {
   onPress?: () => void;
 }
 
-// Fraunces 23 word + pron 15/600 saffron inline, meaning 16 teal below, learned check (28) or chevron. Min height 78.
 export function WordRow({ en, pron, meaning, learned, onPress }: WordRowProps) {
   const { colors, space, radius } = useTheme();
+  const { isSpeaking, speak } = useSpeech(en);
+
   return (
     <Pressable
       onPress={onPress}
+      accessibilityRole="button"
+      accessibilityLabel={`${en}, ${pron}, ${meaning}`}
       style={{
         backgroundColor: colors.surface,
         borderRadius: radius[18],
@@ -33,6 +37,25 @@ export function WordRow({ en, pron, meaning, learned, onPress }: WordRowProps) {
         gap: space[12],
       }}
     >
+      <Pressable
+        onPress={(e) => {
+          e.stopPropagation();
+          speak();
+        }}
+        accessibilityRole="button"
+        accessibilityLabel={`Listen to ${en}`}
+        style={{
+          width: 36,
+          height: 36,
+          borderRadius: 18,
+          backgroundColor: isSpeaking ? colors.saffron : colors.primaryTint,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <Icon name="volume-2" size={17} color={isSpeaking ? colors.white : colors.primary} />
+      </Pressable>
+
       <View style={{ flex: 1, minWidth: 0 }}>
         <View style={{ flexDirection: 'row', alignItems: 'baseline', gap: space[10] }}>
           <EnglishText variant="listWord">{en}</EnglishText>
@@ -44,6 +67,7 @@ export function WordRow({ en, pron, meaning, learned, onPress }: WordRowProps) {
           {meaning}
         </MeaningText>
       </View>
+
       {learned ? (
         <View
           accessibilityLabel="Learned"

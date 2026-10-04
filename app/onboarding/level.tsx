@@ -27,7 +27,7 @@ export default function OnboardingLevel() {
     if (isEdit) {
       router.back();
     } else {
-      router.push('/onboarding/goal');
+      router.push('/onboarding/goals');
     }
   };
 

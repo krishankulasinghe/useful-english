@@ -11,56 +11,106 @@ interface TopicRowProps {
   preview: string;
   icon: IconName;
   variant: 'teal' | 'saffron';
+  countText?: string;
   onPress?: () => void;
 }
 
-// 48px tile (radius 15), EN 17/700, SI 14 muted, preview 12.5 muted2 (single-line ellipsis), chevron.
-export function TopicRow({ en, si, preview, icon, variant, onPress }: TopicRowProps) {
-  const { colors, space, radius } = useTheme();
-  const tileBg = variant === 'teal' ? colors.primaryTint : colors.saffronTint;
-  const tileFg = variant === 'teal' ? colors.primary : colors.saffron;
+export function TopicRow({ en, si, preview, icon, variant, countText, onPress }: TopicRowProps) {
+  const { colors, space, radius, shadows } = useTheme();
+  const isTeal = variant === 'teal';
+  const tileBg = isTeal ? colors.primaryTint : colors.saffronTint;
+  const tileFg = isTeal ? colors.primaryDark : colors.saffronDark;
 
   return (
     <Pressable
       onPress={onPress}
+      accessibilityRole="button"
+      accessibilityLabel={`${en}, ${si}`}
       style={{
         backgroundColor: colors.surface,
-        borderRadius: radius[20],
-        borderWidth: 1,
+        borderRadius: radius[22],
+        borderWidth: 1.2,
         borderColor: colors.cardBorder,
-        paddingVertical: space[14],
-        paddingHorizontal: space[16],
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: space[14],
+        padding: space[16],
+        gap: space[12],
+        ...shadows.hero,
       }}
     >
-      <View style={{ width: 48, height: 48, borderRadius: radius[15], backgroundColor: tileBg, alignItems: 'center', justifyContent: 'center' }}>
-        <Icon name={icon} size={24} color={tileFg} />
-      </View>
-      <View style={{ flex: 1, minWidth: 0 }}>
-        <Text style={{ fontFamily: fontFamily.jakarta700, fontSize: 17, color: colors.ink }} numberOfLines={1}>
-          {en}
-        </Text>
-        <Text
-          style={{ fontFamily: fontForText(si, fontFamily.jakarta400, fontFamily.notoSinhala400), fontSize: 14, color: colors.muted }}
-          numberOfLines={1}
+      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: space[12], flex: 1, minWidth: 0 }}>
+          <View
+            style={{
+              width: 52,
+              height: 52,
+              borderRadius: radius[16],
+              backgroundColor: tileBg,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <Icon name={icon} size={26} color={tileFg} strokeWidth={2} />
+          </View>
+          <View style={{ flex: 1, minWidth: 0 }}>
+            <Text style={{ fontFamily: fontFamily.frauncesSemiBold, fontSize: 18, color: colors.ink }} numberOfLines={1}>
+              {en}
+            </Text>
+            <Text
+              style={{
+                fontFamily: fontForText(si, fontFamily.jakarta600, fontFamily.notoSinhala600),
+                fontSize: 13.5,
+                color: isTeal ? colors.primary : colors.saffron,
+                marginTop: 1,
+              }}
+              numberOfLines={1}
+            >
+              {si}
+            </Text>
+          </View>
+        </View>
+
+        <View
+          style={{
+            width: 34,
+            height: 34,
+            borderRadius: 17,
+            backgroundColor: colors.neutralFill,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
         >
-          {si}
-        </Text>
+          <Icon name="arrow-right" size={16} color={colors.ink} strokeWidth={2} />
+        </View>
+      </View>
+
+      {/* Subcategory Pills Preview */}
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          backgroundColor: colors.bg,
+          paddingVertical: 8,
+          paddingHorizontal: 12,
+          borderRadius: radius[14],
+        }}
+      >
         <Text
           style={{
+            flex: 1,
             fontFamily: fontForText(preview, fontFamily.jakarta400, fontFamily.notoSinhala400),
-            fontSize: 12.5,
-            color: colors.muted2,
-            marginTop: 2,
+            fontSize: 12,
+            color: colors.muted,
           }}
           numberOfLines={1}
         >
           {preview}
         </Text>
+        {countText ? (
+          <Text style={{ fontFamily: fontFamily.jakarta700, fontSize: 11, color: isTeal ? colors.primary : colors.saffronDark, marginLeft: 8 }}>
+            {countText}
+          </Text>
+        ) : null}
       </View>
-      <Icon name="chevron-right" size={22} color={colors.muted} />
     </Pressable>
   );
 }

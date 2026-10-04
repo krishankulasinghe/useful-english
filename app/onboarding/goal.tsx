@@ -9,9 +9,9 @@ import { fontFamily } from '../../src/theme/typography';
 import { useTheme } from '../../src/theme/useTheme';
 
 const GOALS = [
-  { n: 5, en: 'Casual · 5 words a day', si: 'සැහැල්ලුවෙන් · දිනකට වචන 5ක්' },
-  { n: 10, en: 'Regular · 10 words a day', si: 'නිතිපතා · දිනකට වචන 10ක්' },
-  { n: 20, en: 'Serious · 20 words a day', si: 'උනන්දුවෙන් · දිනකට වචන 20ක්' },
+  { n: 5, en: 'Casual · 5 sentences a day', si: 'සැහැල්ලුවෙන් · දිනකට වාක්‍ය 5ක්' },
+  { n: 10, en: 'Recommended · 10 sentences a day', si: 'නිතිපතා · දිනකට වාක්‍ය 10ක්' },
+  { n: 20, en: 'Intensive · 20 sentences a day', si: 'උනන්දුවෙන් · දිනකට වාක්‍ය 20ක්' },
 ];
 
 export default function OnboardingGoal() {
@@ -47,16 +47,16 @@ export default function OnboardingGoal() {
     >
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
         <BackButton onPress={() => router.back()} />
-        {isEdit ? <View style={{ width: 44, height: 44 }} /> : <StepDots total={3} activeIndex={2} />}
+        {isEdit ? <View style={{ width: 44, height: 44 }} /> : <StepDots total={4} activeIndex={3} />}
         <View style={{ width: 44, height: 44 }} />
       </View>
 
       <View style={{ gap: 6, marginTop: 28 }}>
         <Text style={{ fontFamily: fontFamily.frauncesSemiBold, fontSize: 30, lineHeight: 35, color: colors.ink }}>
-          Set a daily goal
+          Daily sentence habit
         </Text>
         <Text style={{ fontFamily: fontFamily.notoSinhala400, fontSize: 17, color: colors.ink2 }}>
-          දිනකට වචන කීයක් ඉගෙන ගන්නද?
+          දිනකට වාක්‍ය කීයක් පුරුදු වෙන්නද?
         </Text>
       </View>
 

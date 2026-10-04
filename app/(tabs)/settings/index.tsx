@@ -32,6 +32,8 @@ export default function Settings() {
   const { isPrivacyOptionsRequired, showPrivacyOptions } = useAds();
 
   const level = useSettingsStore((s) => s.level);
+  const primaryGoal = useSettingsStore((s) => s.primaryGoal);
+  const subTrack = useSettingsStore((s) => s.subTrack);
   const dailyGoal = useSettingsStore((s) => s.dailyGoal);
   const reminderOn = useSettingsStore((s) => s.reminderOn);
   const setReminderOn = useSettingsStore((s) => s.setReminderOn);
@@ -68,12 +70,12 @@ export default function Settings() {
           <Icon name="user" size={24} color={colors.white} strokeWidth={1.8} />
         </View>
         <View style={{ flex: 1 }}>
-          <Text style={{ fontFamily: fontFamily.jakarta700, fontSize: 18, color: colors.ink }}>My learning</Text>
-          <Text style={{ fontFamily: fontFamily.jakarta400, fontSize: 14, color: colors.muted }}>
-            {levelMap[level].labelEn} · {dailyGoal} words a day
+          <Text style={{ fontFamily: fontFamily.jakarta700, fontSize: 18, color: colors.ink }}>My learning path</Text>
+          <Text style={{ fontFamily: fontFamily.jakarta400, fontSize: 13, color: colors.muted }}>
+            {levelMap[level].labelEn} · {dailyGoal} sentences/day
           </Text>
         </View>
-        <PrimaryButton label="Edit" height={40} fullWidth={false} onPress={() => router.push('/onboarding/level?mode=edit')} />
+        <PrimaryButton label="Goals" height={40} fullWidth={false} onPress={() => router.push('/onboarding/goals?mode=edit')} />
       </View>
 
       <ListRow

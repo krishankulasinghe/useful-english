@@ -8,18 +8,16 @@ import { useT } from '../../src/i18n/useT';
 
 const TAB_ICONS: Record<string, IconName> = {
   'home/index': 'home',
-  words: 'book',
-  sentences: 'message',
+  sentences: 'compass',
   'practice/index': 'cards',
-  settings: 'settings',
+  'saved/index': 'bookmark',
 };
 
 const TAB_LABEL_KEYS = {
   'home/index': 'tabHome',
-  words: 'tabWords',
-  sentences: 'tabSentences',
+  sentences: 'tabExplore',
   'practice/index': 'tabPractice',
-  settings: 'tabSettings',
+  'saved/index': 'tabSaved',
 } as const;
 
 export default function TabsLayout() {
@@ -29,18 +27,27 @@ export default function TabsLayout() {
     <Tabs
       screenOptions={{ headerShown: false }}
       tabBar={({ state, navigation }) => {
-        const items: TabBarItem[] = state.routes.map((route, index) => ({
-          key: route.key,
-          icon: TAB_ICONS[route.name] ?? 'home',
-          label: t(TAB_LABEL_KEYS[route.name as keyof typeof TAB_LABEL_KEYS] ?? 'tabHome'),
-          active: state.index === index,
-          onPress: () => {
-            const event = navigation.emit({ type: 'tabPress', target: route.key, canPreventDefault: true });
-            if (state.index !== index && !event.defaultPrevented) {
-              navigation.navigate(route.name);
-            }
-          },
-        }));
+        // Filter out hidden routes (e.g. href: null)
+        const visibleRoutes = state.routes.filter(
+          (route) => route.name in TAB_ICONS,
+        );
+
+        const items: TabBarItem[] = visibleRoutes.map((route) => {
+          const index = state.routes.findIndex((r) => r.key === route.key);
+          return {
+            key: route.key,
+            icon: TAB_ICONS[route.name] ?? 'home',
+            label: t(TAB_LABEL_KEYS[route.name as keyof typeof TAB_LABEL_KEYS] ?? 'tabHome'),
+            active: state.index === index,
+            onPress: () => {
+              const event = navigation.emit({ type: 'tabPress', target: route.key, canPreventDefault: true });
+              if (state.index !== index && !event.defaultPrevented) {
+                navigation.navigate(route.name);
+              }
+            },
+          };
+        });
+
         return (
           <View>
             <AdBanner placement="tabs" />
@@ -50,10 +57,11 @@ export default function TabsLayout() {
       }}
     >
       <Tabs.Screen name="home/index" options={{ title: 'Home' }} />
-      <Tabs.Screen name="words" options={{ title: 'Words' }} />
-      <Tabs.Screen name="sentences" options={{ title: 'Sentences' }} />
+      <Tabs.Screen name="sentences" options={{ title: 'Explore' }} />
       <Tabs.Screen name="practice/index" options={{ title: 'Practice' }} />
-      <Tabs.Screen name="settings" options={{ title: 'Settings' }} />
+      <Tabs.Screen name="saved/index" options={{ title: 'Saved' }} />
+      <Tabs.Screen name="words" options={{ href: null }} />
+      <Tabs.Screen name="settings" options={{ href: null }} />
     </Tabs>
   );
 }

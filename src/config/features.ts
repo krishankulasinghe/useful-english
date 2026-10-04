@@ -1,6 +1,6 @@
 // Single kill switches, also used by Jest and screenshot QA.
 export const features = {
-  audio: false, // Phase 2
+  audio: true, // Native TTS enabled
   darkMode: false, // palette not designed yet
   remoteContent: true,
   ads: true,

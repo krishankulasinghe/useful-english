@@ -1,9 +1,10 @@
+import { ReactNode } from 'react';
 import { Text } from 'react-native';
 
 import { useTheme } from '../theme/useTheme';
 
 interface SectionLabelProps {
-  children: string;
+  children: ReactNode;
   color?: string;
 }
 

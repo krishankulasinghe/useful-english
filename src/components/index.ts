@@ -24,6 +24,7 @@ export * from './SearchField';
 export * from './SectionLabel';
 export * from './SegmentedControl';
 export * from './SentenceCard';
+export * from './SentenceFlipCard';
 export * from './StatusChip';
 export * from './StepDots';
 export * from './Switch';

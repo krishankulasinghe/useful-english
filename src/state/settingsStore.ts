@@ -3,11 +3,24 @@ import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
 import type { Level } from '../content/types';
+import type { GoalId } from '../content/goals';
+
+function todayString(): string {
+  return new Date().toISOString().slice(0, 10);
+}
 
 export interface SettingsState {
   onboarded: boolean;
   level: Level;
-  dailyGoal: number;
+  primaryGoal: GoalId;
+  subTrack: string | undefined;
+  diagnosticCompleted: boolean;
+  diagnosticScore: number | undefined;
+  dailyGoal: number; // sentences per day (default: 10)
+  dailyCompletedSentenceIds: string[];
+  lastCompletedDate: string;
+  totalSentencesMastered: number;
+
   reminderOn: boolean;
   reminderTime: string; // "HH:mm"
   textSize: 's' | 'm' | 'l';
@@ -22,7 +35,11 @@ export interface SettingsState {
 
   setOnboarded: (v: boolean) => void;
   setLevel: (v: Level) => void;
+  setPrimaryGoal: (goal: GoalId, subTrack?: string) => void;
+  setSubTrack: (subTrack?: string) => void;
+  setDiagnosticResult: (score: number, level: Level) => void;
   setDailyGoal: (v: number) => void;
+  recordSentenceMastered: (sentenceId: string) => void;
   setReminderOn: (v: boolean) => void;
   setReminderTime: (v: string) => void;
   setTextSize: (v: 's' | 'm' | 'l') => void;
@@ -38,10 +55,18 @@ export interface SettingsState {
 
 export const useSettingsStore = create<SettingsState>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       onboarded: false,
       level: 'beginner',
+      primaryGoal: 'workplace',
+      subTrack: undefined,
+      diagnosticCompleted: false,
+      diagnosticScore: undefined,
       dailyGoal: 10,
+      dailyCompletedSentenceIds: [],
+      lastCompletedDate: todayString(),
+      totalSentencesMastered: 0,
+
       reminderOn: true,
       reminderTime: '19:30',
       textSize: 'm',
@@ -56,7 +81,25 @@ export const useSettingsStore = create<SettingsState>()(
 
       setOnboarded: (v) => set({ onboarded: v }),
       setLevel: (v) => set({ level: v }),
+      setPrimaryGoal: (goal, subTrack) => set({ primaryGoal: goal, subTrack }),
+      setSubTrack: (subTrack) => set({ subTrack }),
+      setDiagnosticResult: (score, level) =>
+        set({ diagnosticScore: score, level, diagnosticCompleted: true }),
       setDailyGoal: (v) => set({ dailyGoal: v }),
+      recordSentenceMastered: (sentenceId: string) => {
+        const today = todayString();
+        const state = get();
+        const isSameDay = state.lastCompletedDate === today;
+        const currentIds = isSameDay ? state.dailyCompletedSentenceIds : [];
+
+        if (!currentIds.includes(sentenceId)) {
+          set({
+            lastCompletedDate: today,
+            dailyCompletedSentenceIds: [...currentIds, sentenceId],
+            totalSentencesMastered: (state.totalSentencesMastered || 0) + 1,
+          });
+        }
+      },
       setReminderOn: (v) => set({ reminderOn: v }),
       setReminderTime: (v) => set({ reminderTime: v }),
       setTextSize: (v) => set({ textSize: v }),

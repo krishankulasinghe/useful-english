@@ -1,148 +1,233 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { FlatList, Modal, Pressable, ScrollView, Text, View } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import * as Clipboard from 'expo-clipboard';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { IconButton, NavHeader, Screen, SentenceCard, Toast, useToast } from '../../../src/components';
-import { Icon } from '../../../src/icons/Icon';
+import {
+  IconButton,
+  LevelChip,
+  NavHeader,
+  PrimaryButton,
+  Screen,
+  SentenceCard,
+  Toast,
+  useToast,
+} from '../../../src/components';
+import { Icon, type IconName } from '../../../src/icons/Icon';
 import { useCategories, useSentences, useTopic } from '../../../src/content/hooks';
-import type { Level } from '../../../src/content/types';
+import type { Category, Level, SentenceItem } from '../../../src/content/types';
 import { useProgressRepo, useSaved } from '../../../src/state/hooks';
 import { fontFamily } from '../../../src/theme/typography';
 import { useTheme } from '../../../src/theme/useTheme';
 
-const PAGE_SIZE = 20;
+const PAGE_SIZE = 25;
 
-const LEVEL_OPTIONS: { label: string; value: Level | undefined }[] = [
-  { label: 'All levels', value: undefined },
+const LEVEL_CHIPS: { label: string; value: Level | undefined }[] = [
+  { label: 'All Levels', value: undefined },
   { label: 'Beginner', value: 'beginner' },
   { label: 'Intermediate', value: 'intermediate' },
   { label: 'Advanced', value: 'advanced' },
 ];
 
-type SortOrder = 'default' | 'difficulty-asc' | 'difficulty-desc';
-
-const SORT_OPTIONS: { label: string; value: SortOrder }[] = [
-  { label: 'Default order', value: 'default' },
-  { label: 'Easy to Hard (Beginner → Advanced)', value: 'difficulty-asc' },
-  { label: 'Hard to Easy (Advanced → Beginner)', value: 'difficulty-desc' },
-];
-
-const LEVEL_WEIGHT: Record<Level, number> = {
-  beginner: 1,
-  intermediate: 2,
-  advanced: 3,
-};
-
-export default function SentenceList() {
+export default function SentenceListScreen() {
   const router = useRouter();
-  const { colors, space } = useTheme();
+  const { colors, space, radius, shadows } = useTheme();
+  const insets = useSafeAreaInsets();
   const { topicId, categoryId: categoryIdParam } = useLocalSearchParams<{ topicId: string; categoryId?: string }>();
   const toast = useToast();
+  const progressRepo = useProgressRepo();
 
   const topic = useTopic(topicId);
   const categories = useCategories(topicId);
-  const [levelFilter, setLevelFilter] = useState<Level | undefined>(undefined);
-  const [filterOpen, setFilterOpen] = useState(false);
-  const [sortOrder, setSortOrder] = useState<SortOrder>('default');
-  const [sortOpen, setSortOpen] = useState(false);
-  const [showPronunciation, setShowPronunciation] = useState(false);
+
   const [selectedCategoryIdState, setSelectedCategoryIdState] = useState<string | undefined>(categoryIdParam);
+  const [levelFilter, setLevelFilter] = useState<Level | undefined>(undefined);
+  const [isPickerOpen, setIsPickerOpen] = useState(false);
+  const [showAllPronunciations, setShowAllPronunciations] = useState(false);
 
   const selectedCategoryId = selectedCategoryIdState ?? categoryIdParam ?? categories[0]?.id;
-  const selectedCategory = categories.find((c) => c.id === selectedCategoryId);
-  const sentences = useSentences(selectedCategoryId, levelFilter);
+  const selectedCategory = categories.find((c) => c.id === selectedCategoryId) ?? categories[0];
+
+  const sentences = useSentences(selectedCategory?.id, levelFilter);
 
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
 
-  // Reset pagination whenever category, level filter, or sort changes
-  useEffect(() => {
-    setVisibleCount(PAGE_SIZE);
-  }, [selectedCategoryId, levelFilter, sortOrder]);
-
-  const sortedSentences = useMemo(() => {
-    if (sortOrder === 'default') return sentences;
-    const copy = [...sentences];
-    copy.sort((a, b) => {
-      const diff = LEVEL_WEIGHT[a.level] - LEVEL_WEIGHT[b.level];
-      return sortOrder === 'difficulty-asc' ? diff : -diff;
-    });
-    return copy;
-  }, [sentences, sortOrder]);
-
   const visibleSentences = useMemo(
-    () => sortedSentences.slice(0, visibleCount),
-    [sortedSentences, visibleCount],
+    () => sentences.slice(0, visibleCount),
+    [sentences, visibleCount],
   );
 
   const handleEndReached = useCallback(() => {
     setVisibleCount((prev) => {
-      if (prev >= sortedSentences.length) return prev;
-      return Math.min(prev + PAGE_SIZE, sortedSentences.length);
+      if (prev >= sentences.length) return prev;
+      return Math.min(prev + PAGE_SIZE, sentences.length);
     });
-  }, [sortedSentences.length]);
+  }, [sentences.length]);
+
+  const handleSelectCategory = (catId: string) => {
+    setSelectedCategoryIdState(catId);
+    setIsPickerOpen(false);
+    setVisibleCount(PAGE_SIZE);
+  };
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, backgroundColor: colors.bg }}>
       <Screen padded={false} style={{ flex: 1 }}>
+        {/* Navigation Header */}
         <NavHeader
-          title={topic?.en ?? ''}
+          title={topic?.en ?? 'Topic Sentences'}
           subtitle={topic?.si}
-          backLabel="Back to sentence categories"
+          backLabel="Back"
           onBack={() => router.back()}
           right={
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: space[6] }}>
-              <IconButton
-                name="sort"
-                variant="outline"
-                accessibilityLabel="Sort by difficulty"
-                color={sortOrder !== 'default' ? colors.primary : colors.ink}
-                style={
-                  sortOrder !== 'default'
-                    ? { borderColor: colors.primary, backgroundColor: colors.primaryTint2 }
-                    : undefined
-                }
-                onPress={() => setSortOpen(true)}
-              />
-              <IconButton
-                name="filter"
-                variant="outline"
-                accessibilityLabel="Filter by level"
-                color={levelFilter ? colors.primary : colors.ink}
-                style={
-                  levelFilter
-                    ? { borderColor: colors.primary, backgroundColor: colors.primaryTint2 }
-                    : undefined
-                }
-                onPress={() => setFilterOpen(true)}
-              />
-            </View>
+            <IconButton
+              name="cards"
+              variant="outline"
+              accessibilityLabel="Practice with cards"
+              color={colors.primary}
+              onPress={() =>
+                router.push({
+                  pathname: '/practice/workout',
+                  params: { mode: 'situation', categoryId: selectedCategory?.id, topicId },
+                })
+              }
+            />
           }
         />
 
-        <View style={{ flexDirection: 'row', borderBottomWidth: 1, borderBottomColor: colors.line }}>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: space[20], gap: 22 }}>
-            {categories.map((category) => {
-              const active = category.id === selectedCategoryId;
+        {/* Top Controls Container */}
+        <View style={{ paddingHorizontal: space[20], paddingTop: space[8], gap: space[12] }}>
+          {/* Situation Selector Card */}
+          {selectedCategory ? (
+            <Pressable
+              onPress={() => setIsPickerOpen(true)}
+              accessibilityRole="button"
+              accessibilityLabel={`Current situation: ${selectedCategory.en}. Tap to switch situation.`}
+              style={{
+                backgroundColor: colors.surface,
+                borderRadius: radius[20],
+                borderWidth: 1.5,
+                borderColor: colors.cardBorder,
+                paddingVertical: space[12],
+                paddingHorizontal: space[16],
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                ...shadows.hero,
+              }}
+            >
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12, flex: 1, minWidth: 0 }}>
+                <View
+                  style={{
+                    width: 42,
+                    height: 42,
+                    borderRadius: 14,
+                    backgroundColor: colors.primaryTint,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <Icon name={(topic?.icon as IconName) ?? 'message'} size={22} color={colors.primary} />
+                </View>
+                <View style={{ flex: 1, minWidth: 0 }}>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+                    <Text style={{ fontFamily: fontFamily.frauncesSemiBold, fontSize: 16, color: colors.ink }} numberOfLines={1}>
+                      {selectedCategory.en}
+                    </Text>
+                    <View
+                      style={{
+                        backgroundColor: colors.saffronTint,
+                        paddingVertical: 2,
+                        paddingHorizontal: 8,
+                        borderRadius: 10,
+                      }}
+                    >
+                      <Text style={{ fontFamily: fontFamily.jakarta700, fontSize: 11, color: colors.saffronDark }}>
+                        {sentences.length}
+                      </Text>
+                    </View>
+                  </View>
+                  <Text style={{ fontFamily: fontFamily.notoSinhala400, fontSize: 13, color: colors.muted }} numberOfLines={1}>
+                    {selectedCategory.si} · Tap to change situation
+                  </Text>
+                </View>
+              </View>
+
+              <View
+                style={{
+                  width: 32,
+                  height: 32,
+                  borderRadius: 16,
+                  backgroundColor: colors.neutralFill,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <Icon name="sort" size={16} color={colors.ink} />
+              </View>
+            </Pressable>
+          ) : null}
+
+          {/* Practice with Cards CTA Button */}
+          <Pressable
+            onPress={() =>
+              router.push({
+                pathname: '/practice/workout',
+                params: { mode: 'situation', categoryId: selectedCategory?.id, topicId },
+              })
+            }
+            accessibilityRole="button"
+            accessibilityLabel="Practice with Cards"
+            style={{
+              backgroundColor: colors.primaryDark,
+              borderRadius: radius[16],
+              paddingVertical: 11,
+              paddingHorizontal: 16,
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: 8,
+            }}
+          >
+            <Icon name="cards" size={18} color={colors.white} />
+            <Text style={{ fontFamily: fontFamily.jakarta700, fontSize: 14, color: colors.white }}>
+              Practice with Flip Cards ({sentences.length})
+            </Text>
+          </Pressable>
+
+          {/* Quick Level Filter Chips */}
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{ gap: 8, paddingVertical: 2 }}
+          >
+            {LEVEL_CHIPS.map((chip) => {
+              const isSelected = levelFilter === chip.value;
               return (
                 <Pressable
-                  key={category.id}
-                  onPress={() => setSelectedCategoryIdState(category.id)}
+                  key={chip.label}
+                  onPress={() => {
+                    setLevelFilter(chip.value);
+                    setVisibleCount(PAGE_SIZE);
+                  }}
                   style={{
-                    minHeight: 44,
-                    justifyContent: 'center',
-                    borderBottomWidth: active ? 3 : 0,
-                    borderBottomColor: colors.primary,
+                    paddingVertical: 7,
+                    paddingHorizontal: 14,
+                    borderRadius: 16,
+                    backgroundColor: isSelected ? colors.primary : colors.surface,
+                    borderWidth: 1.2,
+                    borderColor: isSelected ? colors.primary : colors.cardBorder,
                   }}
                 >
                   <Text
                     style={{
-                      fontFamily: active ? fontFamily.jakarta700 : fontFamily.jakarta500,
-                      fontSize: 15,
-                      color: active ? colors.primary : colors.muted,
+                      fontFamily: fontFamily.jakarta700,
+                      fontSize: 12.5,
+                      color: isSelected ? colors.white : colors.ink,
                     }}
                   >
-                    {category.shortEn ?? category.en}
+                    {chip.label}
                   </Text>
                 </Pressable>
               );
@@ -150,17 +235,18 @@ export default function SentenceList() {
           </ScrollView>
         </View>
 
-        {!selectedCategory ? null : sortedSentences.length === 0 ? (
-          <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', gap: space[8], paddingHorizontal: space[20] }}>
-            <Text style={{ fontFamily: fontFamily.jakarta600, fontSize: 16, color: colors.ink }}>No sentences yet</Text>
+        {/* Sentences List */}
+        {sentences.length === 0 ? (
+          <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', gap: space[8], paddingHorizontal: space[20], marginTop: 40 }}>
+            <Text style={{ fontFamily: fontFamily.frauncesSemiBold, fontSize: 18, color: colors.ink }}>No sentences found</Text>
             <Text style={{ fontFamily: fontFamily.jakarta400, fontSize: 14, color: colors.muted, textAlign: 'center' }}>
-              This category doesn't have any sentences yet.
+              No sentences at the selected level. Try choosing "All Levels".
             </Text>
           </View>
         ) : (
           <FlatList
             style={{ flex: 1 }}
-            contentContainerStyle={{ padding: space[20], paddingBottom: space[32] }}
+            contentContainerStyle={{ paddingHorizontal: space[20], paddingTop: space[14], paddingBottom: space[32], gap: space[12] }}
             data={visibleSentences}
             keyExtractor={(item) => item.id}
             initialNumToRender={15}
@@ -169,241 +255,155 @@ export default function SentenceList() {
             onEndReached={handleEndReached}
             onEndReachedThreshold={0.5}
             showsVerticalScrollIndicator={false}
-            ListHeaderComponent={
-              <View style={{ marginBottom: space[12], gap: space[8] }}>
-                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <Text style={{ fontFamily: fontFamily.jakarta400, fontSize: 14, color: colors.muted, flex: 1 }} numberOfLines={1}>
-                    {selectedCategory.si} · {sortedSentences.length} sentences
-                  </Text>
-                  <Pressable
-                    onPress={() => setShowPronunciation((prev) => !prev)}
-                    accessibilityRole="button"
-                    accessibilityLabel={showPronunciation ? 'Hide English pronunciation' : 'Show English pronunciation'}
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      gap: 6,
-                      paddingVertical: 5,
-                      paddingHorizontal: 10,
-                      borderRadius: 14,
-                      backgroundColor: showPronunciation ? colors.primaryTint2 : colors.surface,
-                      borderWidth: 1,
-                      borderColor: showPronunciation ? colors.primary : colors.line,
-                    }}
-                  >
-                    <Icon
-                      name={showPronunciation ? 'eye' : 'eye-off'}
-                      size={14}
-                      color={showPronunciation ? colors.primary : colors.muted}
-                    />
-                    <Text
-                      style={{
-                        fontFamily: fontFamily.jakarta600,
-                        fontSize: 12,
-                        color: showPronunciation ? colors.primary : colors.muted,
-                      }}
-                    >
-                      Pronunciation
-                    </Text>
-                  </Pressable>
-                </View>
-
-                {levelFilter || sortOrder !== 'default' ? (
-                  <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[6], paddingTop: 2 }}>
-                    {levelFilter ? (
-                      <Pressable
-                        onPress={() => setLevelFilter(undefined)}
-                        style={{
-                          flexDirection: 'row',
-                          alignItems: 'center',
-                          gap: 4,
-                          paddingVertical: 3,
-                          paddingHorizontal: 8,
-                          borderRadius: 10,
-                          backgroundColor: colors.primaryTint2,
-                        }}
-                      >
-                        <Text style={{ fontFamily: fontFamily.jakarta600, fontSize: 11, color: colors.primaryDark }}>
-                          Level: {LEVEL_OPTIONS.find((o) => o.value === levelFilter)?.label} ✕
-                        </Text>
-                      </Pressable>
-                    ) : null}
-                    {sortOrder !== 'default' ? (
-                      <Pressable
-                        onPress={() => setSortOrder('default')}
-                        style={{
-                          flexDirection: 'row',
-                          alignItems: 'center',
-                          gap: 4,
-                          paddingVertical: 3,
-                          paddingHorizontal: 8,
-                          borderRadius: 10,
-                          backgroundColor: colors.primaryTint2,
-                        }}
-                      >
-                        <Text style={{ fontFamily: fontFamily.jakarta600, fontSize: 11, color: colors.primaryDark }}>
-                          Sorted: {sortOrder === 'difficulty-asc' ? 'Easy → Hard' : 'Hard → Easy'} ✕
-                        </Text>
-                      </Pressable>
-                    ) : null}
-                  </View>
-                ) : null}
-              </View>
-            }
-            ItemSeparatorComponent={() => <View style={{ height: space[12] }} />}
             renderItem={({ item }) => (
-              <SentenceListCard
-                id={item.id}
-                en={item.en}
-                pron={item.pronunciationSi}
-                meaning={item.meaningSi}
-                level={item.level}
-                showPronunciation={showPronunciation}
-                onCopied={() => toast.show('Copied')}
+              <SentenceRowItem
+                sentence={item}
+                onCopied={() => toast.show('Copied to clipboard')}
               />
             )}
-            ListFooterComponent={
-              visibleCount < sortedSentences.length ? (
-                <View style={{ paddingVertical: space[16], alignItems: 'center' }}>
-                  <Text style={{ fontFamily: fontFamily.jakarta400, fontSize: 13, color: colors.muted }}>
-                    Showing {visibleSentences.length} of {sortedSentences.length} sentences · Scroll for more
-                  </Text>
-                </View>
-              ) : null
-            }
           />
         )}
+
+        {/* Situation Picker Bottom Sheet Modal */}
+        <Modal
+          visible={isPickerOpen}
+          transparent
+          animationType="slide"
+          onRequestClose={() => setIsPickerOpen(false)}
+        >
+          <Pressable
+            style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.45)', justifyContent: 'flex-end' }}
+            onPress={() => setIsPickerOpen(false)}
+          >
+            <Pressable
+              style={{
+                backgroundColor: colors.surface,
+                borderTopLeftRadius: 28,
+                borderTopRightRadius: 28,
+                maxHeight: '75%',
+                paddingTop: 16,
+                paddingBottom: insets.bottom + 20,
+              }}
+              onPress={(e) => e.stopPropagation()}
+            >
+              {/* Drag Handle */}
+              <View
+                style={{
+                  width: 44,
+                  height: 5,
+                  borderRadius: 3,
+                  backgroundColor: colors.line,
+                  alignSelf: 'center',
+                  marginBottom: 14,
+                }}
+              />
+
+              <View style={{ paddingHorizontal: 20, paddingBottom: 12 }}>
+                <Text style={{ fontFamily: fontFamily.frauncesSemiBold, fontSize: 20, color: colors.ink }}>
+                  Select Situation
+                </Text>
+                <Text style={{ fontFamily: fontFamily.notoSinhala400, fontSize: 14, color: colors.muted }}>
+                  අවස්ථාව තෝරන්න · {categories.length} situations available
+                </Text>
+              </View>
+
+              <ScrollView contentContainerStyle={{ paddingHorizontal: 20, gap: 10, paddingBottom: 20 }}>
+                {categories.map((cat) => {
+                  const isSelected = cat.id === selectedCategory?.id;
+                  return (
+                    <Pressable
+                      key={cat.id}
+                      onPress={() => handleSelectCategory(cat.id)}
+                      style={{
+                        backgroundColor: isSelected ? colors.primaryTint : colors.bg,
+                        borderWidth: 1.5,
+                        borderColor: isSelected ? colors.primary : colors.cardBorder,
+                        borderRadius: 18,
+                        paddingVertical: 14,
+                        paddingHorizontal: 16,
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                      }}
+                    >
+                      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12, flex: 1 }}>
+                        <View
+                          style={{
+                            width: 38,
+                            height: 38,
+                            borderRadius: 12,
+                            backgroundColor: isSelected ? colors.primary : colors.surface,
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                          }}
+                        >
+                          <Icon name={(topic?.icon as IconName) ?? 'message'} size={18} color={isSelected ? colors.white : colors.ink} />
+                        </View>
+                        <View style={{ flex: 1 }}>
+                          <Text style={{ fontFamily: fontFamily.jakarta700, fontSize: 16, color: colors.ink }}>
+                            {cat.en}
+                          </Text>
+                          <Text style={{ fontFamily: fontFamily.notoSinhala400, fontSize: 13, color: colors.primaryDark }}>
+                            {cat.si}
+                          </Text>
+                        </View>
+                      </View>
+
+                      {isSelected ? (
+                        <View
+                          style={{
+                            width: 26,
+                            height: 26,
+                            borderRadius: 13,
+                            backgroundColor: colors.primary,
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                          }}
+                        >
+                          <Icon name="check" size={16} color={colors.white} strokeWidth={2.5} />
+                        </View>
+                      ) : null}
+                    </Pressable>
+                  );
+                })}
+              </ScrollView>
+            </Pressable>
+          </Pressable>
+        </Modal>
       </Screen>
-
       <Toast message={toast.message} />
-
-      <Modal visible={sortOpen} transparent animationType="fade" onRequestClose={() => setSortOpen(false)}>
-        <Pressable
-          style={{ flex: 1, backgroundColor: 'rgba(22,24,29,0.4)', justifyContent: 'flex-end' }}
-          onPress={() => setSortOpen(false)}
-        >
-          <View style={{ backgroundColor: colors.surface, borderTopLeftRadius: 24, borderTopRightRadius: 24, paddingTop: space[12], paddingBottom: space[32] }}>
-            <View style={{ width: 36, height: 4, borderRadius: 2, backgroundColor: colors.line, alignSelf: 'center', marginBottom: space[12] }} />
-            <Text style={{ fontFamily: fontFamily.jakarta700, fontSize: 17, color: colors.ink, paddingHorizontal: space[20], marginBottom: space[8] }}>
-              Sort by Difficulty
-            </Text>
-            {SORT_OPTIONS.map((option) => (
-              <Pressable
-                key={option.value}
-                onPress={() => {
-                  setSortOrder(option.value);
-                  setSortOpen(false);
-                }}
-                style={{
-                  minHeight: 52,
-                  paddingHorizontal: space[20],
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  backgroundColor: option.value === sortOrder ? colors.primaryTint2 : 'transparent',
-                }}
-              >
-                <Text
-                  style={{
-                    fontFamily: option.value === sortOrder ? fontFamily.jakarta700 : fontFamily.jakarta500,
-                    fontSize: 16,
-                    color: colors.ink,
-                  }}
-                >
-                  {option.label}
-                </Text>
-                {option.value === sortOrder ? <Icon name="check" size={18} color={colors.primary} /> : null}
-              </Pressable>
-            ))}
-          </View>
-        </Pressable>
-      </Modal>
-
-      <Modal visible={filterOpen} transparent animationType="fade" onRequestClose={() => setFilterOpen(false)}>
-        <Pressable
-          style={{ flex: 1, backgroundColor: 'rgba(22,24,29,0.4)', justifyContent: 'flex-end' }}
-          onPress={() => setFilterOpen(false)}
-        >
-          <View style={{ backgroundColor: colors.surface, borderTopLeftRadius: 24, borderTopRightRadius: 24, paddingTop: space[12], paddingBottom: space[32] }}>
-            <View style={{ width: 36, height: 4, borderRadius: 2, backgroundColor: colors.line, alignSelf: 'center', marginBottom: space[12] }} />
-            <Text style={{ fontFamily: fontFamily.jakarta700, fontSize: 17, color: colors.ink, paddingHorizontal: space[20], marginBottom: space[8] }}>
-              Filter by Difficulty
-            </Text>
-            {LEVEL_OPTIONS.map((option) => (
-              <Pressable
-                key={option.label}
-                onPress={() => {
-                  setLevelFilter(option.value);
-                  setFilterOpen(false);
-                }}
-                style={{
-                  minHeight: 52,
-                  paddingHorizontal: space[20],
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  backgroundColor: option.value === levelFilter ? colors.primaryTint2 : 'transparent',
-                }}
-              >
-                <Text
-                  style={{
-                    fontFamily: option.value === levelFilter ? fontFamily.jakarta700 : fontFamily.jakarta500,
-                    fontSize: 16,
-                    color: colors.ink,
-                  }}
-                >
-                  {option.label}
-                </Text>
-                {option.value === levelFilter ? <Icon name="check" size={18} color={colors.primary} /> : null}
-              </Pressable>
-            ))}
-          </View>
-        </Pressable>
-      </Modal>
     </View>
   );
 }
 
-const SentenceListCard = React.memo(function SentenceListCard({
-  id,
-  en,
-  pron,
-  meaning,
-  level,
-  showPronunciation,
+function SentenceRowItem({
+  sentence,
   onCopied,
 }: {
-  id: string;
-  en: string;
-  pron: string;
-  meaning: string;
-  level: Level;
-  showPronunciation: boolean;
+  sentence: SentenceItem;
   onCopied: () => void;
 }) {
+  const saved = useSaved('sentence', sentence.id);
   const progressRepo = useProgressRepo();
-  const savedFromRepo = useSaved('sentence', id);
   const [savedOverride, setSavedOverride] = useState<boolean | undefined>(undefined);
-  useEffect(() => setSavedOverride(undefined), [id]);
-  const saved = savedOverride ?? savedFromRepo;
+  const isSaved = savedOverride ?? saved;
 
   return (
     <SentenceCard
-      en={en}
-      pron={pron}
-      meaning={meaning}
-      level={level}
-      saved={saved}
-      showPronunciation={showPronunciation}
+      en={sentence.en}
+      pron={sentence.pronunciationSi}
+      meaning={sentence.meaningSi}
+      level={sentence.level}
+      saved={isSaved}
       onSave={async () => {
         if (!progressRepo) return;
-        const next = await progressRepo.toggleSaved('sentence', id);
+        const next = await progressRepo.toggleSaved('sentence', sentence.id);
         setSavedOverride(next);
       }}
       onCopy={async () => {
-        await Clipboard.setStringAsync(en);
+        await Clipboard.setStringAsync(`${sentence.en} - ${sentence.meaningSi}`);
         onCopied();
       }}
     />
   );
-});
+}

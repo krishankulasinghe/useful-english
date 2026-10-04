@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
 
+import { useSpeech } from '../audio/useSpeech';
 import type { Level } from '../content/types';
 import { useTheme } from '../theme/useTheme';
 import { Card } from './Card';
@@ -21,7 +22,7 @@ interface SentenceCardProps {
   showPronunciation?: boolean;
 }
 
-// Level chip + eye/bookmark/copy (44px ghost icon buttons), EN 20/700, optional pron 16, meaning 17.
+// Level chip + speaker/eye/bookmark/copy (44px ghost icon buttons), EN 20/700, optional pron 16, meaning 17.
 export function SentenceCard({
   en,
   pron,
@@ -34,6 +35,7 @@ export function SentenceCard({
 }: SentenceCardProps) {
   const { colors, space } = useTheme();
   const [localShowPron, setLocalShowPron] = useState<boolean | null>(null);
+  const { isSpeaking, speak } = useSpeech(en);
 
   useEffect(() => {
     setLocalShowPron(null);
@@ -46,6 +48,13 @@ export function SentenceCard({
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
         <LevelChip level={level} />
         <View style={{ flexDirection: 'row', gap: 2 }}>
+          <IconButton
+            name="volume-2"
+            variant="ghost"
+            accessibilityLabel={isSpeaking ? 'Stop audio' : 'Listen to sentence'}
+            color={isSpeaking ? colors.saffron : colors.primary}
+            onPress={() => speak()}
+          />
           <IconButton
             name={isPronVisible ? 'eye' : 'eye-off'}
             variant="ghost"

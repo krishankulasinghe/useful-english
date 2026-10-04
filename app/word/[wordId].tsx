@@ -92,7 +92,7 @@ export default function WordDetail() {
             <TrioBlock variant="detail" en={word.en} />
             {word.partOfSpeech ? <PosChip label={partOfSpeechLabel(word.partOfSpeech)} /> : null}
           </View>
-          <ListenSlot variant="word" audioUrl={word.audioUrl} />
+          <ListenSlot variant="word" audioUrl={word.audioUrl} text={word.en} />
         </View>
 
         <View style={{ gap: space[10] }}>
@@ -123,7 +123,7 @@ export default function WordDetail() {
             <Text style={{ fontFamily: fontFamily.jakarta700, fontSize: 12, letterSpacing: 0.6, color: colors.muted }}>
               උදාහරණය · EXAMPLE
             </Text>
-            <ListenSlot variant="example" audioUrl={word.audioUrl} />
+            <ListenSlot variant="example" audioUrl={word.audioUrl} text={word.example.en} />
           </View>
           <TrioBlock
             variant="example"
