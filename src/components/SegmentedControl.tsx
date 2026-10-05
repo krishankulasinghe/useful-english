@@ -14,13 +14,13 @@ interface SegmentedControlProps {
   options: SegmentOption[];
   value: string;
   onChange: (value: string) => void;
-  height?: 40 | 44 | 48;
+  height?: 36 | 40 | 44 | 48;
   radius?: number;
   accessibilityLabel?: string;
 }
 
 // neutralFill track (radius 14, padding 4); selected segment = white bg + segment shadow + primary 700 text.
-export function SegmentedControl({ options, value, onChange, height = 40, radius = 14, accessibilityLabel }: SegmentedControlProps) {
+export function SegmentedControl({ options, value, onChange, height = 40, radius = 24, accessibilityLabel }: SegmentedControlProps) {
   const { colors, shadows } = useTheme();
   return (
     <View
@@ -58,7 +58,7 @@ export function SegmentedControl({ options, value, onChange, height = 40, radius
               style={{
                 fontFamily: fontForText(option.label, selected ? fontFamily.jakarta700 : fontFamily.jakarta600, selected ? fontFamily.notoSinhala700 : fontFamily.notoSinhala600),
                 fontSize: option.fontSize ?? 14,
-                color: selected ? colors.primary : colors.ink2,
+                color: selected ? colors.ink : colors.muted,
               }}
             >
               {option.label}

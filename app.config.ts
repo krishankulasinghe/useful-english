@@ -15,7 +15,7 @@ const config: ExpoConfig = {
   android: {
     package: 'com.sineng.app',
     adaptiveIcon: {
-      backgroundColor: '#0E5A52',
+      backgroundColor: '#3A35C8',
       foregroundImage: './assets/android-icon-foreground.png',
       backgroundImage: './assets/android-icon-background.png',
       monochromeImage: './assets/android-icon-monochrome.png',
@@ -32,7 +32,7 @@ const config: ExpoConfig = {
     [
       'expo-splash-screen',
       {
-        backgroundColor: '#0E5A52',
+        backgroundColor: '#3A35C8',
         image: './assets/icon.png',
         imageWidth: 108,
       },

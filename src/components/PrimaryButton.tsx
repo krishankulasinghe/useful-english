@@ -17,7 +17,7 @@ interface PrimaryButtonProps {
 
 // Fully rounded, bg `primary`, white 700 text. Used for Next/Continue/Learn this word/I know this, etc.
 export function PrimaryButton({ label, onPress, icon, iconPosition = 'right', height = 56, disabled = false, fullWidth = true }: PrimaryButtonProps) {
-  const { colors, space } = useTheme();
+  const { colors, space, shadows } = useTheme();
   return (
     <Pressable
       onPress={onPress}
@@ -25,18 +25,22 @@ export function PrimaryButton({ label, onPress, icon, iconPosition = 'right', he
       accessibilityRole="button"
       accessibilityLabel={label}
       accessibilityState={{ disabled }}
-      style={{
-        alignSelf: fullWidth ? 'stretch' : 'flex-start',
-        height,
-        borderRadius: height / 2,
-        backgroundColor: colors.primary,
-        opacity: disabled ? 0.5 : 1,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: space[10],
-        paddingHorizontal: space[24],
-      }}
+      style={({ pressed }) => [
+        {
+          alignSelf: fullWidth ? 'stretch' : 'flex-start',
+          height,
+          borderRadius: height / 2,
+          backgroundColor: pressed ? colors.primaryDark : colors.primary,
+          opacity: disabled ? 0.5 : 1,
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: space[10],
+          paddingHorizontal: space[24],
+          transform: [{ scale: pressed ? 0.98 : 1 }],
+        },
+        disabled ? null : shadows.cta,
+      ]}
     >
       {icon && iconPosition === 'left' ? <Icon name={icon} size={18} color={colors.white} strokeWidth={2.2} /> : null}
       <View>

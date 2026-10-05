@@ -10,7 +10,7 @@ interface ShadowSpec {
 // React Native only supports one iOS shadow per view, so each token uses the
 // larger (more visually dominant) of the layered box-shadows in the CSS spec.
 // Android falls back to `elevation`, approximated from the same blur radius.
-function makeShadow({ offsetY, blur, opacity, color = '#16181D' }: ShadowSpec): ViewStyle {
+function makeShadow({ offsetY, blur, opacity, color = '#14151A' }: ShadowSpec): ViewStyle {
   return Platform.select<ViewStyle>({
     ios: {
       shadowColor: color,
@@ -43,4 +43,12 @@ export const shadows = {
   lift: makeShadow({ offsetY: 18, blur: 40, opacity: 0.1 }),
   // 0 18px 40px rgba(0,0,0,.18)
   splashMark: makeShadow({ offsetY: 18, blur: 40, opacity: 0.18, color: '#000000' }),
+
+  // v2 elevation scale. e1 0 1 2 /.06 content cards, e2 0 4 16 /.08 flashcards, e3 0 12 32 /.14 dock/toasts.
+  e1: makeShadow({ offsetY: 1, blur: 2, opacity: 0.06 }),
+  e2: makeShadow({ offsetY: 4, blur: 16, opacity: 0.08 }),
+  e3: makeShadow({ offsetY: 12, blur: 32, opacity: 0.14 }),
+  // Primary CTA / hero glow: indigo-tinted instead of ink.
+  indigo: makeShadow({ offsetY: 12, blur: 32, opacity: 0.25, color: '#3A35C8' }),
+  cta: makeShadow({ offsetY: 8, blur: 20, opacity: 0.28, color: '#3A35C8' }),
 };

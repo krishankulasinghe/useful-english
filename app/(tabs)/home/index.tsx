@@ -1,14 +1,15 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { Pressable, Text, View } from 'react-native';
+import Svg, { Circle } from 'react-native-svg';
 import { useRouter } from 'expo-router';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useSpeech } from '../../../src/audio/useSpeech';
-import { Card, HeroCard, IconButton, LevelChip, PrimaryButton, ProgressBar, Screen, TrioBlock } from '../../../src/components';
-import { useContentContext } from '../../../src/content/ContentProvider';
+import { Screen } from '../../../src/components';
 import { getGoal } from '../../../src/content/goals';
-import { useCategories, useCategory, useDailySentences, useTopics, useWord, useWordOfTheDay } from '../../../src/content/hooks';
+import { useDailySentences } from '../../../src/content/hooks';
 import { Icon } from '../../../src/icons/Icon';
-import { useProgressRepo, useSaved, useStreak } from '../../../src/state/hooks';
+import { useProgressRepo, useStreak } from '../../../src/state/hooks';
 import { useSettingsStore } from '../../../src/state/settingsStore';
 import { fontFamily } from '../../../src/theme/typography';
 import { useTheme } from '../../../src/theme/useTheme';
@@ -24,9 +25,43 @@ function greeting(): string {
   return 'සුබ සන්ධ්‍යාවක්';
 }
 
+const RING_SIZE = 56;
+const RING_STROKE = 5;
+const RING_R = (RING_SIZE - RING_STROKE) / 2 - 0.5; // 23 in the 56px design
+const RING_C = 2 * Math.PI * RING_R;
+
+function ProgressRing({ done, total }: { done: number; total: number }) {
+  const { colors } = useTheme();
+  const ratio = total > 0 ? Math.min(done / total, 1) : 0;
+  return (
+    <View style={{ width: RING_SIZE, height: RING_SIZE }}>
+      <Svg width={RING_SIZE} height={RING_SIZE} viewBox={`0 0 ${RING_SIZE} ${RING_SIZE}`} style={{ transform: [{ rotate: '-90deg' }] }}>
+        <Circle cx={RING_SIZE / 2} cy={RING_SIZE / 2} r={RING_R} fill="none" stroke={colors.primaryOnHero} strokeWidth={RING_STROKE} />
+        <Circle
+          cx={RING_SIZE / 2}
+          cy={RING_SIZE / 2}
+          r={RING_R}
+          fill="none"
+          stroke={colors.white}
+          strokeWidth={RING_STROKE}
+          strokeLinecap="round"
+          strokeDasharray={RING_C}
+          strokeDashoffset={RING_C * (1 - ratio)}
+        />
+      </Svg>
+      <View style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, alignItems: 'center', justifyContent: 'center' }}>
+        <Text style={{ fontFamily: fontFamily.jakarta700, fontSize: 14, color: colors.white }}>
+          {done}/{total}
+        </Text>
+      </View>
+    </View>
+  );
+}
+
 export default function Home() {
   const router = useRouter();
-  const { colors, space, radius, text } = useTheme();
+  const insets = useSafeAreaInsets();
+  const { colors, space, shadows } = useTheme();
 
   const level = useSettingsStore((s) => s.level);
   const primaryGoal = useSettingsStore((s) => s.primaryGoal);
@@ -34,16 +69,13 @@ export default function Home() {
   const dailyGoalCount = useSettingsStore((s) => s.dailyGoal);
   const dailyCompletedSentenceIds = useSettingsStore((s) => s.dailyCompletedSentenceIds);
   const lastCompletedDate = useSettingsStore((s) => s.lastCompletedDate);
-  const totalMastered = useSettingsStore((s) => s.totalSentencesMastered);
 
   const streak = useStreak();
   const progressRepo = useProgressRepo();
-  const { repository } = useContentContext();
 
   const today = useMemo(() => todayKey(), []);
   const activeGoal = useMemo(() => getGoal(primaryGoal), [primaryGoal]);
 
-  // Today's 10 sentences
   const dailySentences = useDailySentences({
     date: today,
     level,
@@ -55,7 +87,8 @@ export default function Home() {
   const isTodayCompleted = lastCompletedDate === today;
   const completedTodayCount = isTodayCompleted ? dailyCompletedSentenceIds.length : 0;
   const targetCount = dailySentences.length || dailyGoalCount || 10;
-  const progressRatio = targetCount > 0 ? Math.min(completedTodayCount / targetCount, 1) : 0;
+  const leftCount = Math.max(targetCount - completedTodayCount, 0);
+  const allDone = targetCount > 0 && completedTodayCount >= targetCount;
 
   // Next uncompleted sentence for preview
   const previewSentence = useMemo(() => {
@@ -65,290 +98,211 @@ export default function Home() {
     return uncompleted ?? dailySentences[0];
   }, [dailySentences, dailyCompletedSentenceIds, isTodayCompleted]);
 
-  // Preview sentence speech
   const { isSpeaking: isPreviewSpeaking, speak: speakPreview } = useSpeech(previewSentence?.en);
 
-  // Bonus Word of the Day
-  const word = useWordOfTheDay(today, level);
-  const saved = useSaved('word', word?.id);
-  const [savedOverride, setSavedOverride] = useState<boolean | undefined>(undefined);
-  useEffect(() => setSavedOverride(undefined), [word?.id]);
-  const isSaved = savedOverride ?? saved;
-
-  const handleToggleSave = useCallback(async () => {
-    if (!progressRepo || !word) return;
-    const next = await progressRepo.toggleSaved('word', word.id);
-    setSavedOverride(next);
-  }, [progressRepo, word]);
-
-  const handleOpenWord = useCallback(() => {
-    if (!word) return;
-    progressRepo?.recordActivity(todayKey());
-    router.push({ pathname: '/word/[wordId]', params: { wordId: word.id } });
-  }, [router, word, progressRepo]);
+  const overline = { fontFamily: fontFamily.jakarta700, fontSize: 11, letterSpacing: 0.88, color: colors.muted } as const;
 
   return (
-    <Screen scroll contentContainerStyle={{ paddingBottom: space[32], gap: space[16] }}>
-      {/* Greeting and Header Bar */}
-      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: space[12] }}>
-        <View>
-          <Text style={{ fontFamily: fontFamily.notoSinhala400, fontSize: 14, color: colors.muted }}>{greeting()}</Text>
-          <Text style={{ fontFamily: fontFamily.frauncesSemiBold, fontSize: 28, lineHeight: 32, letterSpacing: -0.28, color: colors.ink }}>
-            Hi
-          </Text>
+    <Screen scroll contentContainerStyle={{ paddingTop: insets.top + space[24], paddingBottom: space[24], gap: space[24] }}>
+      {/* Greeting + streak + profile */}
+      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+        <View style={{ gap: 2 }}>
+          <Text style={{ fontFamily: fontFamily.notoSinhala400, fontSize: 14, lineHeight: 22, color: colors.muted }}>{greeting()}</Text>
+          <Text style={{ fontFamily: fontFamily.frauncesSemiBold, fontSize: 26, lineHeight: 30, letterSpacing: -0.26, color: colors.ink }}>Hi</Text>
         </View>
 
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: space[10] }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
           <View
+            accessibilityLabel={`${streak} day streak`}
             style={{
               flexDirection: 'row',
               alignItems: 'center',
-              gap: 6,
-              height: 36,
-              paddingHorizontal: 12,
-              borderRadius: 18,
+              gap: 5,
+              height: 40,
+              paddingHorizontal: 14,
+              borderRadius: 999,
               backgroundColor: colors.saffronTint,
             }}
           >
             <Icon name="flame" size={18} color={colors.saffron} strokeWidth={2} />
-            <Text style={{ fontFamily: fontFamily.jakarta700, fontSize: 14, color: colors.saffron }}>
-              {streak} days
-            </Text>
+            <Text style={{ fontFamily: fontFamily.jakarta700, fontSize: 15, color: colors.saffron }}>{streak}</Text>
           </View>
 
           <Pressable
             onPress={() => router.push('/settings')}
             accessibilityRole="button"
             accessibilityLabel="Profile and settings"
-            style={{
-              width: 44,
-              height: 44,
-              borderRadius: 22,
-              backgroundColor: colors.primary,
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
+            style={[
+              {
+                width: 44,
+                height: 44,
+                borderRadius: 22,
+                backgroundColor: colors.surface,
+                alignItems: 'center',
+                justifyContent: 'center',
+              },
+              shadows.e1,
+            ]}
           >
-            <Icon name="user" size={20} color={colors.white} strokeWidth={1.8} />
+            <Icon name="user" size={20} color={colors.ink} strokeWidth={1.75} />
           </Pressable>
         </View>
       </View>
 
-      {/* Hero Card: Today's Spoken English Workout */}
-      <HeroCard radius={26} padding={space[20]} style={{ gap: space[14] }}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              gap: 6,
-              backgroundColor: colors.primaryTint,
-              paddingVertical: 5,
-              paddingHorizontal: 12,
-              borderRadius: 12,
-            }}
-          >
-            <Icon name={activeGoal.icon} size={15} color={colors.primaryDark} />
-            <Text style={{ fontFamily: fontFamily.jakarta700, fontSize: 12, color: colors.primaryDark }}>
-              {activeGoal.en}
+      {/* Hero: today's practice */}
+      <View
+        style={[
+          { backgroundColor: colors.primary, borderRadius: 28, padding: 20, gap: 18 },
+          shadows.indigo,
+        ]}
+      >
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 12 }}>
+          <View style={{ flex: 1, gap: 4 }}>
+            <Text style={{ fontFamily: fontFamily.jakarta700, fontSize: 11, letterSpacing: 0.88, color: colors.onPrimarySoft }}>
+              TODAY'S PRACTICE · අද පුහුණුව
             </Text>
+            <Text style={{ fontFamily: fontFamily.frauncesSemiBold, fontSize: 22, lineHeight: 26, color: colors.white }}>{activeGoal.en}</Text>
           </View>
-
-          <Pressable
-            onPress={() => router.push('/onboarding/goals?mode=edit')}
-            style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}
-          >
-            <Text style={{ fontFamily: fontFamily.jakarta600, fontSize: 12, color: colors.muted }}>
-              Change Goal
-            </Text>
-            <Icon name="chevron-right" size={14} color={colors.muted} />
-          </Pressable>
+          <ProgressRing done={Math.min(completedTodayCount, targetCount)} total={targetCount} />
         </View>
 
-        {/* Workout Progress Bar */}
-        <View style={{ gap: 6 }}>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-            <Text style={{ fontFamily: fontFamily.jakarta700, fontSize: 16, color: colors.ink }}>
-              Today's Sentence Workout
-            </Text>
-            <Text style={{ fontFamily: fontFamily.jakarta600, fontSize: 13, color: colors.primary }}>
-              {completedTodayCount} / {targetCount} Spoken
-            </Text>
-          </View>
-          <ProgressBar progress={progressRatio} />
-        </View>
+        {!allDone ? (
+          <>
+            {previewSentence ? (
+              <View style={{ backgroundColor: colors.surface, borderRadius: 20, padding: 16, flexDirection: 'row', alignItems: 'flex-start', gap: 12 }}>
+                <View style={{ flex: 1, gap: 6 }}>
+                  <Text style={overline}>NEXT · මීළඟ</Text>
+                  <Text style={{ fontFamily: fontFamily.jakarta600, fontSize: 18, lineHeight: 24, color: colors.ink }}>{previewSentence.en}</Text>
+                  <Text style={{ fontFamily: fontFamily.notoSinhala500, fontSize: 14, lineHeight: 22.4, color: colors.saffron }}>
+                    {previewSentence.pronunciationSi}
+                  </Text>
+                  <Text style={{ fontFamily: fontFamily.notoSinhala400, fontSize: 15, lineHeight: 24, color: colors.primary }}>
+                    {previewSentence.meaningSi}
+                  </Text>
+                </View>
+                <Pressable
+                  onPress={() => speakPreview()}
+                  accessibilityRole="button"
+                  accessibilityLabel={isPreviewSpeaking ? 'Playing' : 'Listen'}
+                  style={{
+                    width: 44,
+                    height: 44,
+                    borderRadius: 22,
+                    backgroundColor: isPreviewSpeaking ? colors.primary : colors.primaryTint,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <Icon name="volume-2" size={20} color={isPreviewSpeaking ? colors.white : colors.primary} />
+                </Pressable>
+              </View>
+            ) : null}
 
-        {/* Featured Preview Sentence */}
-        {previewSentence ? (
-          <View
-            style={{
-              backgroundColor: colors.bg,
-              borderRadius: radius[18],
-              padding: 16,
-              gap: 10,
-              borderWidth: 1,
-              borderColor: colors.cardBorder,
-            }}
-          >
-            <View style={{ flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between' }}>
-              <View style={{ flex: 1, paddingRight: 8 }}>
-                <Text style={{ fontFamily: fontFamily.jakarta600, fontSize: 11, letterSpacing: 0.8, color: colors.primary, textTransform: 'uppercase' }}>
-                  Next Sentence · මීළඟ වාක්‍යය
+            <Pressable
+              onPress={() => router.push('/practice/workout')}
+              accessibilityRole="button"
+              style={({ pressed }) => ({
+                height: 56,
+                borderRadius: 28,
+                backgroundColor: colors.white,
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 8,
+                transform: [{ scale: pressed ? 0.98 : 1 }],
+              })}
+            >
+              <Text style={{ fontFamily: fontFamily.jakarta700, fontSize: 16, color: colors.primaryDark }}>
+                {completedTodayCount > 0 ? `Continue · ${leftCount} left` : `Start · ${targetCount} sentences`}
+              </Text>
+              <Icon name="arrow-right" size={20} color={colors.primaryDark} strokeWidth={2} />
+            </Pressable>
+          </>
+        ) : (
+          <>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 14 }}>
+              <View style={{ width: 48, height: 48, borderRadius: 24, backgroundColor: colors.white, alignItems: 'center', justifyContent: 'center' }}>
+                <Icon name="check" size={24} color={colors.success} strokeWidth={2.5} />
+              </View>
+              <View style={{ flex: 1, gap: 2 }}>
+                <Text style={{ fontFamily: fontFamily.frauncesSemiBold, fontSize: 18, color: colors.white }}>
+                  Done for today · <Text style={{ fontFamily: fontFamily.notoSinhala600 }}>නියමයි!</Text>
                 </Text>
-                <Text style={{ fontFamily: fontFamily.frauncesSemiBold, fontSize: 20, lineHeight: 26, color: colors.ink, marginTop: 4 }}>
-                  {previewSentence.en}
+                <Text style={{ fontFamily: fontFamily.jakarta400, fontSize: 13, color: colors.onPrimarySoft }}>
+                  Streak is now {streak} {streak === 1 ? 'day' : 'days'}
                 </Text>
               </View>
-
-              <IconButton
-                name="volume-2"
-                size={40}
-                variant="ghost"
-                accessibilityLabel="Listen to preview sentence"
-                color={isPreviewSpeaking ? colors.saffron : colors.primary}
-                onPress={() => speakPreview()}
-              />
             </View>
-
-            <View style={{ gap: 2 }}>
-              <Text style={{ fontFamily: fontFamily.notoSinhala600, fontSize: 14, color: colors.saffronDark }}>
-                {previewSentence.pronunciationSi}
-              </Text>
-              <Text style={{ fontFamily: fontFamily.notoSinhala400, fontSize: 14, color: colors.ink2 }}>
-                {previewSentence.meaningSi}
-              </Text>
-            </View>
-          </View>
-        ) : null}
-
-        {/* Start Workout Button */}
-        <PrimaryButton
-          label={
-            completedTodayCount >= targetCount
-              ? 'Workout Done! Review Sentences · නැවත බලන්න'
-              : completedTodayCount > 0
-              ? `Continue Workout (${targetCount - completedTodayCount} left) · ඉදිරියට`
-              : `Start Workout (${targetCount} Sentences) · පටන් ගන්න`
-          }
-          height={52}
-          onPress={() => router.push('/practice/workout')}
-        />
-      </HeroCard>
-
-      {/* Quick Stats Grid */}
-      <View style={{ flexDirection: 'row', gap: space[10] }}>
-        <View
-          style={{
-            flex: 1,
-            backgroundColor: colors.surface,
-            borderRadius: 18,
-            padding: 14,
-            borderWidth: 1,
-            borderColor: colors.cardBorder,
-            flexDirection: 'row',
-            alignItems: 'center',
-            gap: 10,
-          }}
-        >
-          <View style={{ width: 38, height: 38, borderRadius: 12, backgroundColor: colors.primaryTint, alignItems: 'center', justifyContent: 'center' }}>
-            <Icon name="message-circle" size={18} color={colors.primary} />
-          </View>
-          <View>
-            <Text style={{ fontFamily: fontFamily.frauncesSemiBold, fontSize: 18, color: colors.ink }}>
-              {totalMastered}
-            </Text>
-            <Text style={{ fontFamily: fontFamily.jakarta600, fontSize: 11, color: colors.muted }}>
-              Sentences Spoken
-            </Text>
-          </View>
-        </View>
-
-        <Pressable
-          onPress={() => router.push('/onboarding/level?mode=edit')}
-          style={{
-            flex: 1,
-            backgroundColor: colors.surface,
-            borderRadius: 18,
-            padding: 14,
-            borderWidth: 1,
-            borderColor: colors.cardBorder,
-            flexDirection: 'row',
-            alignItems: 'center',
-            gap: 10,
-          }}
-        >
-          <View style={{ width: 38, height: 38, borderRadius: 12, backgroundColor: colors.saffronTint, alignItems: 'center', justifyContent: 'center' }}>
-            <Icon name="compass" size={18} color={colors.saffron} />
-          </View>
-          <View>
-            <Text style={{ fontFamily: fontFamily.jakarta700, fontSize: 15, color: colors.ink, textTransform: 'capitalize' }}>
-              {level}
-            </Text>
-            <Text style={{ fontFamily: fontFamily.jakarta600, fontSize: 11, color: colors.muted }}>
-              Level · මට්ටම
-            </Text>
-          </View>
-        </Pressable>
-      </View>
-
-      {/* Explore Situations & Sentence Topics */}
-      <View style={{ flexDirection: 'row', gap: space[12] }}>
-        <Pressable style={{ flex: 1 }} onPress={() => router.push('/(tabs)/sentences')} accessibilityRole="button" accessibilityLabel="Sentences by Topic">
-          <Card style={{ gap: space[10] }}>
-            <View style={{ width: 44, height: 44, borderRadius: 14, backgroundColor: colors.saffronTint, alignItems: 'center', justifyContent: 'center' }}>
-              <Icon name="message" size={22} color={colors.saffron} strokeWidth={1.8} />
-            </View>
-            <View>
-              <Text style={{ fontFamily: fontFamily.jakarta700, fontSize: 17, color: colors.ink }}>All Sentences</Text>
-              <Text style={{ fontFamily: fontFamily.jakarta400, fontSize: 13, color: colors.muted }}>ප්‍රයෝජනවත් වාක්‍ය 5,600+</Text>
-            </View>
-            <Text style={{ fontFamily: fontFamily.jakarta600, fontSize: 13, color: colors.saffron }}>Explore categories →</Text>
-          </Card>
-        </Pressable>
-
-        <Pressable style={{ flex: 1 }} onPress={() => router.push('/(tabs)/practice')} accessibilityRole="button" accessibilityLabel="Practice Modes">
-          <Card style={{ gap: space[10] }}>
-            <View style={{ width: 44, height: 44, borderRadius: 14, backgroundColor: colors.primaryTint, alignItems: 'center', justifyContent: 'center' }}>
-              <Icon name="cards" size={22} color={colors.primary} strokeWidth={1.8} />
-            </View>
-            <View>
-              <Text style={{ fontFamily: fontFamily.jakarta700, fontSize: 17, color: colors.ink }}>Card Practice</Text>
-              <Text style={{ fontFamily: fontFamily.jakarta400, fontSize: 13, color: colors.muted }}>ෆ්ලෑෂ් කාඩ් පුහුණුව</Text>
-            </View>
-            <Text style={{ fontFamily: fontFamily.jakarta600, fontSize: 13, color: colors.primary }}>Custom decks →</Text>
-          </Card>
-        </Pressable>
-      </View>
-
-      {/* Compact Word of the Day (Bonus) */}
-      {word ? (
-        <Card style={{ gap: 12 }}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-              <Text style={[text('sectionLabel'), { color: colors.primary, textTransform: 'uppercase' }]}>Bonus Word</Text>
-              <Text style={{ fontFamily: fontFamily.jakarta400, fontSize: 12, color: colors.muted }}>අද දවසේ වචනය</Text>
-            </View>
-            <IconButton
-              name="bookmark"
-              accessibilityLabel={isSaved ? 'Unsave word' : 'Save word'}
-              size={36}
-              filled={isSaved}
-              color={isSaved ? colors.primary : colors.muted}
-              onPress={handleToggleSave}
-            />
-          </View>
-
-          <TrioBlock variant="example" en={word.en} pron={word.pronunciationSi} meaning={word.meaningSi} />
-
-          <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
-            <Pressable onPress={handleOpenWord} style={{ paddingVertical: 4 }}>
-              <Text style={{ fontFamily: fontFamily.jakarta700, fontSize: 13, color: colors.primary }}>
-                View word details →
-              </Text>
+            <Pressable
+              onPress={() => router.push('/practice/workout')}
+              accessibilityRole="button"
+              style={{
+                height: 52,
+                borderRadius: 26,
+                borderWidth: 1.5,
+                borderColor: '#8F8BE6',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <Text style={{ fontFamily: fontFamily.jakarta600, fontSize: 15, color: colors.white }}>Practise again</Text>
             </Pressable>
-          </View>
-        </Card>
-      ) : null}
+          </>
+        )}
+      </View>
+
+      {/* Explore shortcuts */}
+      <View style={{ gap: 12 }}>
+        <Text style={overline}>KEEP GOING · දිගටම</Text>
+        <View style={[{ backgroundColor: colors.surface, borderRadius: 20, overflow: 'hidden' }, shadows.e1]}>
+          {[
+            {
+              key: 'sentences',
+              icon: 'message-circle' as const,
+              tint: colors.saffronTint,
+              fg: colors.saffron,
+              en: 'All sentences',
+              si: 'ප්‍රයෝජනවත් වාක්‍ය 5,600+',
+              onPress: () => router.push('/(tabs)/sentences'),
+            },
+            {
+              key: 'practice',
+              icon: 'cards' as const,
+              tint: colors.primaryTint,
+              fg: colors.primary,
+              en: 'Card practice',
+              si: 'ෆ්ලෑෂ් කාඩ් පුහුණුව',
+              onPress: () => router.push('/(tabs)/practice'),
+            },
+          ].map((row, i, arr) => (
+            <Pressable
+              key={row.key}
+              onPress={row.onPress}
+              accessibilityRole="button"
+              accessibilityLabel={row.en}
+              style={({ pressed }) => ({
+                flexDirection: 'row',
+                alignItems: 'center',
+                gap: 12,
+                paddingVertical: 14,
+                paddingHorizontal: 16,
+                borderBottomWidth: i < arr.length - 1 ? 1 : 0,
+                borderBottomColor: colors.cardBorder,
+                backgroundColor: pressed ? '#FAFAF8' : colors.surface,
+              })}
+            >
+              <View style={{ width: 44, height: 44, borderRadius: 14, backgroundColor: row.tint, alignItems: 'center', justifyContent: 'center' }}>
+                <Icon name={row.icon} size={22} color={row.fg} />
+              </View>
+              <View style={{ flex: 1 }}>
+                <Text style={{ fontFamily: fontFamily.jakarta600, fontSize: 15, color: colors.ink }}>{row.en}</Text>
+                <Text style={{ fontFamily: fontFamily.notoSinhala400, fontSize: 13, lineHeight: 20.8, color: colors.muted }}>{row.si}</Text>
+              </View>
+              <Icon name="chevron-right" size={18} color={colors.muted} />
+            </Pressable>
+          ))}
+        </View>
+      </View>
     </Screen>
   );
 }

@@ -22,32 +22,46 @@ export interface ColorTokens {
   splashText: string;
   listenBorder: string;
   progressTrack: string;
+  success: string;
+  successDark: string;
+  successTint: string;
+  error: string;
+  errorTint: string;
+  onPrimarySoft: string;
+  primaryOnHero: string;
 }
 
 const light: ColorTokens = {
-  bg: '#F7F4EE',
+  bg: '#F5F4F0',
   surface: '#FFFFFF',
-  ink: '#16181D',
-  ink2: '#3B3F48',
-  muted: '#5B606B',
-  muted2: '#6B707A',
-  line: '#E7E1D6',
-  cardBorder: '#EEE8DD',
-  divider: '#F0EBE2',
-  neutralFill: '#EEEAE2',
-  dashed: '#CFC7B8',
-  primary: '#0E5A52',
-  primaryDark: '#0A443E',
-  primaryTint: '#E3F0EC',
-  primaryTint2: '#F1F8F6',
-  saffron: '#9A5409',
-  saffronDark: '#7A4307',
-  saffronTint: '#FBEEDC',
+  ink: '#14151A',
+  ink2: '#3D404A',
+  muted: '#636773',
+  muted2: '#636773',
+  line: '#E4E2DC',
+  cardBorder: '#EFEEE9',
+  divider: '#EFEEE9',
+  neutralFill: '#EFEEE9',
+  dashed: '#D9D7D0',
+  primary: '#3A35C8',
+  primaryDark: '#2C28A0',
+  primaryTint: '#ECEBFB',
+  primaryTint2: '#F5F4FD',
+  saffron: '#A14D00',
+  saffronDark: '#7A3B00',
+  saffronTint: '#FCEFE0',
   white: '#FFFFFF',
-  splashMarkSi: '#B8660B',
-  splashText: '#CFE8E1',
-  listenBorder: '#CFE3DD',
-  progressTrack: '#E7E1D6', // = line
+  splashMarkSi: '#A14D00',
+  splashText: '#DCDAFA',
+  listenBorder: '#DCDAFA',
+  progressTrack: '#E4E2DC', // = line
+  success: '#1C7A4A',
+  successDark: '#14593A',
+  successTint: '#E3F3EA',
+  error: '#C0332B',
+  errorTint: '#FBE9E7',
+  onPrimarySoft: '#DCDAFA',
+  primaryOnHero: '#5550D6',
 };
 
 // Placeholder dark palette (behind features.darkMode; not designed yet).
@@ -55,7 +69,7 @@ const dark: ColorTokens = { ...light };
 
 export const colors = { light, dark };
 
-// Colour rule: English = ink, Sinhala pronunciation = saffron, Sinhala meaning = primary teal.
+// Colour rule: English = ink, Sinhala pronunciation = saffron, Sinhala meaning = primary indigo.
 export const trio = {
   en: 'ink' as const,
   pron: 'saffron' as const,

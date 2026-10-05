@@ -11,17 +11,16 @@ interface CardProps {
 
 // Surface bg, 1px cardBorder, radius 20 — the base for most rows/cards.
 export function Card({ children, padding, style }: CardProps) {
-  const { colors, radius, space } = useTheme();
+  const { colors, radius, space, shadows } = useTheme();
   return (
     <View
       style={[
         {
           backgroundColor: colors.surface,
           borderRadius: radius[20],
-          borderWidth: 1,
-          borderColor: colors.cardBorder,
           padding: padding ?? space[16],
         },
+        shadows.e1,
         style,
       ]}
     >

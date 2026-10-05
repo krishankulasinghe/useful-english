@@ -68,6 +68,7 @@ export const iconPaths = {
     { type: 'path', d: 'm2 2 20 20' },
   ],
   'arrow-right': [{ type: 'path', d: 'M5 12h14M13 6l6 6-6 6' }],
+  x: [{ type: 'path', d: 'M18 6 6 18M6 6l12 12' }],
 
   // Topic icons (standard Lucide paths).
   text: [{ type: 'path', d: 'M4 7V4h16v3M9 20h6M12 4v16' }],

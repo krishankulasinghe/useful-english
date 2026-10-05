@@ -3,7 +3,7 @@ import { Pressable, ScrollView, Text, View } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { BackButton, PrimaryButton, ProgressBar, SentenceFlipCard, type PracticeMode } from '../../src/components';
+import { PrimaryButton, ProgressBar, SentenceFlipCard, type PracticeMode } from '../../src/components';
 import { useContentContext } from '../../src/content/ContentProvider';
 import { getGoal, type GoalId } from '../../src/content/goals';
 import { useCategory, useDailySentences, useTopic } from '../../src/content/hooks';
@@ -20,7 +20,7 @@ function todayString(): string {
 
 export default function PracticeWorkout() {
   const router = useRouter();
-  const { colors, space, radius } = useTheme();
+  const { colors, shadows } = useTheme();
   const insets = useSafeAreaInsets();
   const params = useLocalSearchParams<{
     mode?: 'daily' | 'situation' | 'saved' | 'category';
@@ -114,6 +114,8 @@ export default function PracticeWorkout() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [completed, setCompleted] = useState(false);
   const [practiceMode, setPracticeMode] = useState<PracticeMode>('standard');
+  const [spokenCount, setSpokenCount] = useState(0);
+  const [laterCount, setLaterCount] = useState(0);
 
   const currentSentence = sentences[currentIndex];
   const currentCategory = useCategory(currentSentence?.categoryId);
@@ -125,6 +127,9 @@ export default function PracticeWorkout() {
     if (currentSentence && mastered) {
       recordSentenceMastered(currentSentence.id);
       progressRepo?.recordActivity(today);
+      setSpokenCount((n) => n + 1);
+    } else if (currentSentence) {
+      setLaterCount((n) => n + 1);
     }
 
     if (currentIndex < sentences.length - 1) {
@@ -132,6 +137,13 @@ export default function PracticeWorkout() {
     } else {
       setCompleted(true);
     }
+  };
+
+  const handleRestart = () => {
+    setCurrentIndex(0);
+    setSpokenCount(0);
+    setLaterCount(0);
+    setCompleted(false);
   };
 
   const workoutTitle = useMemo(() => {
@@ -147,218 +159,177 @@ export default function PracticeWorkout() {
   }, [isSavedMode, isSituationMode, categoryInfo?.si, topicInfo?.si]);
 
   if (completed) {
+    const stats = [
+      { value: spokenCount, label: 'Spoken', color: colors.success },
+      { value: laterCount, label: 'Review later', color: colors.saffron },
+      { value: totalMastered, label: 'Total spoken', color: colors.primary },
+    ];
     return (
       <View
         style={{
           flex: 1,
           backgroundColor: colors.bg,
-          paddingHorizontal: 24,
-          paddingTop: insets.top + 20,
-          paddingBottom: insets.bottom + 24,
+          paddingHorizontal: 20,
+          paddingTop: insets.top + 24,
+          paddingBottom: insets.bottom + 28,
+          gap: 16,
         }}
       >
-        <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center', gap: 20 }}>
-          <View
-            style={{
-              width: 90,
-              height: 90,
-              borderRadius: 45,
-              backgroundColor: colors.saffronTint,
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <Icon name="sparkles" size={44} color={colors.saffron} />
+        <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center', gap: 14 }}>
+          <View style={{ width: 88, height: 88, borderRadius: 44, backgroundColor: colors.successTint, alignItems: 'center', justifyContent: 'center' }}>
+            <Icon name="check" size={40} color={colors.success} strokeWidth={2.25} />
+          </View>
+          <Text style={{ fontFamily: fontFamily.frauncesSemiBold, fontSize: 32, lineHeight: 36, letterSpacing: -0.64, color: colors.ink, textAlign: 'center' }}>
+            Workout done
+          </Text>
+          <Text style={{ fontFamily: fontFamily.notoSinhala600, fontSize: 18, lineHeight: 29, color: colors.primary, textAlign: 'center' }}>
+            වාක්‍ය {sentences.length} පුහුණුව සම්පූර්ණයි!
+          </Text>
+          <Text style={{ fontFamily: fontFamily.jakarta400, fontSize: 15, lineHeight: 22, color: colors.ink2, textAlign: 'center', maxWidth: 280 }}>
+            You practised {sentences.length} spoken sentences for {workoutTitle}.
+          </Text>
+
+          <View style={{ flexDirection: 'row', gap: 10, alignSelf: 'stretch', marginTop: 8 }}>
+            {stats.map((st) => (
+              <View key={st.label} style={[{ flex: 1, backgroundColor: colors.surface, borderRadius: 20, padding: 14, gap: 2 }, shadows.e1]}>
+                <Text style={{ fontFamily: fontFamily.frauncesSemiBold, fontSize: 26, color: st.color }}>{st.value}</Text>
+                <Text style={{ fontFamily: fontFamily.jakarta400, fontSize: 12, color: colors.muted }}>{st.label}</Text>
+              </View>
+            ))}
           </View>
 
-          <View style={{ alignItems: 'center', gap: 8 }}>
-            <Text style={{ fontFamily: fontFamily.frauncesSemiBold, fontSize: 32, color: colors.ink, textAlign: 'center' }}>
-              Awesome Work!
-            </Text>
-            <Text style={{ fontFamily: fontFamily.notoSinhala600, fontSize: 20, color: colors.primary, textAlign: 'center' }}>
-              වාක්‍ය {sentences.length} පුහුණුව සම්පූර්ණයි!
-            </Text>
-            <Text style={{ fontFamily: fontFamily.jakarta400, fontSize: 15, color: colors.ink2, textAlign: 'center', maxWidth: 300 }}>
-              You practiced {sentences.length} spoken English sentences for {workoutTitle}.
-            </Text>
-          </View>
-
-          <View
-            style={{
-              backgroundColor: colors.surface,
-              borderRadius: 24,
-              padding: 20,
-              borderWidth: 1,
-              borderColor: colors.cardBorder,
-              width: '100%',
-              flexDirection: 'row',
-              justifyContent: 'space-around',
-              alignItems: 'center',
-              marginVertical: 10,
-            }}
-          >
-            <View style={{ alignItems: 'center', gap: 4 }}>
-              <Text style={{ fontFamily: fontFamily.frauncesSemiBold, fontSize: 28, color: colors.primary }}>
-                {sentences.length}
-              </Text>
-              <Text style={{ fontFamily: fontFamily.jakarta600, fontSize: 12, color: colors.muted }}>
-                Practiced Today
-              </Text>
-            </View>
-
-            <View style={{ width: 1, height: 40, backgroundColor: colors.line }} />
-
-            <View style={{ alignItems: 'center', gap: 4 }}>
-              <Text style={{ fontFamily: fontFamily.frauncesSemiBold, fontSize: 28, color: colors.saffron }}>
-                {totalMastered}
-              </Text>
-              <Text style={{ fontFamily: fontFamily.jakarta600, fontSize: 12, color: colors.muted }}>
-                Total Spoken
-              </Text>
-            </View>
-          </View>
-
-          <Text style={{ fontFamily: fontFamily.notoSinhala400, fontSize: 14, color: colors.muted, textAlign: 'center' }}>
+          <Text style={{ fontFamily: fontFamily.notoSinhala400, fontSize: 14, lineHeight: 22.4, color: colors.muted, textAlign: 'center' }}>
             දිනපතා පුරුදු වීමෙන් ඉංග්‍රීසි කතා කිරීම පහසු වේ!
           </Text>
         </ScrollView>
 
-        <PrimaryButton
-          label="Back to Home · මුල් පිටුවට"
-          height={56}
-          onPress={() => router.replace('/(tabs)/home')}
-        />
+        <PrimaryButton label="Back to home · මුල් පිටුවට" height={56} onPress={() => router.replace('/(tabs)/home')} />
+        <Pressable onPress={handleRestart} accessibilityRole="button" style={{ height: 44, alignItems: 'center', justifyContent: 'center' }}>
+          <Text style={{ fontFamily: fontFamily.jakarta600, fontSize: 15, color: colors.primary }}>Practise again</Text>
+        </Pressable>
       </View>
     );
   }
 
+  const modes: { id: PracticeMode; en: string; si: string }[] = [
+    { id: 'standard', en: 'Standard', si: 'සාමාන්‍ය' },
+    { id: 'recall', en: 'Recall', si: 'සිංහල → EN' },
+    { id: 'comprehend', en: 'Comprehend', si: 'EN → සිංහල' },
+  ];
+
   return (
-    <View
-      style={{
-        flex: 1,
-        backgroundColor: colors.bg,
-        paddingHorizontal: 20,
-        paddingTop: insets.top + 12,
-        paddingBottom: insets.bottom + 20,
-      }}
-    >
-      {/* Top Header */}
-      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-        <BackButton onPress={() => router.back()} />
-        <View style={{ alignItems: 'center' }}>
-          <Text style={{ fontFamily: fontFamily.jakarta700, fontSize: 14, color: colors.ink }}>
-            {total > 0 ? `Sentence ${currentIndex + 1} of ${total}` : 'Practice Workout'}
-          </Text>
-          <Text style={{ fontFamily: fontFamily.jakarta400, fontSize: 12, color: colors.muted }} numberOfLines={1}>
-            {workoutTitle}
-          </Text>
-        </View>
-        <Pressable
-          onPress={() => router.back()}
-          style={{ minHeight: 44, paddingHorizontal: 8, justifyContent: 'center' }}
-        >
-          <Text style={{ fontFamily: fontFamily.jakarta600, fontSize: 14, color: colors.muted }}>End</Text>
-        </Pressable>
-      </View>
-
-      {/* Progress Bar */}
-      <View style={{ marginTop: 12, marginBottom: 12 }}>
-        <ProgressBar progress={progressRatio} />
-      </View>
-
-      {/* Mode Preset Selector */}
-      <View
-        style={{
-          flexDirection: 'row',
-          gap: 6,
-          marginBottom: 12,
-          justifyContent: 'center',
+    <View style={{ flex: 1, backgroundColor: colors.bg }}>
+      <ScrollView
+        contentContainerStyle={{
+          paddingHorizontal: 20,
+          paddingTop: insets.top + 20,
+          paddingBottom: 24,
+          gap: 16,
+          flexGrow: 1,
         }}
+        showsVerticalScrollIndicator={false}
       >
-        {(
-          [
-            { id: 'standard', label: 'Standard (සාමාන්‍ය)' },
-            { id: 'recall', label: 'Recall (සිංහල → EN)' },
-            { id: 'comprehend', label: 'Comprehend (EN → සිංහල)' },
-          ] as const
-        ).map((m) => {
-          const isSelected = practiceMode === m.id;
-          return (
-            <Pressable
-              key={m.id}
-              onPress={() => setPracticeMode(m.id)}
-              style={{
-                paddingVertical: 5,
-                paddingHorizontal: 10,
-                borderRadius: 12,
-                backgroundColor: isSelected ? colors.primaryTint : colors.surface,
-                borderWidth: 1,
-                borderColor: isSelected ? colors.primary : colors.cardBorder,
-              }}
-            >
-              <Text
-                style={{
-                  fontFamily: fontFamily.jakarta700,
-                  fontSize: 11,
-                  color: isSelected ? colors.primaryDark : colors.muted,
-                }}
-              >
-                {m.label}
-              </Text>
-            </Pressable>
-          );
-        })}
-      </View>
-
-      {/* Flip Card with Progressive Disclosure */}
-      {currentSentence ? (
-        <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}>
-          <SentenceFlipCard
-            sentence={currentSentence}
-            categoryName={currentCategory?.en}
-            initialMode={practiceMode}
-          />
-        </ScrollView>
-      ) : (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', gap: 10 }}>
-          {isLoadingCustom ? (
-            <Text style={{ fontFamily: fontFamily.jakarta400, fontSize: 15, color: colors.muted }}>
-              Loading practice sentences...
+        {/* Header */}
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+          <Pressable
+            onPress={() => router.back()}
+            accessibilityRole="button"
+            accessibilityLabel="Close"
+            style={[
+              { width: 44, height: 44, borderRadius: 22, backgroundColor: colors.surface, alignItems: 'center', justifyContent: 'center' },
+              shadows.e1,
+            ]}
+          >
+            <Icon name="x" size={20} color={colors.ink} />
+          </Pressable>
+          <View style={{ flex: 1, minWidth: 0, alignItems: 'center' }}>
+            <Text style={{ fontFamily: fontFamily.jakarta600, fontSize: 15, color: colors.ink }}>
+              {total > 0 ? `Sentence ${currentIndex + 1} of ${total}` : 'Practice workout'}
             </Text>
-          ) : (
-            <>
-              <Text style={{ fontFamily: fontFamily.frauncesSemiBold, fontSize: 20, color: colors.ink }}>
-                No sentences found
-              </Text>
-              <Text style={{ fontFamily: fontFamily.jakarta400, fontSize: 14, color: colors.muted, textAlign: 'center' }}>
-                {isSavedMode
-                  ? 'You have not saved any sentences yet. Save sentences to practice them here!'
-                  : "We couldn't find sentences for this track."}
-              </Text>
-              <PrimaryButton
-                label="Go Back"
-                height={46}
-                onPress={() => router.back()}
-              />
-            </>
-          )}
+            <Text numberOfLines={1} style={{ fontFamily: fontFamily.jakarta400, fontSize: 13, color: colors.muted }}>
+              {workoutTitle}
+            </Text>
+          </View>
+          <Pressable onPress={() => router.back()} accessibilityRole="button" style={{ height: 44, paddingHorizontal: 8, justifyContent: 'center' }}>
+            <Text style={{ fontFamily: fontFamily.jakarta600, fontSize: 14, color: colors.muted }}>End</Text>
+          </Pressable>
         </View>
-      )}
 
-      {/* Bottom Action Controls */}
+        <ProgressBar progress={progressRatio} height={8} trackColor={colors.line} />
+
+        {/* Reveal mode */}
+        <View style={{ flexDirection: 'row', gap: 6, padding: 4, borderRadius: 18, backgroundColor: colors.neutralFill }}>
+          {modes.map((m) => {
+            const on = practiceMode === m.id;
+            return (
+              <Pressable
+                key={m.id}
+                onPress={() => setPracticeMode(m.id)}
+                accessibilityRole="radio"
+                accessibilityState={{ checked: on }}
+                style={[
+                  {
+                    flex: 1,
+                    minWidth: 0,
+                    height: 48,
+                    borderRadius: 14,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    backgroundColor: on ? colors.surface : 'transparent',
+                  },
+                  on ? shadows.e1 : null,
+                ]}
+              >
+                <Text style={{ fontFamily: fontFamily.jakarta600, fontSize: 13, color: on ? colors.ink : colors.muted }}>{m.en}</Text>
+                <Text style={{ fontFamily: fontFamily.notoSinhala400, fontSize: 11, lineHeight: 16, color: colors.muted }}>{m.si}</Text>
+              </Pressable>
+            );
+          })}
+        </View>
+
+        {currentSentence ? (
+          <SentenceFlipCard sentence={currentSentence} categoryName={currentCategory?.en} initialMode={practiceMode} />
+        ) : (
+          <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', gap: 10, paddingVertical: 48 }}>
+            {isLoadingCustom ? (
+              <Text style={{ fontFamily: fontFamily.jakarta400, fontSize: 15, color: colors.muted }}>Loading practice sentences...</Text>
+            ) : (
+              <>
+                <Text style={{ fontFamily: fontFamily.frauncesSemiBold, fontSize: 20, color: colors.ink }}>No sentences found</Text>
+                <Text style={{ fontFamily: fontFamily.jakarta400, fontSize: 14, color: colors.muted, textAlign: 'center' }}>
+                  {isSavedMode
+                    ? 'You have not saved any sentences yet. Save sentences to practice them here!'
+                    : "We couldn't find sentences for this track."}
+                </Text>
+                <PrimaryButton label="Go back" height={46} fullWidth={false} onPress={() => router.back()} />
+              </>
+            )}
+          </View>
+        )}
+      </ScrollView>
+
+      {/* Bottom actions */}
       {currentSentence ? (
-        <View style={{ gap: 10, marginTop: 14 }}>
+        <View
+          style={{
+            paddingTop: 16,
+            paddingHorizontal: 20,
+            paddingBottom: insets.bottom + 16,
+            backgroundColor: colors.bg,
+            borderTopWidth: 1,
+            borderTopColor: colors.line,
+            gap: 6,
+          }}
+        >
           <PrimaryButton
-            label={currentIndex === total - 1 ? 'Finish Workout · අවසන් කරන්න' : 'Next Sentence · ඊළඟ වාක්‍යය'}
-            height={54}
+            label={currentIndex === total - 1 ? 'Finish workout · අවසන් කරන්න' : 'Next sentence'}
+            icon="arrow-right"
+            height={56}
             onPress={() => handleNext(true)}
           />
-          <Pressable
-            onPress={() => handleNext(false)}
-            style={{ height: 38, alignItems: 'center', justifyContent: 'center' }}
-          >
-            <Text style={{ fontFamily: fontFamily.jakarta600, fontSize: 13.5, color: colors.muted }}>
-              Review this again later · ආයෙත් බලන්න
+          <Pressable onPress={() => handleNext(false)} accessibilityRole="button" style={{ height: 44, alignItems: 'center', justifyContent: 'center' }}>
+            <Text style={{ fontFamily: fontFamily.jakarta600, fontSize: 14, color: colors.muted }}>
+              Review this again later · <Text style={{ fontFamily: fontFamily.notoSinhala600 }}>ආයෙත් බලන්න</Text>
             </Text>
           </Pressable>
         </View>

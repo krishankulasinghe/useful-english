@@ -17,56 +17,66 @@ interface TabBarProps {
   items: TabBarItem[];
 }
 
-// 84px white bar, top `line` border. Active tab = teal 700 label + 56x30 primaryTint pill (stroke 1.9); inactive = muted 500.
+// Floating dock: 64px white pill, e3 shadow, 20px side margins. Active tab expands into an ink pill
+// with icon + label; inactive tabs keep a small label for older users.
 export function TabBar({ items }: TabBarProps) {
-  const { colors } = useTheme();
+  const { colors, shadows } = useTheme();
   const insets = useSafeAreaInsets();
 
   return (
-    <View
-      accessibilityRole="tablist"
-      style={{
-        flexDirection: 'row',
-        backgroundColor: colors.surface,
-        borderTopWidth: 1,
-        borderTopColor: colors.line,
-        paddingTop: 8,
-        paddingHorizontal: 8,
-        paddingBottom: Math.max(insets.bottom, 20),
-      }}
-    >
-      {items.map((item) => (
-        <Pressable
-          key={item.key}
-          onPress={item.onPress}
-          accessibilityRole="tab"
-          accessibilityState={{ selected: item.active }}
-          accessibilityLabel={item.label}
-          style={{ flex: 1, alignItems: 'center', justifyContent: 'center', gap: 3 }}
-        >
-          <View
-            style={{
-              width: 56,
-              height: 30,
-              borderRadius: 15,
-              backgroundColor: item.active ? colors.primaryTint : 'transparent',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <Icon name={item.icon} size={22} color={item.active ? colors.primary : colors.muted} strokeWidth={item.active ? 1.9 : 1.8} />
-          </View>
-          <Text
-            style={{
-              fontFamily: item.active ? fontFamily.jakarta700 : fontFamily.jakarta500,
-              fontSize: 12,
-              color: item.active ? colors.primary : colors.muted,
-            }}
-          >
-            {item.label}
-          </Text>
-        </Pressable>
-      ))}
+    <View style={{ backgroundColor: colors.bg, paddingHorizontal: 20, paddingTop: 8, paddingBottom: Math.max(insets.bottom, 16) }}>
+      <View
+        accessibilityRole="tablist"
+        style={[
+          {
+            height: 64,
+            borderRadius: 999,
+            backgroundColor: colors.surface,
+            flexDirection: 'row',
+            alignItems: 'center',
+            paddingHorizontal: 6,
+            gap: 4,
+          },
+          shadows.e3,
+        ]}
+      >
+        {items.map((item) =>
+          item.active ? (
+            <Pressable
+              key={item.key}
+              onPress={item.onPress}
+              accessibilityRole="tab"
+              accessibilityState={{ selected: true }}
+              accessibilityLabel={item.label}
+              style={{
+                flex: 1,
+                height: 52,
+                borderRadius: 999,
+                backgroundColor: colors.ink,
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 6,
+              }}
+            >
+              <Icon name={item.icon} size={20} color={colors.white} strokeWidth={1.75} />
+              <Text style={{ fontFamily: fontFamily.jakarta600, fontSize: 13, color: colors.white }}>{item.label}</Text>
+            </Pressable>
+          ) : (
+            <Pressable
+              key={item.key}
+              onPress={item.onPress}
+              accessibilityRole="tab"
+              accessibilityState={{ selected: false }}
+              accessibilityLabel={item.label}
+              style={{ flex: 1, height: 52, alignItems: 'center', justifyContent: 'center', gap: 2 }}
+            >
+              <Icon name={item.icon} size={20} color={colors.muted} strokeWidth={1.75} />
+              <Text style={{ fontFamily: fontFamily.jakarta600, fontSize: 11, color: colors.muted }}>{item.label}</Text>
+            </Pressable>
+          ),
+        )}
+      </View>
     </View>
   );
 }
