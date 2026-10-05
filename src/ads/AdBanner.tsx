@@ -31,7 +31,7 @@ export function AdBanner({ placement }: AdBannerProps) {
     };
   }, []);
 
-  if (!features.ads || !adsReady || !canRequestAds || isKeyboardVisible || hasError) {
+  if (!features.ads || !features.bannerAds || !adsReady || !canRequestAds || isKeyboardVisible || hasError) {
     return null;
   }
 

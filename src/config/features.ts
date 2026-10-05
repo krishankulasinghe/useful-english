@@ -4,6 +4,7 @@ export const features = {
   darkMode: false, // palette not designed yet
   remoteContent: true,
   ads: true,
+  bannerAds: false, // temporarily hidden
 };
 
 export type Features = typeof features;
